@@ -1,0 +1,1391 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Basislager</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Basislager">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#ECE7DF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111813" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@400;500;600&display=swap">
+<style>
+/* Layout: one-column phone app. Lowercase wordmark bar → greeting hero card → icon stat tiles → soft rounded cards holding hairline lists; floating rounded tab bar with raised scan button.
+   Light = "calm kit" (ivory, sage, sand, slate). Dark = "green glass" (deep forest, blurred leaves, pale sage + tan). */
+:root{
+  --bg:#ECE7DF; --bg2:#E3DDD2;
+  --card:rgba(250,247,242,.78); --card-solid:#F8F5F0; --raised:#FDFBF8; --sunk:#E4DED4;
+  --line:rgba(70,66,52,.12); --hair:rgba(70,66,52,.09);
+  --ink:#1F2723; --muted:#6C756E; --faint:#9BA39C;
+  --accent:#5E7A64; --accent-2:#7F9A84; --accent-soft:#DDE5D9; --on-accent:#F7F5F0;
+  --brass:#B98C66; --brass-soft:#F1E3D4;
+  --slate:#3D4A5C; --slate-soft:#DCE1E6; --mist:#8D9DA2;
+  --bad:#A4553A; --bad-soft:#F3DDD3;
+  --leaf1:#7E9A7F; --leaf2:#A9BBA0; --leaf3:#C9A887; --leafA:.42;
+  --hero1:#2F3D35; --hero2:#46594C; --on-hero:#F1EEE6;
+  --nav:rgba(250,247,242,.94); --t-sage:#DCE6D9; --t-tan:#F0E3D3; --t-slate:#DDE3E8;
+  --shadow:0 1px 0 rgba(255,255,255,.75) inset,0 2px 6px rgba(60,52,38,.05),0 14px 34px -14px rgba(60,52,38,.26);
+  --shadow-lg:0 1px 0 rgba(255,255,255,.8) inset,0 24px 50px -18px rgba(50,44,32,.35);
+  --blur:16px;
+  --display:"Cormorant Garamond","Cormorant",Garamond,Georgia,serif;
+  --sans:"Jost","Avenir Next",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111813; --bg2:#18221B;
+  --card:rgba(214,230,208,.065); --card-solid:#1C261F; --raised:rgba(214,230,208,.10); --sunk:rgba(214,230,208,.07);
+  --line:rgba(214,230,208,.12); --hair:rgba(214,230,208,.08);
+  --ink:#EAEFE6; --muted:#A3B0A5; --faint:#6F7C72;
+  --accent:#BCCDA9; --accent-2:#94AE90; --accent-soft:rgba(188,205,169,.16); --on-accent:#16201A;
+  --brass:#D4AB82; --brass-soft:rgba(212,171,130,.16);
+  --slate:#9FB0C4; --slate-soft:rgba(159,176,196,.14); --mist:#7F9196;
+  --bad:#E79A7E; --bad-soft:rgba(231,154,126,.15);
+  --leaf1:#2E4A35; --leaf2:#3F6146; --leaf3:#5A4A35; --leafA:.85;
+  --hero1:rgba(214,230,208,.10); --hero2:rgba(214,230,208,.04); --on-hero:#EAEFE6;
+  --nav:rgba(26,36,29,.92); --t-sage:rgba(188,205,169,.13); --t-tan:rgba(212,171,130,.13); --t-slate:rgba(159,176,196,.12);
+  --shadow:0 1px 0 rgba(255,255,255,.05) inset,0 18px 40px -18px rgba(0,0,0,.7);
+  --shadow-lg:0 1px 0 rgba(255,255,255,.06) inset,0 30px 60px -20px rgba(0,0,0,.8);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111813; --bg2:#18221B;
+  --card:rgba(214,230,208,.065); --card-solid:#1C261F; --raised:rgba(214,230,208,.10); --sunk:rgba(214,230,208,.07);
+  --line:rgba(214,230,208,.12); --hair:rgba(214,230,208,.08);
+  --ink:#EAEFE6; --muted:#A3B0A5; --faint:#6F7C72;
+  --accent:#BCCDA9; --accent-2:#94AE90; --accent-soft:rgba(188,205,169,.16); --on-accent:#16201A;
+  --brass:#D4AB82; --brass-soft:rgba(212,171,130,.16);
+  --slate:#9FB0C4; --slate-soft:rgba(159,176,196,.14); --mist:#7F9196;
+  --bad:#E79A7E; --bad-soft:rgba(231,154,126,.15);
+  --leaf1:#2E4A35; --leaf2:#3F6146; --leaf3:#5A4A35; --leafA:.85;
+  --hero1:rgba(214,230,208,.10); --hero2:rgba(214,230,208,.04); --on-hero:#EAEFE6;
+  --nav:rgba(26,36,29,.92); --t-sage:rgba(188,205,169,.13); --t-tan:rgba(212,171,130,.13); --t-slate:rgba(159,176,196,.12);
+  --shadow:0 1px 0 rgba(255,255,255,.05) inset,0 18px 40px -18px rgba(0,0,0,.7);
+  --shadow-lg:0 1px 0 rgba(255,255,255,.06) inset,0 30px 60px -20px rgba(0,0,0,.8);
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+html{color-scheme:light}
+body{margin:0;background:linear-gradient(170deg,var(--bg) 0%,var(--bg2) 100%) fixed;background-color:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.45;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased;min-height:100vh;padding-top:env(safe-area-inset-top,0px)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+[hidden]{display:none!important}
+img{max-width:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.num{font-family:var(--sans);font-variant-numeric:tabular-nums}
+.wrap{padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));max-width:620px;margin:0 auto}
+.eyebrow,.label{font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:500;color:var(--muted)}
+
+/* ambient leaves */
+#leaves{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;filter:blur(34px) saturate(1.05);opacity:var(--leafA)}
+.light{display:none}
+header,main,#gate{position:relative;z-index:1}
+
+/* glass card primitive */
+.card,.stat,.studio,.rcard,.empty,.notice,.hero,.searchbox,.bar-nav .navin{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);-webkit-backdrop-filter:blur(var(--blur)) saturate(1.2);backdrop-filter:blur(var(--blur)) saturate(1.2)}
+
+/* header bar */
+header .wrap{padding-block:14px 4px;display:grid;gap:18px}
+.hrow{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:40px}
+.wordmark{font-family:var(--sans);font-weight:500;font-size:22px;letter-spacing:-.01em;color:var(--ink);display:flex;align-items:center;gap:8px}
+.wordmark svg{width:22px;height:22px;color:var(--accent)}
+.hright{display:flex;gap:8px;align-items:center}
+.iconbtn{border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);width:40px;height:40px;border-radius:14px;display:grid;place-items:center;color:var(--ink)}
+.iconbtn svg{width:19px;height:19px}
+.boxchip{display:inline-flex;align-items:center;gap:4px;background:var(--brass-soft);color:var(--brass);border-radius:999px;padding:5px 5px 5px 12px;font-size:12px;font-weight:500;letter-spacing:.04em;max-width:52vw}
+.boxchip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.boxchip button{border:0;background:transparent;color:inherit;width:22px;height:22px;border-radius:50%;font-size:15px;line-height:1}
+.titleblock{display:grid;gap:4px}
+h1{font-family:var(--display);font-weight:500;font-size:44px;line-height:1;letter-spacing:-.005em;margin:0;text-wrap:balance}
+.sub-h{color:var(--muted);font-size:15px;margin:0;max-width:42ch}
+
+main{padding-block:18px calc(130px + env(safe-area-inset-bottom,0px));display:grid;gap:18px;align-content:start}
+.notice{border-radius:18px;padding:14px 16px;font-size:14px;color:var(--muted)}
+.notice strong{color:var(--ink)}
+
+/* hero (greeting) */
+.hero{position:relative;overflow:hidden;border-radius:28px;padding:22px 20px 20px;background:linear-gradient(140deg,var(--hero1),var(--hero2));color:var(--on-hero);box-shadow:var(--shadow-lg);display:grid;gap:14px;min-height:190px}
+.hero .eyebrow{color:var(--on-hero);opacity:.7}
+.hero h2{font-family:var(--display);font-weight:500;font-size:36px;line-height:1.02;margin:0;max-width:11ch;text-wrap:balance}
+.hero p{margin:0;font-size:14px;opacity:.82;max-width:24ch}
+.hero .btnrow{margin-top:4px;position:relative;z-index:1}
+.hero .btn{border-color:rgba(241,238,230,.35);color:var(--on-hero);background:rgba(241,238,230,.08)}
+.hero .btn.primary{background:var(--on-hero);border-color:var(--on-hero);color:#26322B}
+.hero svg.plant{position:absolute;right:-6px;bottom:-4px;width:150px;height:170px;pointer-events:none;opacity:.95}
+.hero > *:not(svg){position:relative;z-index:1}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{border-radius:22px;padding:14px 12px 13px;display:grid;gap:8px;text-align:left;color:var(--ink)}
+.stat .ic{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:var(--raised);box-shadow:var(--shadow)}
+.stat .ic svg{width:18px;height:18px}
+.stat .k{font-size:12px;color:var(--muted);font-weight:500;letter-spacing:.01em}
+.stat .v{font-family:var(--sans);font-size:28px;line-height:1;font-weight:500;letter-spacing:-.02em}
+.stat .s{font-size:11px;color:var(--muted)}
+.stat:nth-child(1){background:var(--t-sage)} .stat:nth-child(1) .ic{color:var(--accent)}
+.stat:nth-child(2){background:var(--t-tan)} .stat:nth-child(2) .ic{color:var(--brass)}
+.stat:nth-child(3){background:var(--t-slate)} .stat:nth-child(3) .ic{color:var(--slate)}
+button.stat:active{transform:scale(.98)}
+
+/* cards & rows */
+section{display:grid;gap:10px}
+section.card{border-radius:24px;padding:16px 16px 6px}
+.ghead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:2px 2px 6px}
+.ghead h2{font-family:var(--sans);font-size:11px;font-weight:500;margin:0;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.ghead .num{font-size:12px;color:var(--faint)}
+.rows{display:grid}
+.row{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--hair);min-height:60px}
+.rows .row:first-child{border-top:0}
+.row .main{flex:1;min-width:0;border:0;background:transparent;text-align:left;padding:0;display:grid;gap:6px}
+.row .name{font-weight:500;font-size:16px;overflow-wrap:anywhere}
+.row .meta{font-size:12.5px;color:var(--muted)}
+.meta .soon{color:var(--brass);font-weight:500}
+.meta .gone{color:var(--bad);font-weight:500}
+.bar{height:6px;border-radius:999px;background:var(--sunk);overflow:hidden;max-width:190px;box-shadow:inset 0 1px 2px rgba(0,0,0,.06)}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:999px}
+.bar.low i{background:linear-gradient(90deg,var(--brass),#D9B48F)}
+.bar.out i{background:var(--bad)}
+.qty{display:flex;align-items:center;gap:4px}
+.count{font-variant-numeric:tabular-nums;font-size:15px;min-width:48px;text-align:center;color:var(--ink);font-weight:500}
+.count small{color:var(--faint);font-size:12px;font-weight:400}
+.count.low{color:var(--brass)} .count.out{color:var(--bad)}
+.step{width:34px;height:34px;border-radius:12px;border:1px solid var(--line);background:var(--raised);box-shadow:var(--shadow);font-size:17px;line-height:1;display:grid;place-items:center;color:var(--ink)}
+.step:active{transform:scale(.94)}
+
+.searchbox{display:flex;align-items:center;gap:10px;border-radius:999px;padding:4px 16px}
+.searchbox svg{width:18px;height:18px;color:var(--muted);flex:none}
+.search{width:100%;border:0;background:transparent;padding:10px 0;font-size:16px;min-width:0}
+.search::placeholder{color:var(--faint)}
+.search:focus{outline:none}
+
+.check{width:26px;height:26px;border-radius:8px;border:1.5px solid var(--faint);background:transparent;display:grid;place-items:center;flex:none;color:var(--on-accent);font-size:14px}
+.check[aria-checked="true"]{background:var(--accent);border-color:var(--accent)}
+.row.done .name{text-decoration:line-through;color:var(--faint)}
+.need{font-variant-numeric:tabular-nums;font-size:14px;color:var(--muted);text-align:right;white-space:nowrap}
+.tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;color:var(--brass);background:var(--brass-soft);border-radius:999px;padding:2px 8px;margin-left:8px;vertical-align:2px}
+
+.btn{border:1px solid var(--line);background:var(--raised);box-shadow:var(--shadow);border-radius:999px;padding:11px 20px;font-weight:500;font-size:15px;color:var(--ink);display:inline-flex;align-items:center;gap:8px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.accent{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.danger{color:var(--bad);background:transparent;box-shadow:none}
+.btn.small{padding:8px 15px;font-size:13.5px}
+.btn.link{border:0;background:transparent;box-shadow:none;padding:6px 2px;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.btn:disabled{opacity:.45}
+.btn:active{transform:scale(.98)}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.toolbar p{margin:0;color:var(--muted);font-size:14px}
+
+.empty{padding:24px 22px;border-radius:24px;color:var(--muted);font-size:15px;display:grid;gap:12px}
+.empty h3{margin:0;color:var(--ink);font-family:var(--display);font-weight:500;font-size:28px;line-height:1.05}
+.empty ol{margin:0;padding-left:20px;display:grid;gap:6px}
+.empty p{margin:0}
+
+/* recipes */
+.studio{position:relative;overflow:hidden;border-radius:28px;padding:22px 20px;display:grid;gap:14px;background:linear-gradient(140deg,var(--hero1),var(--hero2));color:var(--on-hero);box-shadow:var(--shadow-lg)}
+.studio h3{font-family:var(--display);font-weight:500;font-size:32px;margin:0;line-height:1.02;max-width:12ch}
+.studio p{margin:0;opacity:.82;font-size:14px;max-width:34ch}
+.studio > *{position:relative;z-index:1}
+.studio svg.plant{position:absolute;right:-10px;top:-6px;width:120px;height:140px;z-index:0;opacity:.9}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--raised);border-radius:999px;padding:7px 13px;font-size:13px;font-weight:500;color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.studio .chip{background:rgba(241,238,230,.1);border-color:rgba(241,238,230,.25);color:var(--on-hero)}
+.studio .chip[aria-pressed="true"]{background:var(--on-hero);color:#26322B}
+.thinking{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:14px}
+.dots{display:inline-flex;gap:4px}
+.dots i{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 1.2s infinite ease-in-out}
+.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+@keyframes pulse{0%,80%,100%{opacity:.25;transform:scale(.8)}40%{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.dots i{animation:none;opacity:.7}}
+.mini{display:grid;gap:6px}
+.mini .lbl{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.stepper{display:flex;align-items:center;gap:6px}
+.stepper .count{min-width:30px;font-size:17px}
+
+.rcards{display:grid;gap:12px}
+.rcard{border-radius:24px;padding:18px 18px 16px;text-align:left;display:grid;gap:10px;width:100%;color:var(--ink)}
+.rcard:active{transform:scale(.99)}
+.rcard .rtop{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.rcard h4{font-family:var(--display);font-weight:500;font-size:26px;line-height:1.05;margin:0;text-wrap:balance}
+.rcard .rintro{color:var(--muted);font-size:14px;margin:0}
+.rcard .rmeta{display:flex;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--muted);font-weight:500}
+.rcard .rmeta span{background:var(--sunk);border-radius:999px;padding:3px 10px}
+.rcard .rmeta b{color:var(--accent);font-weight:600}
+.rbuy{display:flex;gap:6px;flex-wrap:wrap}
+.pill{font-size:12px;border-radius:999px;padding:3px 10px;background:var(--brass-soft);color:var(--brass);font-weight:500}
+.pill.meat{background:var(--bad-soft);color:var(--bad)}
+.bookmark{color:var(--brass);font-size:18px;line-height:1}
+
+/* dock: floating tab bar */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:6;pointer-events:none;padding-left:max(14px,env(safe-area-inset-left,0px));padding-right:max(14px,env(safe-area-inset-right,0px));padding-bottom:calc(10px + env(safe-area-inset-bottom,0px))}
+.modepill{pointer-events:auto;margin:0 auto 30px;width:max-content;display:flex;border-radius:999px;padding:4px}
+.modepill button{border:0;background:transparent;border-radius:999px;padding:8px 18px;font-size:13px;font-weight:500;letter-spacing:.02em;color:var(--muted)}
+.modepill button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);box-shadow:0 6px 14px -6px rgba(0,0,0,.35)}
+.modepill button[data-mode="take"][aria-pressed="true"]{background:var(--brass);color:#fff}
+nav.bar-nav{pointer-events:auto;max-width:592px;margin:0 auto}
+.bar-nav .navin{display:grid;grid-template-columns:1fr 1fr 84px 1fr 1fr;align-items:end;border-radius:26px;padding:6px;background:var(--nav)}
+.navbtn{border:0;background:transparent;padding:8px 0 7px;display:grid;justify-items:center;gap:3px;font-size:11px;font-weight:500;letter-spacing:.02em;color:var(--faint);position:relative;border-radius:18px}
+.navbtn svg{width:22px;height:22px}
+.navbtn[aria-selected="true"]{color:var(--accent);background:var(--accent-soft)}
+.navbtn .dot{position:absolute;top:4px;left:calc(50% + 7px);min-width:17px;height:17px;padding:0 5px;border-radius:999px;background:var(--brass);color:#fff;font-size:10px;font-weight:600;display:grid;place-items:center}
+.fabwrap{display:grid;justify-items:center}
+.fab{width:64px;height:64px;margin-top:-30px;border-radius:22px;border:0;background:linear-gradient(150deg,var(--accent-2),var(--accent));color:var(--on-accent);display:grid;place-items:center;box-shadow:0 0 0 5px var(--bg),0 16px 30px -10px rgba(0,0,0,.45);transition:background .2s}
+.fab.take{background:linear-gradient(150deg,#D7B08A,var(--brass));color:#fff}
+.fab svg{width:28px;height:28px}
+.typelink{border:0;background:var(--accent-soft);color:var(--accent);font-size:11px;font-weight:500;border-radius:999px;padding:4px 10px;margin:6px 0 3px;letter-spacing:.02em;white-space:nowrap}
+.typelink.take{background:var(--brass-soft);color:var(--brass)}
+
+/* sheet */
+.scrim{position:fixed;inset:0;background:rgba(10,14,11,.42);z-index:20;display:flex;align-items:flex-end;justify-content:center;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.sheet{background:var(--card-solid);width:100%;max-width:620px;max-height:90vh;overflow-y:auto;border-radius:30px 30px 0 0;padding-block:10px calc(24px + env(safe-area-inset-bottom,0px));padding-left:max(22px,env(safe-area-inset-left,0px));padding-right:max(22px,env(safe-area-inset-right,0px));display:grid;gap:18px;box-shadow:var(--shadow-lg);animation:up .26s cubic-bezier(.2,.8,.2,1)}
+@media (prefers-reduced-motion:reduce){.sheet{animation:none}}
+@keyframes up{from{transform:translateY(30px);opacity:.5}to{transform:none;opacity:1}}
+.grab{width:40px;height:5px;border-radius:3px;background:var(--line);margin:0 auto}
+.sheet h3{margin:0;font-family:var(--display);font-weight:500;font-size:34px;line-height:1.02;text-wrap:balance}
+.sheet .lede{margin:-10px 0 0;color:var(--muted);font-size:14px}
+.field{display:grid;gap:7px}
+.field label,.flabel{font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;color:var(--muted)}
+.field input,.field select{width:100%;border:1px solid var(--line);background:var(--raised);border-radius:16px;padding:12px 14px;min-height:50px;box-shadow:inset 0 1px 2px rgba(0,0,0,.04)}
+.field input:focus,.field select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.bigstep{display:flex;align-items:center;gap:12px}
+.bigstep .count{font-size:26px;min-width:56px}
+.choice{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--sunk);border-radius:16px;padding:4px}
+.choice button{border:0;background:transparent;border-radius:12px;padding:10px 6px;font-weight:500;color:var(--muted);font-size:14px}
+.choice button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.code{font-family:var(--mono);background:var(--sunk);border-radius:8px;padding:2px 7px;font-size:13px;overflow-wrap:anywhere}
+.units{display:grid;background:var(--raised);border:1px solid var(--line);border-radius:18px;padding:0 14px}
+.units div{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 0;border-top:1px solid var(--hair);font-size:14px}
+.units div:first-child{border-top:0}
+.linkbox{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
+.linkbox code{font-family:var(--mono);font-size:12px;background:var(--sunk);border-radius:14px;padding:10px 12px;overflow-wrap:anywhere;user-select:all}
+.hint{font-size:13px;color:var(--muted);margin:0}
+.ingr{display:grid;background:var(--raised);border:1px solid var(--line);border-radius:18px;padding:0 14px}
+.ingr div{display:grid;grid-template-columns:18px 1fr auto;gap:10px;align-items:baseline;padding:11px 0;border-top:1px solid var(--hair);font-size:15px}
+.ingr div:first-child{border-top:0}
+.ingr .mark{font-size:12px;color:var(--accent)}
+.ingr .mark.buy{color:var(--brass)}
+.ingr .mark.meat{color:var(--bad)}
+.ingr .amt{color:var(--muted);font-size:13px;text-align:right}
+ol.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:grid;gap:14px}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:34px 1fr;gap:10px;font-size:15px;align-items:start}
+ol.steps li::before{content:counter(s);width:28px;height:28px;border-radius:10px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);font-weight:600;font-size:13px}
+.confirm{border:1px solid var(--line);border-radius:18px;padding:14px;display:grid;gap:10px;font-size:14px;background:var(--raised)}
+
+/* toast = notification card */
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(118px + env(safe-area-inset-bottom,0px));z-index:30;background:var(--card-solid);color:var(--ink);border:1px solid var(--line);border-radius:20px;padding:10px 10px 10px 12px;display:flex;gap:12px;align-items:center;width:min(560px,calc(100% - 32px));box-shadow:var(--shadow-lg);font-size:14px}
+.toast::before{content:"✓";flex:none;width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-size:14px}
+.toast span{flex:1}
+.toast button{border:0;background:var(--accent-soft);color:var(--accent);font-weight:600;border-radius:999px;padding:7px 12px}
+.busy{position:fixed;inset:0;z-index:40;display:grid;place-items:center;background:rgba(10,14,11,.3)}
+.busy div{background:var(--card-solid);border-radius:20px;padding:18px 24px;font-weight:500;box-shadow:var(--shadow-lg);display:flex;gap:12px;align-items:center}
+
+/* gate (setup / login) */
+.gate{min-height:100vh;display:grid;align-content:center;gap:22px;padding-block:40px}
+.gate .mark{width:64px;height:64px;border-radius:22px;display:grid;place-items:center;background:linear-gradient(150deg,var(--accent-2),var(--accent));color:var(--on-accent);box-shadow:var(--shadow-lg)}
+.gate .mark svg{width:30px;height:30px}
+.gate h1{font-size:56px}
+.gate .card{border-radius:28px;padding:22px 20px;display:grid;gap:16px}
+.gate .err{color:var(--bad);font-size:14px;margin:0}
+
+/* live scanner */
+.scanner{position:fixed;inset:0;z-index:60;background:#0b0f0c;color:#EEF0E8;display:grid;grid-template-rows:auto 1fr auto}
+.scanner video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.scanner .shade{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 20% at 50% 46%,transparent 98%,rgba(11,15,12,.6) 100%)}
+.scanner .frame{position:absolute;left:9%;right:9%;top:36%;height:20%;pointer-events:none;border-radius:22px;box-shadow:0 0 0 1.5px rgba(238,240,232,.7) inset;transition:box-shadow .15s}
+.scanner .frame::after{content:"";position:absolute;left:6%;right:6%;top:50%;height:2px;border-radius:2px;background:#D4AB82;box-shadow:0 0 16px 3px rgba(212,171,130,.7);animation:sweep 1.8s ease-in-out infinite}
+@keyframes sweep{0%,100%{transform:translateY(-32px)}50%{transform:translateY(32px)}}
+@media (prefers-reduced-motion:reduce){.scanner .frame::after{animation:none}}
+.scanner .frame.hit{box-shadow:0 0 0 3px #BCCDA9 inset,0 0 44px rgba(188,205,169,.6)}
+.scanner .top,.scanner .bottom{position:relative;z-index:2;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+.scanner .top{padding-top:calc(14px + env(safe-area-inset-top,0px));display:flex;justify-content:space-between;align-items:center;gap:10px;background:linear-gradient(rgba(11,15,12,.7),transparent);padding-bottom:30px}
+.scanner .bottom{padding-bottom:calc(22px + env(safe-area-inset-bottom,0px));display:grid;gap:14px;justify-items:center;background:linear-gradient(transparent,rgba(11,15,12,.85));padding-top:40px}
+.scanner .sbtn{border:1px solid rgba(238,240,232,.25);background:rgba(238,240,232,.12);color:#EEF0E8;border-radius:999px;padding:9px 16px;font-size:13px;font-weight:500;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.scanner .smode{display:flex;background:rgba(238,240,232,.12);border:1px solid rgba(238,240,232,.2);border-radius:999px;padding:3px;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.scanner .smode button{border:0;background:transparent;color:rgba(238,240,232,.75);border-radius:999px;padding:8px 16px;font-size:13px;font-weight:500}
+.scanner .smode button[aria-pressed="true"]{background:#BCCDA9;color:#16201A}
+.scanner .smode button[data-mode="take"][aria-pressed="true"]{background:#D4AB82;color:#2A2016}
+.scanner .status{min-height:58px;max-width:520px;width:100%;text-align:center;font-size:15px;display:grid;place-items:center;padding:12px 16px;border-radius:22px}
+.scanner .status.show{background:rgba(238,240,232,.14);border:1px solid rgba(238,240,232,.2);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+.scanner .status .big{font-family:var(--display);font-size:26px;line-height:1.1;font-weight:500}
+.scanner .hintline{font-size:13px;opacity:.8;text-align:center;max-width:32ch}
+.scanner .errbox{position:relative;z-index:2;align-self:center;justify-self:center;max-width:340px;text-align:center;display:grid;gap:12px;padding:20px}
+.scanner .top{grid-row:1}
+.scanner .errbox{grid-row:2}
+.scanner .bottom{grid-row:3;align-self:end}
+.scanner .bottom > *{align-self:end}
+
+.field label.btn{font-size:13.5px;letter-spacing:normal;text-transform:none;color:var(--ink);cursor:pointer}
+
+</style>
+</head>
+<body>
+<canvas id="leaves" aria-hidden="true"></canvas>
+
+<!-- gate: setup + login -->
+<div id="gate" class="wrap gate" hidden></div>
+
+<div id="app" hidden>
+<header>
+  <div class="wrap">
+    <div class="hrow"><span class="wordmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V11"/><path d="M12 11C12 6 8.5 3.5 5 3.5c0 4 2.5 7.5 7 7.5z"/><path d="M12 14c0-4 3-6.5 7-6.5 0 3.5-2.5 6.5-7 6.5z"/></svg>basislager</span>
+      <div class="hright"><div class="boxchip" id="boxchip" hidden><span id="boxchipName"></span><button id="boxclear" aria-label="Fjern aktiv kasse">×</button></div>
+      <button class="iconbtn" id="settingsBtn" aria-label="Indstillinger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button></div>
+    </div>
+    <div class="titleblock" id="titleblock"><span class="eyebrow" id="today"></span><h1 id="viewTitle">Lager</h1><p class="sub-h" id="viewSub"></p></div>
+  </div>
+</header>
+
+<main class="wrap" id="view"></main>
+
+<div class="dock">
+  <nav class="bar-nav">
+    <div class="navin" role="tablist">
+      <button class="navbtn" role="tab" data-tab="lager" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="6" rx="1"/><rect x="3.5" y="14" width="17" height="6" rx="1"/><path d="M10 7h4M10 17h4"/></svg>Lager</button>
+      <button class="navbtn" role="tab" data-tab="indkob" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 11.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>Indkøb<span class="dot" id="buyBadge" hidden></span></button>
+      <div class="fabwrap">
+        <button class="fab" id="scanBtn" aria-label="Scan stregkode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 7.5V5.5a2 2 0 0 1 2-2h2M17 3.5h2a2 2 0 0 1 2 2v2M21 16.5v2a2 2 0 0 1-2 2h-2M7 20.5H5a2 2 0 0 1-2-2v-2"/><path d="M7.5 8v8M10.5 8v8M13.5 8v8M16.5 8v8"/></svg></button>
+        <button class="typelink" id="modeToggle" aria-label="Skift mellem Fyld op og Tag ud">Fyld op ⇄</button>
+      </div>
+      <button class="navbtn" role="tab" data-tab="opskrifter" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13h16a8 8 0 0 1-16 0z"/><path d="M9 9c0-1.5 1-2 1-3.5M13 9c0-1.5 1-2 1-3.5"/></svg>Opskrifter</button>
+      <button class="navbtn" role="tab" data-tab="kasser" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5 12 4l8.5 4.5v7L12 20l-8.5-4.5z"/><path d="M3.5 8.5 12 13l8.5-4.5M12 13v7"/></svg>Kasser</button>
+    </div>
+  </nav>
+</div>
+</div>
+
+<!-- live scanner -->
+<div class="scanner" id="scanner" hidden>
+  <video id="video" playsinline muted autoplay></video>
+  <div class="shade"></div>
+  <div class="frame" id="frame"></div>
+  <div class="top">
+    <button class="sbtn" id="scanClose">Luk</button>
+    <div class="smode" role="group" aria-label="Scan-tilstand">
+      <button data-mode="fill" aria-pressed="true">Fyld op</button>
+      <button data-mode="take" aria-pressed="false">Tag ud</button>
+    </div>
+    <button class="sbtn" id="torchBtn" hidden>Lys</button>
+  </div>
+  <div class="errbox" id="scanErr" hidden></div>
+  <div class="bottom">
+    <div class="status" id="scanStatus"><span class="hintline" id="scanHint">Hold stregkoden inden for rammen. Den scannes automatisk.</span></div>
+    <button class="sbtn" id="scanType">Skriv kode i stedet</button>
+  </div>
+</div>
+
+<div id="layer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.79.0/dist/umd/supabase.js"></script>
+<script>
+/* Recipe library. i = ingredients that may come from the pantry: [keywords (| separated, matched against product names), label, amount, whole packages used up]. buy = always fresh. meat = separate. All for 4 people. */
+const LIB = [
+{t:"Pasta arrabbiata",intro:"Stærk, enkel tomatpasta med hvidløg og chili.",min:20,tags:["Vegetar","Hurtig"],
+ i:[["hakkede tomater|flåede tomater|tomater på dåse|passata","Hakkede tomater","2 dåser",2],["penne|pasta|spaghetti|rigatoni","Pasta","400 g",1],["chili","Chiliflager","1 tsk",0],["olivenolie|olie","Olivenolie","3 spsk",0]],
+ buy:[["Hvidløg","3 fed","Frugt & grønt"],["Persille","1 bundt","Frugt & grønt"]],meat:null,
+ s:["Kog pastaen i rigeligt saltet vand.","Svits hakket hvidløg og chili i olien et minut uden at det tager farve.","Tilsæt tomaterne og lad saucen simre 10 minutter. Smag til med salt.","Vend pastaen i saucen med lidt kogevand og drys persille over."]},
+{t:"Spaghetti bolognese",intro:"Klassisk kødsauce, der bliver bedre jo længere den simrer.",min:50,tags:["Hverdag","Med kød"],
+ i:[["hakkede tomater|flåede tomater|passata","Hakkede tomater","2 dåser",2],["tomatpuré|tomatkoncentrat","Tomatpuré","2 spsk",0],["spaghetti|pasta","Spaghetti","400 g",1],["oregano|italiensk krydderi","Oregano","1 tsk",0]],
+ buy:[["Løg","1","Frugt & grønt"],["Gulerødder","2","Frugt & grønt"],["Hvidløg","2 fed","Frugt & grønt"]],meat:["Hakket oksekød","500 g"],
+ s:["Brun kødet i en gryde og tag det op.","Svits finthakket løg, gulerod og hvidløg bløde.","Kom kød, tomatpuré, tomater og oregano i og lad det simre 30 minutter under låg.","Kog spaghettien og server med saucen."]},
+{t:"Chili con carne",intro:"Varm gryde med bønner, tomat og spidskommen.",min:45,tags:["Hverdag","Med kød"],
+ i:[["kidneybønner|chilibønner|sorte bønner","Kidneybønner","1 dåse",1],["hakkede tomater|flåede tomater","Hakkede tomater","2 dåser",2],["spidskommen|chili|taco","Spidskommen og chili","2 tsk",0],["ris","Ris","300 g",0]],
+ buy:[["Løg","1","Frugt & grønt"],["Peberfrugt","1","Frugt & grønt"],["Creme fraiche","1 bæger","Mejeri & æg"]],meat:["Hakket oksekød","500 g"],
+ s:["Brun kødet med hakket løg og peberfrugt.","Tilsæt krydderier, tomater og skyllede bønner.","Lad det simre 25 minutter, og kog imens risene.","Server med en klat creme fraiche."]},
+{t:"Rød karry med kylling",intro:"Cremet thailandsk karry med kokos og lime.",min:30,tags:["Hurtig","Med kød"],
+ i:[["kokosmælk","Kokosmælk","1 dåse",1],["rød karry|karrypasta|curry paste","Rød karrypasta","2 spsk",0],["fiskesauce|fish sauce","Fiskesauce","1 spsk",0],["jasminris|ris","Jasminris","300 g",0]],
+ buy:[["Peberfrugt","1","Frugt & grønt"],["Lime","1","Frugt & grønt"]],meat:["Kyllingebryst","500 g"],
+ s:["Kog risene.","Steg karrypastaen et minut i lidt olie, og tilsæt kokosmælken.","Kom kylling i tern og peberfrugt i strimler i, og lad det simre 12 minutter.","Smag til med fiskesauce og limesaft."]},
+{t:"Dahl med røde linser",intro:"Mild, mættende linsegryde med kokos og tomat.",min:35,tags:["Vegetar","Hverdag"],
+ i:[["røde linser|linser","Røde linser","250 g",1],["kokosmælk","Kokosmælk","1 dåse",1],["hakkede tomater|flåede tomater","Hakkede tomater","1 dåse",1],["karry|garam masala|gurkemeje","Karry","2 tsk",0],["ris","Ris","300 g",0]],
+ buy:[["Løg","1","Frugt & grønt"],["Hvidløg","2 fed","Frugt & grønt"],["Ingefær","1 stykke","Frugt & grønt"]],meat:null,
+ s:["Svits løg, hvidløg og ingefær med karry.","Tilsæt skyllede linser, tomater, kokosmælk og 3 dl vand.","Lad det simre 20 minutter, til linserne er møre. Kog imens risene.","Smag til med salt og server."]},
+{t:"Kikærtecurry",intro:"Chana masala med kikærter i krydret tomatsauce.",min:30,tags:["Vegetar","Hurtig"],
+ i:[["kikærter","Kikærter","2 dåser",2],["hakkede tomater|flåede tomater","Hakkede tomater","1 dåse",1],["kokosmælk","Kokosmælk","1 dåse",1],["garam masala|karry","Garam masala","2 tsk",0],["ris","Ris","300 g",0]],
+ buy:[["Løg","1","Frugt & grønt"],["Hvidløg","2 fed","Frugt & grønt"],["Koriander","1 bundt","Frugt & grønt"]],meat:null,
+ s:["Svits løg og hvidløg med krydderierne.","Tilsæt tomater, kokosmælk og skyllede kikærter.","Simrer 15 minutter. Kog imens risene.","Drys med koriander."]},
+{t:"Tunpasta med majs",intro:"Kold eller lun pastaret, der er lavet på et kvarter.",min:15,tags:["Hurtig","Hverdag"],
+ i:[["tun","Tun","2 dåser",2],["majs","Majs","1 dåse",1],["pasta|skruer|fusilli|penne","Pasta","400 g",1]],
+ buy:[["Creme fraiche","1 bæger","Mejeri & æg"],["Rødløg","1","Frugt & grønt"],["Citron","1","Frugt & grønt"]],meat:null,
+ s:["Kog pastaen og skyl den kort i koldt vand.","Rør creme fraiche med citronsaft, salt og peber.","Vend pasta, tun, majs og fint rødløg i dressingen."]},
+{t:"Shakshuka",intro:"Æg pocheret i krydret tomatsauce. Server med godt brød.",min:30,tags:["Vegetar","Weekend"],
+ i:[["hakkede tomater|flåede tomater|passata","Hakkede tomater","2 dåser",2],["spidskommen","Spidskommen","1 tsk",0],["paprika","Paprika","1 tsk",0]],
+ buy:[["Æg","6","Mejeri & æg"],["Løg","1","Frugt & grønt"],["Peberfrugt","1","Frugt & grønt"]],meat:null,
+ s:["Svits løg og peberfrugt bløde i en pande.","Tilsæt krydderier og tomater, og lad det koge ind i 10 minutter.","Lav små huller og slå æggene ud i dem.","Læg låg på og lad æggene sætte sig i 6-8 minutter."]},
+{t:"Minestrone",intro:"Italiensk grøntsagssuppe med bønner og små pastaskruer.",min:40,tags:["Vegetar","Hverdag"],
+ i:[["hvide bønner|cannellini|borlotti","Hvide bønner","1 dåse",1],["hakkede tomater|flåede tomater","Hakkede tomater","1 dåse",1],["bouillon","Grøntsagsbouillon","1 terning",0],["pasta|små pasta|skruer","Pasta","150 g",0]],
+ buy:[["Løg","1","Frugt & grønt"],["Gulerødder","2","Frugt & grønt"],["Squash","1","Frugt & grønt"]],meat:null,
+ s:["Svits løg og gulerod i tern.","Tilsæt tomater, 1 liter vand og bouillon, og kog 10 minutter.","Kom squash, bønner og pasta i, og kog til pastaen er mør.","Smag til og server gerne med revet parmesan."]},
+{t:"Svamperisotto",intro:"Cremet risotto med stegte svampe.",min:40,tags:["Vegetar","Weekend"],
+ i:[["risottoris|arborio|risotto","Risottoris","300 g",1],["bouillon","Bouillon","1 liter",0],["tørrede svampe|karl johan","Tørrede svampe","20 g",0]],
+ buy:[["Champignon","250 g","Frugt & grønt"],["Parmesan","50 g","Mejeri & æg"],["Løg","1","Frugt & grønt"]],meat:null,
+ s:["Steg svampene gyldne og tag dem op.","Svits løg, tilsæt risene og rør til de er blanke.","Tilsæt varm bouillon lidt ad gangen under omrøring i 18 minutter.","Vend svampe og parmesan i og lad den hvile et minut."]},
+{t:"Stegte nudler",intro:"Wok med æg, grønt og soja på 20 minutter.",min:20,tags:["Hurtig","Med kød"],
+ i:[["nudler|ægnudler|udon","Nudler","250 g",1],["soja","Soja","3 spsk",0],["sesamolie|østerssauce","Sesamolie","1 spsk",0]],
+ buy:[["Forårsløg","1 bundt","Frugt & grønt"],["Spidskål","½","Frugt & grønt"],["Æg","3","Mejeri & æg"]],meat:["Kyllingebryst eller svinekød","400 g"],
+ s:["Kog nudlerne og skyl dem.","Steg kødet i strimler på en meget varm pande.","Tilsæt kål og forårsløg, og derefter nudler og soja.","Skub til side, rør æggene i, og vend det hele sammen."]},
+{t:"Tomatsuppe",intro:"Fløjlsblød suppe til ristet brød.",min:30,tags:["Vegetar","Hurtig"],
+ i:[["hakkede tomater|flåede tomater|passata","Hakkede tomater","2 dåser",2],["bouillon","Bouillon","1 terning",0],["tomatpuré","Tomatpuré","1 spsk",0]],
+ buy:[["Løg","1","Frugt & grønt"],["Madlavningsfløde","2 dl","Mejeri & æg"],["Brød","1","Brød"]],meat:null,
+ s:["Svits løg med tomatpuré.","Tilsæt tomater, bouillon og 4 dl vand. Kog 15 minutter.","Blend suppen, tilsæt fløden og smag til.","Server med ristet brød."]},
+{t:"Tacos med bønner",intro:"Bløde tortillas med krydret kød, bønner og majs.",min:30,tags:["Hverdag","Med kød"],
+ i:[["tortilla|tacoskaller|wraps","Tortillas","8 stk",1],["sorte bønner|kidneybønner","Bønner","1 dåse",1],["majs","Majs","1 dåse",1],["taco|krydderimix","Tacokrydderi","1 pose",0],["salsa","Salsa","1 glas",1]],
+ buy:[["Salat","1","Frugt & grønt"],["Avocado","2","Frugt & grønt"],["Revet ost","150 g","Mejeri & æg"]],meat:["Hakket oksekød","400 g"],
+ s:["Brun kødet med tacokrydderi og lidt vand.","Varm bønner og majs.","Lun tortillas på en tør pande.","Fyld dem med kød, bønner, majs, salat, avocado, ost og salsa."]},
+{t:"Pasta puttanesca",intro:"Salt, syrlig tomatpasta med oliven og kapers.",min:20,tags:["Hurtig","Hverdag"],
+ i:[["hakkede tomater|flåede tomater","Hakkede tomater","2 dåser",2],["oliven","Sorte oliven","100 g",1],["kapers","Kapers","2 spsk",0],["spaghetti|pasta","Spaghetti","400 g",1],["ansjos|tun","Ansjoser","4 filetter",0]],
+ buy:[["Hvidløg","3 fed","Frugt & grønt"],["Persille","1 bundt","Frugt & grønt"]],meat:null,
+ s:["Kog spaghettien.","Smelt ansjoser og hvidløg i olie på en pande.","Tilsæt tomater, oliven og kapers og lad det simre 10 minutter.","Vend pastaen i og drys persille over."]},
+{t:"Linsesuppe",intro:"Rustik suppe med grønne linser og grøntsager.",min:45,tags:["Vegetar","Hverdag"],
+ i:[["grønne linser|beluga|linser","Linser","250 g",1],["hakkede tomater|flåede tomater","Hakkede tomater","1 dåse",1],["bouillon","Bouillon","1 terning",0],["spidskommen","Spidskommen","1 tsk",0]],
+ buy:[["Løg","1","Frugt & grønt"],["Gulerødder","3","Frugt & grønt"],["Citron","1","Frugt & grønt"]],meat:null,
+ s:["Svits løg og gulerødder med spidskommen.","Tilsæt linser, tomater, bouillon og 1,2 liter vand.","Kog 30 minutter til linserne er møre.","Smag til med citronsaft, salt og peber."]},
+{t:"Kylling cacciatore",intro:"Italiensk jægergryde med tomat, oliven og rosmarin.",min:55,tags:["Weekend","Med kød"],
+ i:[["hakkede tomater|flåede tomater","Hakkede tomater","2 dåser",2],["oliven","Oliven","100 g",0],["rosmarin|timian|italiensk","Rosmarin","1 tsk",0],["ris|pasta","Ris eller pasta","300 g",0]],
+ buy:[["Løg","1","Frugt & grønt"],["Peberfrugt","2","Frugt & grønt"],["Hvidløg","3 fed","Frugt & grønt"]],meat:["Kyllingelår","8 stk"],
+ s:["Brun kyllingelårene godt og tag dem op.","Svits løg, peberfrugt og hvidløg i fedtet.","Tilsæt tomater, krydderi og kylling, og lad det simre 35 minutter under låg.","Kom oliven i til sidst og server med ris eller pasta."]},
+{t:"Boller i karry",intro:"Dansk klassiker med kødboller i cremet karrysauce.",min:60,tags:["Hverdag","Med kød"],
+ i:[["karry","Karry","2 spsk",0],["hvedemel|mel","Hvedemel","4 spsk",0],["bouillon","Bouillon","1 terning",0],["ris","Ris","300 g",0]],
+ buy:[["Løg","2","Frugt & grønt"],["Porre","1","Frugt & grønt"],["Æg","1","Mejeri & æg"]],meat:["Hakket svinekød","500 g"],
+ s:["Rør farsen med æg, revet løg, salt og peber. Form små boller og kog dem 8 minutter i bouillon.","Svits løg og porre med karry i smør, og drys melet over.","Spæd op med kogevandet under omrøring, til saucen er jævn.","Kom bollerne i saucen og server med ris."]},
+{t:"Pandekager",intro:"Tynde pandekager til dessert eller en sen morgenmad.",min:30,tags:["Weekend","Vegetar"],
+ i:[["hvedemel|mel","Hvedemel","250 g",0],["sukker","Sukker","1 spsk",0],["vanilje","Vaniljesukker","1 tsk",0],["syltetøj|marmelade","Syltetøj","1 glas",0]],
+ buy:[["Mælk","5 dl","Mejeri & æg"],["Æg","3","Mejeri & æg"],["Smør","50 g","Mejeri & æg"]],meat:null,
+ s:["Pisk mel, sukker og halvdelen af mælken klumpfri.","Pisk resten af mælken, æggene og det smeltede smør i. Lad dejen hvile 15 minutter.","Steg tynde pandekager på en varm pande.","Server med syltetøj og sukker."]},
+{t:"Stegte ris",intro:"Brug gårsdagens ris eller kog nye. Hurtigt og mættende.",min:25,tags:["Hurtig","Med kød"],
+ i:[["ris|jasminris","Ris","300 g",0],["soja","Soja","3 spsk",0],["ærter|frosne ærter|grøntsagsblanding","Ærter","200 g",1],["majs","Majs","1 dåse",0]],
+ buy:[["Æg","3","Mejeri & æg"],["Forårsløg","1 bundt","Frugt & grønt"]],meat:["Skinke eller kylling","200 g"],
+ s:["Kog risene, og lad dem køle af.","Steg kødet i tern og tilsæt ærter og majs.","Kom risene i og steg ved høj varme.","Rør æggene i og smag til med soja. Drys forårsløg over."]},
+{t:"Bønnegryde med chorizo",intro:"Spansk-inspireret gryde med røget paprika.",min:35,tags:["Hverdag","Med kød"],
+ i:[["hvide bønner|butterbeans|cannellini","Hvide bønner","2 dåser",2],["hakkede tomater|flåede tomater","Hakkede tomater","1 dåse",1],["røget paprika|paprika","Røget paprika","2 tsk",0]],
+ buy:[["Løg","1","Frugt & grønt"],["Hvidløg","2 fed","Frugt & grønt"],["Brød","1","Brød"]],meat:["Chorizo","200 g"],
+ s:["Steg chorizo i skiver sprød.","Tilsæt løg, hvidløg og paprika og svits 2 minutter.","Kom tomater og bønner i og lad det simre 15 minutter.","Server med godt brød."]},
+{t:"Couscoussalat med kikærter",intro:"Frisk salat, der også kan tages med på arbejde.",min:20,tags:["Vegetar","Hurtig"],
+ i:[["couscous|bulgur","Couscous","250 g",1],["kikærter","Kikærter","1 dåse",1],["olivenolie|olie","Olivenolie","3 spsk",0],["rosiner|tranebær","Rosiner","50 g",0]],
+ buy:[["Agurk","1","Frugt & grønt"],["Citron","1","Frugt & grønt"],["Mynte eller persille","1 bundt","Frugt & grønt"]],meat:null,
+ s:["Hæld kogende vand over couscous og lad den trække 5 minutter under låg.","Rør olie, citronsaft, salt og peber sammen.","Vend couscous, kikærter, agurk, rosiner og krydderurter i dressingen."]},
+{t:"Thai nudelsuppe",intro:"Duftende kokossuppe med nudler og lime.",min:25,tags:["Hurtig","Med kød"],
+ i:[["kokosmælk","Kokosmælk","1 dåse",1],["risnudler|nudler","Nudler","200 g",1],["rød karry|karrypasta","Rød karrypasta","1 spsk",0],["bouillon","Bouillon","1 terning",0],["fiskesauce","Fiskesauce","1 spsk",0]],
+ buy:[["Lime","1","Frugt & grønt"],["Forårsløg","1 bundt","Frugt & grønt"]],meat:["Rejer eller kylling","300 g"],
+ s:["Steg karrypastaen kort, og tilsæt kokosmælk, bouillon og 6 dl vand.","Kom rejer eller kylling i, og kog 5 minutter.","Læg udblødte nudler i skåle og hæld suppen over.","Top med forårsløg og limesaft."]},
+{t:"Pasta med pesto",intro:"Det hurtigste aftensmåltid, med friske tomater.",min:15,tags:["Hurtig","Vegetar"],
+ i:[["pesto","Pesto","1 glas",1],["pasta|penne|spaghetti|linguine","Pasta","400 g",1],["pinjekerner|nødder","Pinjekerner","30 g",0]],
+ buy:[["Cherrytomater","250 g","Frugt & grønt"],["Parmesan","50 g","Mejeri & æg"],["Rucola","1 pose","Frugt & grønt"]],meat:null,
+ s:["Kog pastaen.","Rist pinjekernerne på en tør pande.","Vend pastaen med pesto og lidt kogevand.","Top med halve tomater, rucola, parmesan og pinjekerner."]},
+{t:"Lasagne",intro:"Søndagslasagne med kødsauce og ostesauce.",min:90,tags:["Weekend","Med kød"],
+ i:[["lasagneplader|lasagne","Lasagneplader","250 g",1],["hakkede tomater|flåede tomater","Hakkede tomater","2 dåser",2],["tomatpuré","Tomatpuré","2 spsk",0],["hvedemel|mel","Hvedemel","3 spsk",0]],
+ buy:[["Løg","1","Frugt & grønt"],["Mælk","5 dl","Mejeri & æg"],["Revet ost","200 g","Mejeri & æg"]],meat:["Hakket oksekød","500 g"],
+ s:["Lav en kødsauce af kød, løg, tomatpuré og tomater, og lad den simre 20 minutter.","Lav ostesauce: smør og mel, spæd med mælk og rør halvdelen af osten i.","Læg lagvis kødsauce, plader og ostesauce i et fad, og slut med ost.","Bag ved 200 grader i 40 minutter."]},
+{t:"Mac and cheese",intro:"Bagt makaroni i cremet ostesauce.",min:40,tags:["Weekend","Vegetar"],
+ i:[["makaroni|pasta|penne","Makaroni","400 g",1],["hvedemel|mel","Hvedemel","3 spsk",0],["sennep","Sennep","1 tsk",0]],
+ buy:[["Mælk","7 dl","Mejeri & æg"],["Cheddar","250 g","Mejeri & æg"],["Smør","40 g","Mejeri & æg"]],meat:null,
+ s:["Kog makaronien næsten mør.","Smelt smør, rør mel i og spæd med mælk til en jævn sauce.","Rør ost og sennep i og vend makaronien i saucen.","Kom det i et fad og bag ved 200 grader i 15 minutter."]},
+{t:"Hvide bønner med tun og citron",intro:"Italiensk salat uden komfur, klar på 10 minutter.",min:10,tags:["Hurtig","Hverdag"],
+ i:[["hvide bønner|cannellini","Hvide bønner","2 dåser",2],["tun","Tun","2 dåser",2],["olivenolie|olie","Olivenolie","4 spsk",0]],
+ buy:[["Rødløg","1","Frugt & grønt"],["Citron","1","Frugt & grønt"],["Persille","1 bundt","Frugt & grønt"]],meat:null,
+ s:["Skyl bønnerne og lad dem dryppe af.","Rør olie, citronsaft, salt og peber sammen.","Vend bønner, tun, tyndt rødløg og persille i dressingen."]},
+{t:"Havregrød med æble",intro:"Varm morgenmad med kanel og æble.",min:10,tags:["Hurtig","Vegetar"],
+ i:[["havregryn","Havregryn","200 g",0],["kanel","Kanel","1 tsk",0],["rosiner|nødder|mandler","Nødder eller rosiner","50 g",0]],
+ buy:[["Mælk","4 dl","Mejeri & æg"],["Æbler","2","Frugt & grønt"]],meat:null,
+ s:["Kog havregryn med mælk og 4 dl vand under omrøring i 5 minutter.","Riv æblerne groft.","Server med æble, kanel og nødder."]}
+];
+
+(() => {
+const CATS = ["Frugt & grønt","Brød","Kød & fisk","Mejeri & æg","Køl","Konserves","Pasta, ris & gryn","Bagning","Morgenmad","Krydderier & olie","Saucer & dressing","Snacks & søde sager","Drikkevarer","Frost","Husholdning","Andet"];
+const SOON_DAYS = 14;
+const TITLES = {
+  lager:["Lager","Jeres basislager, ordnet efter kategori."],
+  indkob:["Indkøb","Det der mangler for at fylde basislageret op."],
+  opskrifter:["Opskrifter","Retter fra spisekammeret, hvor kun få ting skal købes."],
+  kasser:["Kasser","Opbevaringskasser med hver sin NFC-sticker."]
+};
+
+const S = { db:null, sb:null, ready:false, failed:false, products:{}, codes:{}, boxes:{}, extras:{}, recipes:{}, suggest:null,
+  tab:"lager", mode:"fill", box:"", query:"", undo:null, lib:[], libStyle:"",
+  gen:{ serves:4, wish:"", style:"", busy:false, ctl:null, error:"" } };
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid = p => p + Math.random().toString(36).slice(2,9) + Date.now().toString(36).slice(-3);
+const today = () => { const d=new Date(); d.setHours(0,0,0,0); return d; };
+const daysLeft = iso => Math.round((new Date(iso+"T00:00:00") - today())/86400000);
+const fmtDate = iso => new Date(iso+"T00:00:00").toLocaleDateString("da-DK",{day:"numeric",month:"short",year: new Date(iso).getFullYear()!==new Date().getFullYear() ? "numeric" : undefined});
+const store = { get(k){ try{return localStorage.getItem(k)}catch{return null} }, set(k,v){ try{ v==null ? localStorage.removeItem(k) : localStorage.setItem(k,v)}catch{} } };
+const catOf = c => CATS.includes(c) ? c : "Andet";
+const appUrl = () => location.origin + location.pathname;
+
+/* ================= decor ================= */
+const IC = {
+  box:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8 12 4l8.5 4v8L12 20l-8.5-4z"/><path d="M3.5 8 12 12l8.5-4M12 12v8"/></svg>',
+  bag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 11.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>',
+  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>',
+  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>'
+};
+const PLANT = `<svg class="plant" viewBox="0 0 150 170" aria-hidden="true">
+  <defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A9C2A0"/><stop offset="1" stop-color="#4E6B55"/></linearGradient>
+  <linearGradient id="lg2" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C3D3B4"/><stop offset="1" stop-color="#617F66"/></linearGradient>
+  <linearGradient id="pot" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#E6E0D5"/><stop offset=".6" stop-color="#CFC7B9"/><stop offset="1" stop-color="#B7AE9F"/></linearGradient></defs>
+  <g stroke="#3F5A46" stroke-width="1" stroke-opacity=".35">
+    <ellipse cx="62" cy="62" rx="15" ry="40" transform="rotate(-32 62 62)" fill="url(#lg1)"/>
+    <ellipse cx="100" cy="56" rx="14" ry="42" transform="rotate(24 100 56)" fill="url(#lg2)"/>
+    <ellipse cx="82" cy="42" rx="13" ry="40" transform="rotate(-4 82 42)" fill="url(#lg1)"/>
+    <ellipse cx="46" cy="96" rx="12" ry="30" transform="rotate(-62 46 96)" fill="url(#lg2)"/>
+    <ellipse cx="118" cy="92" rx="12" ry="30" transform="rotate(58 118 92)" fill="url(#lg1)"/>
+  </g>
+  <path d="M50 118h64l-8 46a6 6 0 0 1-6 5H64a6 6 0 0 1-6-5z" fill="url(#pot)"/>
+  <rect x="46" y="112" width="72" height="10" rx="5" fill="#E9E4DA"/>
+</svg>`;
+function greeting(){ const h = new Date().getHours(); return h<5?"God nat":h<10?"Godmorgen":h<12?"God formiddag":h<18?"God eftermiddag":"God aften"; }
+function drawLeaves(){
+  const c = $("#leaves"); if(!c) return;
+  const dpr = Math.min(2, window.devicePixelRatio||1), w = innerWidth, h = innerHeight;
+  c.width = Math.round(w*dpr/2); c.height = Math.round(h*dpr/2);
+  const x = c.getContext("2d"); x.setTransform(dpr/2,0,0,dpr/2,0,0); x.clearRect(0,0,w,h);
+  const cs = getComputedStyle(document.documentElement);
+  const cols = [cs.getPropertyValue("--leaf1").trim(), cs.getPropertyValue("--leaf2").trim(), cs.getPropertyValue("--leaf3").trim()];
+  let seed = 7; const rnd = () => (seed = (seed*16807) % 2147483647) / 2147483647;
+  const leaf = (cx,cy,len,wid,rot,col) => { x.save(); x.translate(cx,cy); x.rotate(rot); x.beginPath(); x.moveTo(0,0);
+    x.bezierCurveTo(wid,-len*.25,wid*.8,-len*.75,0,-len); x.bezierCurveTo(-wid*.8,-len*.75,-wid,-len*.25,0,0); x.fillStyle = col; x.fill(); x.restore(); };
+  // clusters at top-right and bottom-left, like foliage at the frame edge
+  for(let i=0;i<9;i++) leaf(w*(0.78+rnd()*0.35), h*(rnd()*0.28), 160+rnd()*180, 50+rnd()*50, Math.PI*(0.55+rnd()*0.9), cols[i%2]);
+  for(let i=0;i<9;i++) leaf(w*(-0.15+rnd()*0.3), h*(0.72+rnd()*0.32), 170+rnd()*190, 55+rnd()*50, Math.PI*(-0.35+rnd()*0.7), cols[i%2]);
+  x.globalAlpha = .7; leaf(w*0.95, h*0.62, 220, 70, Math.PI*1.25, cols[2]); leaf(w*0.05, h*0.3, 180, 60, Math.PI*0.2, cols[2]);
+}
+addEventListener("resize", () => { clearTimeout(drawLeaves.t); drawLeaves.t = setTimeout(drawLeaves, 150); });
+try{ matchMedia("(prefers-color-scheme: dark)").addEventListener("change", drawLeaves); }catch{}
+drawLeaves();
+
+/* ================= data layer: Supabase table kv(collection,id,data) ================= */
+function makeDb(sb){
+  const cache = new Map();            // collection -> Map(id -> data)
+  const colL = new Map(), docL = new Map();
+  let loaded = false;
+  const col = c => { if(!cache.has(c)) cache.set(c,new Map()); return cache.get(c); };
+  const snapCol = c => ({ docs:[...col(c)].map(([id,d])=>({id, exists:true, data:()=>d})) });
+  const snapDoc = (c,id) => { const d = col(c).get(id); return { id, exists: d!==undefined, data:()=>d }; };
+  function emit(c,id){
+    (colL.get(c)||new Set()).forEach(fn=>fn(snapCol(c)));
+    (docL.get(c+"/"+id)||new Set()).forEach(fn=>fn(snapDoc(c,id)));
+  }
+  function emitAll(){ const cs = new Set([...colL.keys(), ...[...docL.keys()].map(k=>k.split("/")[0])]); cs.forEach(c=>{ (colL.get(c)||new Set()).forEach(fn=>fn(snapCol(c))); [...docL.keys()].filter(k=>k.startsWith(c+"/")).forEach(k=>docL.get(k).forEach(fn=>fn(snapDoc(c,k.split("/")[1])))); }); }
+  async function loadAll(){
+    const next = new Map(); let from = 0;
+    for(;;){
+      const { data, error } = await sb.from("kv").select("collection,id,data").range(from, from+999);
+      if(error) throw error;
+      data.forEach(r => { if(!next.has(r.collection)) next.set(r.collection,new Map()); next.get(r.collection).set(r.id, r.data); });
+      if(data.length < 1000) break; from += 1000;
+    }
+    cache.clear(); next.forEach((v,k)=>cache.set(k,v)); loaded = true; emitAll();
+  }
+  async function write(c,id,data){
+    if(data===null) col(c).delete(id); else col(c).set(id,data);
+    emit(c,id);
+    const q = data===null ? sb.from("kv").delete().eq("collection",c).eq("id",id)
+                          : sb.from("kv").upsert({collection:c, id, data, updated_at:new Date().toISOString()});
+    const { error } = await q;
+    if(error){ toast("Kunne ikke gemme: "+(error.message||"ukendt fejl")+". Prøv igen."); loadAll().catch(()=>{}); throw error; }
+  }
+  const docRef = path => { const [c,id] = path.split("/"); return {
+    id, path,
+    set: d => write(c,id,JSON.parse(JSON.stringify(d))),
+    delete: () => write(c,id,null),
+    onSnapshot(fn){ const k=c+"/"+id; if(!docL.has(k)) docL.set(k,new Set()); docL.get(k).add(fn); if(loaded) fn(snapDoc(c,id)); return ()=>docL.get(k).delete(fn); }
+  }; };
+  const db = {
+    doc: docRef,
+    collection: c => ({ doc: id => docRef(c+"/"+(id||uid("d"))),
+      onSnapshot(fn){ if(!colL.has(c)) colL.set(c,new Set()); colL.get(c).add(fn); if(loaded) fn(snapCol(c)); return ()=>colL.get(c).delete(fn); } })
+  };
+  sb.channel("kv-changes").on("postgres_changes",{event:"*",schema:"public",table:"kv"}, p => {
+    if(p.eventType==="DELETE"){ const o=p.old||{}; if(o.collection && o.id){ col(o.collection).delete(o.id); emit(o.collection,o.id); } else loadAll().catch(()=>{}); }
+    else { const r=p.new; col(r.collection).set(r.id, r.data); emit(r.collection, r.id); }
+  }).subscribe();
+  document.addEventListener("visibilitychange", () => { if(document.visibilityState==="visible") loadAll().catch(()=>{}); });
+  return { db, loadAll };
+}
+
+/* ================= gate: setup + login ================= */
+function b64urlDecode(b){ let t=b.replace(/-/g,"+").replace(/_/g,"/"); while(t.length%4) t+="="; return new TextDecoder().decode(Uint8Array.from(atob(t),c=>c.charCodeAt(0))); }
+function b64urlEncode(s){ return btoa(String.fromCharCode(...new TextEncoder().encode(s))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""); }
+function readSetupHash(){
+  const m = /^#setup=([A-Za-z0-9_-]+)$/.exec(location.hash);
+  if(!m) return;
+  try{ const c = JSON.parse(b64urlDecode(m[1])); if(c.url && c.key){ store.set("bl-sb-url",c.url); store.set("bl-sb-key",c.key); } }catch{}
+  try{ history.replaceState(null,"",location.pathname); }catch{}
+}
+function showGate(html, bind){ $("#app").hidden = true; const g=$("#gate"); g.hidden=false; g.innerHTML = html; bind(g); }
+function gateSetup(err){
+  showGate(`<div style="display:grid;gap:14px"><span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V11"/><path d="M12 11C12 6 8.5 3.5 5 3.5c0 4 2.5 7.5 7 7.5z"/><path d="M12 14c0-4 3-6.5 7-6.5 0 3.5-2.5 6.5-7 6.5z"/></svg></span><span class="eyebrow">Første opsætning</span><h1>Basislager</h1></div>
+    <div class="card"><p class="hint">Indsæt adressen og den offentlige nøgle fra jeres Supabase-projekt (Project Settings › API). Det skal kun gøres én gang pr. telefon.</p>
+      <div class="field"><label for="gUrl">Project URL</label><input id="gUrl" autocomplete="off" autocapitalize="off" placeholder="https://xxxx.supabase.co" value="${esc(store.get("bl-sb-url")||"")}"></div>
+      <div class="field"><label for="gKey">Anon / public key</label><input id="gKey" autocomplete="off" autocapitalize="off" placeholder="eyJhbGciOi…" value="${esc(store.get("bl-sb-key")||"")}"></div>
+      ${err?`<p class="err">${esc(err)}</p>`:""}
+      <div class="btnrow"><button class="btn primary" id="gGo">Fortsæt</button></div></div>`, g => {
+      g.querySelector("#gGo").onclick = () => {
+        const url = g.querySelector("#gUrl").value.trim().replace(/\/+$/,""), key = g.querySelector("#gKey").value.trim();
+        if(!/^https:\/\/.+/.test(url) || key.length < 20) return gateSetup("Tjek at adressen starter med https:// og at hele nøglen er sat ind.");
+        store.set("bl-sb-url",url); store.set("bl-sb-key",key); start();
+      };
+  });
+}
+function gateLogin(err){
+  showGate(`<div style="display:grid;gap:14px"><span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V11"/><path d="M12 11C12 6 8.5 3.5 5 3.5c0 4 2.5 7.5 7 7.5z"/><path d="M12 14c0-4 3-6.5 7-6.5 0 3.5-2.5 6.5-7 6.5z"/></svg></span><span class="eyebrow">Log ind</span><h1>Basislager</h1></div>
+    <div class="card"><p class="hint">Brug husstandens fælles login. Det bliver husket på denne telefon.</p>
+      <div class="field"><label for="lMail">E-mail</label><input id="lMail" type="email" autocomplete="username" autocapitalize="off" value="${esc(store.get("bl-mail")||"noam@jensin.net")}"></div>
+      <div class="field"><label for="lPw">Adgangskode</label><input id="lPw" type="password" autocomplete="current-password"></div>
+      ${err?`<p class="err">${esc(err)}</p>`:""}
+      <div class="btnrow"><button class="btn primary" id="lGo">Log ind</button></div></div>`, g => {
+      const go = async () => {
+        const email = g.querySelector("#lMail").value.trim(), password = g.querySelector("#lPw").value;
+        if(!email || !password) return;
+        g.querySelector("#lGo").disabled = true;
+        const { error } = await S.sb.auth.signInWithPassword({ email, password });
+        if(error) return gateLogin(error.message==="Invalid login credentials" ? "Forkert e-mail eller adgangskode." : error.message);
+        store.set("bl-mail", email); boot();
+      };
+      g.querySelector("#lGo").onclick = go;
+      g.querySelector("#lPw").onkeydown = e => { if(e.key==="Enter") go(); };
+  });
+}
+async function start(){
+  readSetupHash();
+  const url = store.get("bl-sb-url") || "https://vbdcaufurawzmftiwgjk.supabase.co", key = store.get("bl-sb-key") || "sb_publishable_G48xjZp7oo3TAvJQdOrJqQ_oEqXipzS";
+  if(!url || !key) return gateSetup();
+  if(!window.supabase){ return gateSetup("Forbindelsesbiblioteket kunne ikke hentes. Tjek internetforbindelsen og genindlæs."); }
+  try{ S.sb = window.supabase.createClient(url, key, { auth:{ persistSession:true, autoRefreshToken:true } }); }
+  catch{ return gateSetup("Adressen eller nøglen er ikke gyldig."); }
+  const { data } = await S.sb.auth.getSession();
+  if(!data.session) return gateLogin();
+  boot();
+}
+
+/* ================= derived ================= */
+const stock = p => (p.units||[]).length;
+const missing = p => Math.max(0, (p.target||0) - stock(p));
+const boxName = id => S.boxes[id] ? S.boxes[id].name : "";
+const sortedUnits = units => [...units].sort((a,b) => (a.e||"9999") < (b.e||"9999") ? -1 : (a.e||"9999") > (b.e||"9999") ? 1 : 0);
+const nextExp = p => { const u = sortedUnits(p.units||[]).find(u=>u.e); return u ? u.e : ""; };
+function expLabel(iso){
+  if(!iso) return "";
+  const d = daysLeft(iso);
+  if(d < 0) return `<span class="gone">Udløbet ${fmtDate(iso)}</span>`;
+  if(d <= SOON_DAYS) return `<span class="soon">Udløber ${d===0?"i dag":d===1?"i morgen":"om "+d+" dage"}</span>`;
+  return `Holdbar til ${fmtDate(iso)}`;
+}
+function byCat(list, key="cat", nameKey="name"){
+  const g = {}; list.forEach(p => { (g[catOf(p[key])] ||= []).push(p); });
+  return CATS.filter(c=>g[c]).map(c => [c, g[c].sort((a,b)=>String(a[nameKey]).localeCompare(String(b[nameKey]),"da"))]);
+}
+const productList = () => Object.entries(S.products).map(([id,p]) => ({id,...p}));
+const expRows = () => productList().flatMap(p=>(p.units||[]).filter(u=>u.e).map(u=>({p,u}))).sort((a,b)=>a.u.e<b.u.e?-1:1);
+
+/* ================= writes ================= */
+function noDb(){ toast("Ikke forbundet endnu."); throw new Error("no db"); }
+async function saveProduct(id, body){ if(!S.db) return noDb(); await S.db.doc("products/"+id).set(body); }
+const plain = o => { const {id, ...rest} = o; return JSON.parse(JSON.stringify(rest)); };
+
+async function addUnits(pid, n, exp, box){
+  const before = plain(S.products[pid]); const p = plain(S.products[pid]);
+  p.units = p.units || [];
+  for(let i=0;i<n;i++) p.units.push({e: exp||"", b: box||""});
+  if(p.units.length >= (p.target||0)) p.cart = false;
+  await saveProduct(pid, p);
+  S.undo = {pid, before};
+  toast(`${p.name} +${n} · ${p.units.length} af ${p.target||0} på lager`, true);
+}
+function pickUnit(units){
+  let pool = S.box ? units.filter(u=>u.b===S.box) : [];
+  if(!pool.length) pool = units;
+  return sortedUnits(pool)[0];
+}
+/* returns a message string; quiet = no toast */
+async function takeUnit(pid, quiet){
+  const before = plain(S.products[pid]); const p = plain(S.products[pid]);
+  const units = p.units || [];
+  if(!units.length){ const m = `${p.name} står ikke på lager. Den er på indkøbslisten.`; if(!quiet) toast(m); return {ok:false, msg:m, name:p.name}; }
+  const pick = pickUnit(units);
+  units.splice(units.indexOf(pick),1); p.units = units;
+  await saveProduct(pid, p);
+  S.undo = {pid, before};
+  const where = [pick.b ? boxName(pick.b) : "", pick.e ? "holdbar til "+fmtDate(pick.e) : ""].filter(Boolean).join(", ");
+  const need = Math.max(0,(p.target||0)-units.length);
+  const msg = `${p.name} −1${where?" ("+where+")":""} · ${units.length} tilbage${need?" · på indkøbslisten":""}`;
+  if(!quiet) toast(msg, true);
+  return {ok:true, msg, name:p.name, left:units.length, need, where};
+}
+async function undo(){ if(!S.undo) return; const {pid,before} = S.undo; S.undo = null; await saveProduct(pid, before); toast("Fortrudt"); }
+
+/* ================= product lookup (Open Food Facts) ================= */
+const OFF_CATS = [[/canned|conserves/,"Konserves"],[/pasta|rice|grains|noodle|cereal-grains|legumes|seeds/,"Pasta, ris & gryn"],[/flour|baking|sugar|yeast/,"Bagning"],[/breakfast|muesli|granola|oat/,"Morgenmad"],[/spice|herb|salt|oil|vinegar|condiment/,"Krydderier & olie"],[/sauce|dressing|ketchup|mayonnaise|mustard|pesto/,"Saucer & dressing"],[/snack|sweet|chocolate|candies|biscuit|chips/,"Snacks & søde sager"],[/beverage|drink|coffee|tea|juice|water/,"Drikkevarer"],[/frozen/,"Frost"],[/dairies|cheese|milk|yogurt|egg/,"Mejeri & æg"],[/meat|fish|poultry/,"Kød & fisk"],[/fruit|vegetable/,"Frugt & grønt"],[/bread/,"Brød"]];
+async function lookup(code){
+  try{
+    const ctl = new AbortController(); const t = setTimeout(()=>ctl.abort(), 6000);
+    const r = await fetch(`https://world.openfoodfacts.org/api/v2/product/${encodeURIComponent(code)}.json?fields=product_name,product_name_da,brands,quantity,categories_tags`, {signal:ctl.signal});
+    clearTimeout(t);
+    if(!r.ok) return null;
+    const j = await r.json(); const p = j && j.product; if(!p) return null;
+    const name = (p.product_name_da || p.product_name || "").trim();
+    const tags = (p.categories_tags||[]).join(" ");
+    const cat = (OFF_CATS.find(([re])=>re.test(tags))||[null,"Andet"])[1];
+    if(!name) return null;
+    return { name, brand:(p.brands||"").split(",")[0].trim(), qty:p.quantity||"", cat };
+  }catch{ return null; }
+}
+
+/* ================= live scanner ================= */
+const SC = { stream:null, running:false, raf:0, last:"", lastAt:0, busy:false, reader:null, audio:null, canvas:document.createElement("canvas"), track:null };
+function readerInit(){
+  if(SC.reader || !window.ZXing) return SC.reader;
+  const F = ZXing.BarcodeFormat, h = new Map();
+  h.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[F.EAN_13,F.EAN_8,F.UPC_A,F.UPC_E,F.CODE_128,F.CODE_39,F.ITF]);
+  SC.reader = new ZXing.MultiFormatReader(); SC.reader.setHints(h);
+  return SC.reader;
+}
+function beep(ok=true){
+  try{
+    if(!SC.audio) return;
+    const a = SC.audio, o = a.createOscillator(), g = a.createGain();
+    o.frequency.value = ok ? 1320 : 440; o.type = "sine";
+    g.gain.setValueAtTime(0.0001, a.currentTime); g.gain.exponentialRampToValueAtTime(0.18, a.currentTime+0.01); g.gain.exponentialRampToValueAtTime(0.0001, a.currentTime+0.14);
+    o.connect(g).connect(a.destination); o.start(); o.stop(a.currentTime+0.15);
+  }catch{}
+}
+function setScanMode(m){ setMode(m); document.querySelectorAll(".smode button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.mode===m)); scanHint(); }
+function scanHint(){ $("#scanStatus").className="status"; $("#scanStatus").innerHTML = `<span class="hintline">${S.mode==="take" ? "Tag ud: hver vare trækkes fra, så snart den scannes. Scan løs." : "Fyld op: hold stregkoden inden for rammen. Den scannes automatisk."}</span>`; }
+function scanStatus(big, small){ const el=$("#scanStatus"); el.className="status show"; el.innerHTML = `<div><div class="big">${esc(big)}</div>${small?`<div style="font-size:13px;opacity:.75;margin-top:4px">${esc(small)}</div>`:""}</div>`; }
+
+async function openScanner(){
+  const sc = $("#scanner"); sc.hidden = false; $("#scanErr").hidden = true; $("#frame").hidden = false;
+  setScanMode(S.mode);
+  try{ SC.audio = SC.audio || new (window.AudioContext||window.webkitAudioContext)(); SC.audio.resume && SC.audio.resume(); }catch{}
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ return scanError("Kameraet kan ikke bruges i denne browser. Åbn appen i Safari via https."); }
+  try{
+    SC.stream = await navigator.mediaDevices.getUserMedia({ audio:false, video:{ facingMode:{ideal:"environment"}, width:{ideal:1920}, height:{ideal:1080} } });
+  }catch(e){
+    return scanError(e && e.name==="NotAllowedError" ? "Basislager har ikke adgang til kameraet. Tillad kamera for siden i Safari (aA › Webstedsindstillinger › Kamera) og prøv igen." : "Kameraet kunne ikke startes. Luk andre apps, der bruger kameraet, og prøv igen.");
+  }
+  const v = $("#video"); v.srcObject = SC.stream;
+  try{ await v.play(); }catch{}
+  SC.track = SC.stream.getVideoTracks()[0];
+  try{ const caps = SC.track.getCapabilities ? SC.track.getCapabilities() : {}; $("#torchBtn").hidden = !caps.torch;
+       if(caps.focusMode && caps.focusMode.includes("continuous")) SC.track.applyConstraints({advanced:[{focusMode:"continuous"}]}).catch(()=>{}); }catch{}
+  SC.running = true; SC.busy = false; loop();
+}
+function scanError(msg){ const e=$("#scanErr"); e.hidden=false; $("#frame").hidden=true; e.innerHTML = `<p style="margin:0">${esc(msg)}</p><button class="sbtn" id="scanErrType">Skriv koden i stedet</button>`; e.querySelector("#scanErrType").onclick = () => { closeScanner(); openTypeSheet(); }; }
+function closeScanner(){
+  SC.running = false; cancelAnimationFrame(SC.raf);
+  if(SC.stream){ SC.stream.getTracks().forEach(t=>t.stop()); SC.stream = null; }
+  $("#video").srcObject = null; $("#scanner").hidden = true; render();
+}
+let lastTick = 0;
+function loop(ts){
+  if(!SC.running) return;
+  SC.raf = requestAnimationFrame(loop);
+  if(SC.busy || ts - lastTick < 110) return;
+  lastTick = ts;
+  const v = $("#video"); if(!v.videoWidth) return;
+  const code = decodeFrame(v);
+  if(code) onDetected(code);
+}
+let flip = false;
+function decodeFrame(v){
+  const r = readerInit(); if(!r) return null;
+  // centre band matching the on-screen frame (object-fit: cover maths kept simple: use middle 84% x 34%)
+  const vw = v.videoWidth, vh = v.videoHeight;
+  flip = !flip;
+  const bandH = flip ? 0.34 : 0.22;
+  const sw = vw*0.84, sh = vh*bandH, sx = (vw-sw)/2, sy = vh*0.46 - sh/2;
+  const k = Math.min(1, 1000/sw);
+  const cv = SC.canvas; cv.width = Math.round(sw*k); cv.height = Math.round(sh*k);
+  const ctx = cv.getContext("2d",{willReadFrequently:true}); ctx.drawImage(v,sx,sy,sw,sh,0,0,cv.width,cv.height);
+  try{ return r.decodeWithState(new ZXing.BinaryBitmap(new ZXing.HybridBinarizer(new ZXing.HTMLCanvasElementLuminanceSource(cv)))).getText(); }
+  catch{ return null; }
+}
+function flash(){ const f=$("#frame"); f.classList.add("hit"); setTimeout(()=>f.classList.remove("hit"), 450); }
+async function onDetected(raw){
+  const code = String(raw).replace(/\s/g,"");
+  const now = Date.now();
+  if(code === SC.last && now - SC.lastAt < 2500) return;   // same item still in view
+  SC.last = code; SC.lastAt = now; SC.busy = true;
+  flash(); beep(true);
+  const c = S.codes[code];
+  if(c && S.products[c.pid]){
+    if(S.mode === "take"){
+      try{ const r = await takeUnit(c.pid, true); scanStatus(r.ok ? `${r.name} −1` : r.name, r.ok ? `${r.left} tilbage${r.need?" · på indkøbslisten":""}${r.where?" · "+r.where:""}` : "Står ikke på lager · er på indkøbslisten"); if(!r.ok) beep(false); }catch{}
+      setTimeout(()=>{ SC.busy = false; }, 700);
+      return;
+    }
+    closeScanner(); openFillSheet(c.pid, c.pack||1, true);
+    return;
+  }
+  // unknown code: look it up
+  scanStatus("Ny vare", "Slår stregkoden op…");
+  const info = await lookup(code);
+  closeScanner(); openNewCodeSheet(code, info);
+}
+$("#scanBtn").onclick = openScanner;
+$("#scanClose").onclick = closeScanner;
+$("#scanType").onclick = () => { closeScanner(); openTypeSheet(); };
+document.querySelectorAll(".smode button").forEach(b => b.onclick = () => { setScanMode(b.dataset.mode); SC.last=""; });
+$("#torchBtn").onclick = async () => { try{ SC.torch = !SC.torch; await SC.track.applyConstraints({advanced:[{torch:SC.torch}]}); }catch{} };
+$("#modeToggle").onclick = () => setMode(S.mode==="fill" ? "take" : "fill");
+
+async function handleCode(raw, preInfo){
+  const code = String(raw).replace(/\s/g,"");
+  if(!/^[0-9A-Za-z\-.]{3,40}$/.test(code)){ toast("Ugyldig stregkode"); return; }
+  const c = S.codes[code];
+  if(!c || !S.products[c.pid]){ busy("Slår stregkoden op"); const info = preInfo || await lookup(code); busy(false); openNewCodeSheet(code, info); return; }
+  if(S.mode === "fill") openFillSheet(c.pid, c.pack||1);
+  else takeUnit(c.pid).catch(()=>{});
+}
+
+/* ================= sheets ================= */
+function sheet(html, onMount){
+  const L = $("#layer");
+  L.innerHTML = `<div class="scrim"><div class="sheet" role="dialog" aria-modal="true"><div class="grab"></div>${html}</div></div>`;
+  const scrim = L.firstElementChild;
+  scrim.addEventListener("click", e => { if(e.target === scrim) close(); });
+  onMount && onMount(scrim.querySelector(".sheet"));
+}
+function close(){ $("#layer").innerHTML = ""; }
+const catOptions = sel => CATS.map(c=>`<option ${c===sel?"selected":""}>${esc(c)}</option>`).join("");
+const boxOptions = sel => `<option value="">Ingen kasse</option>` + Object.entries(S.boxes).sort((a,b)=>(a[1].n||0)-(b[1].n||0)).map(([id,b])=>`<option value="${id}" ${id===sel?"selected":""}>${esc(b.name)}</option>`).join("");
+
+function openTypeSheet(msg){
+  sheet(`<h3>Skriv stregkode</h3>${msg?`<p class="lede">${esc(msg)}</p>`:""}
+    <div class="field"><label for="tcode">Tallene under stregkoden</label><input id="tcode" inputmode="numeric" autocomplete="off" placeholder="5701234567890"></div>
+    <div class="btnrow"><button class="btn primary" id="tgo">Fortsæt</button><button class="btn" id="tcancel">Annullér</button></div>`, s => {
+      const i = s.querySelector("#tcode"); setTimeout(()=>i.focus(),150);
+      s.querySelector("#tgo").onclick = () => { const v=i.value.trim(); if(v){ close(); handleCode(v); } };
+      s.querySelector("#tcancel").onclick = close;
+  });
+}
+
+function openNewCodeSheet(code, info){
+  const found = info ? [info.brand, info.name].filter(Boolean).join(" ") : "";
+  const prods = productList().sort((a,b)=>a.name.localeCompare(b.name,"da"));
+  let kind = "new";
+  sheet(`<h3>${found?esc(found):"Ny stregkode"}</h3>
+    <p class="lede">${found?`Fundet i Open Food Facts${info.qty?" · "+esc(info.qty):""}. `:"Ikke fundet i produktdatabasen. "}Knyt koden <span class="code">${esc(code)}</span> til en basisvare én gang, så genkendes den fremover.</p>
+    ${prods.length?`<div class="choice" role="group"><button data-k="new" aria-pressed="true">Ny basisvare</button><button data-k="old" aria-pressed="false">Findes allerede</button></div>`:""}
+    <div id="kNew" class="field" style="gap:14px">
+      <div class="field"><label for="nName">Navn på basisvaren</label><input id="nName" placeholder="Hakkede tomater" autocomplete="off" value="${esc(info?.name||"")}"></div>
+      <div class="two">
+        <div class="field"><label for="nCat">Kategori</label><select id="nCat">${catOptions(info?.cat && info.cat!=="Andet" ? info.cat : "Konserves")}</select></div>
+        <div class="field"><label for="nTarget">Skal altid have</label><input id="nTarget" type="number" min="0" inputmode="numeric" value="2"></div>
+      </div>
+      <p class="hint">Giv basisvaren et generelt navn, fx "Hakkede tomater", så andre mærker kan tælle med i samme beholdning.</p>
+    </div>
+    <div id="kOld" class="field" hidden><label for="oPid">Basisvare</label><select id="oPid">${prods.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("")}</select>
+      <p class="hint">Til samme vare fra et andet mærke eller en anden butik. Den tæller med i samme beholdning.</p></div>
+    <div class="field"><label for="nPack">Antal pr. scan</label><input id="nPack" type="number" min="1" inputmode="numeric" value="1"><p class="hint">Sæt fx 6 for en 6-pak, så kommer der 6 på lager pr. scan.</p></div>
+    <div class="btnrow"><button class="btn primary" id="nSave">Gem og fortsæt</button><button class="btn" id="nCancel">Annullér</button></div>`, s => {
+      s.querySelectorAll(".choice button").forEach(b => b.onclick = () => {
+        kind = b.dataset.k; s.querySelectorAll(".choice button").forEach(x=>x.setAttribute("aria-pressed", x===b));
+        s.querySelector("#kNew").hidden = kind!=="new"; s.querySelector("#kOld").hidden = kind!=="old";
+      });
+      // suggest an existing product with a similar name
+      if(info && prods.length){
+        const words = info.name.toLowerCase().split(/\s+/).filter(w=>w.length>3);
+        const hit = prods.find(p=>words.some(w=>p.name.toLowerCase().includes(w)));
+        if(hit){ s.querySelector('[data-k="old"]').click(); s.querySelector("#oPid").value = hit.id; }
+      }
+      s.querySelector("#nCancel").onclick = close;
+      s.querySelector("#nSave").onclick = async () => {
+        if(!S.db) return noDb();
+        const pack = Math.max(1, parseInt(s.querySelector("#nPack").value)||1);
+        let pid;
+        if(kind === "old"){ pid = s.querySelector("#oPid").value; }
+        else {
+          const name = s.querySelector("#nName").value.trim(); if(!name){ s.querySelector("#nName").focus(); return; }
+          pid = uid("p");
+          await S.db.doc("products/"+pid).set({ name, cat: s.querySelector("#nCat").value, target: Math.max(0,parseInt(s.querySelector("#nTarget").value)||0), units: [], cart:false, created: Date.now() });
+        }
+        await S.db.doc("codes/"+code).set({ pid, pack, label: found||"" });
+        close();
+        if(S.mode === "fill") openFillSheet(pid, pack, true); else { const r = await takeUnit(pid).catch(()=>{}); }
+      };
+  });
+}
+
+function openFillSheet(pid, n, fromScanner){
+  const p = S.products[pid]; if(!p) return;
+  let qty = n;
+  sheet(`<h3>${esc(p.name)}</h3><p class="lede">${stock(p)} af ${p.target||0} på lager nu</p>
+    <div class="field"><span class="flabel">Antal</span><div class="bigstep"><button class="step" id="fMinus" aria-label="Færre">−</button><span class="count" id="fQty">${qty}</span><button class="step" id="fPlus" aria-label="Flere">+</button></div></div>
+    <div class="two">
+      <div class="field"><label for="fExp">Holdbar til</label><input id="fExp" type="date"></div>
+      <div class="field"><label for="fBox">Kasse</label><select id="fBox">${boxOptions(S.box)}</select></div>
+    </div>
+    <p class="hint">Holdbarhed er valgfri. Har varerne forskellige datoer, så læg dem på lager i to omgange.</p>
+    <div class="btnrow"><button class="btn accent" id="fNext">Læg på lager · scan næste</button><button class="btn" id="fGo">Læg på lager</button><button class="btn link" id="fCancel">Annullér</button></div>`, s => {
+      const q = s.querySelector("#fQty");
+      s.querySelector("#fMinus").onclick = () => { qty = Math.max(1, qty-1); q.textContent = qty; };
+      s.querySelector("#fPlus").onclick = () => { qty++; q.textContent = qty; };
+      s.querySelector("#fCancel").onclick = close;
+      const save = async next => { const e = s.querySelector("#fExp").value, b = s.querySelector("#fBox").value; close(); try{ await addUnits(pid, qty, e, b); }catch{} if(next) openScanner(); };
+      s.querySelector("#fGo").onclick = () => save(false);
+      s.querySelector("#fNext").onclick = () => save(true);
+  });
+}
+
+function openProductSheet(pid){
+  const p = pid ? S.products[pid] : null;
+  const codes = Object.entries(S.codes).filter(([,c])=>c.pid===pid);
+  const units = p ? sortedUnits(p.units||[]) : [];
+  sheet(`<h3>${p?esc(p.name):"Ny basisvare"}</h3>
+    ${p?`<p class="lede"><span class="num">${stock(p)}</span> af <span class="num">${p.target||0}</span> på lager</p>`:`<p class="lede">Til varer uden stregkode, fx løse varer. Du kan altid scanne en stregkode ind senere.</p>`}
+    <div class="field"><label for="pName">Navn</label><input id="pName" value="${esc(p?.name||"")}" autocomplete="off"></div>
+    <div class="two">
+      <div class="field"><label for="pCat">Kategori</label><select id="pCat">${catOptions(p?.cat||"Andet")}</select></div>
+      <div class="field"><label for="pTarget">Skal altid have</label><input id="pTarget" type="number" min="0" inputmode="numeric" value="${p?.target??2}"></div>
+    </div>
+    ${p?`<div class="field"><span class="flabel">Enheder på lager</span>${units.length?`<div class="units">${units.map(u=>`<div><span>${u.b?esc(boxName(u.b))||"Slettet kasse":"Ingen kasse"}</span><span class="meta">${u.e?expLabel(u.e):"Ingen dato"}</span></div>`).join("")}</div>`:`<p class="hint">Ingen på lager.</p>`}</div>
+    <div class="field"><span class="flabel">Stregkoder</span>${codes.length?`<div class="units">${codes.map(([c,v])=>`<div><span><span class="code">${esc(c)}</span>${v.label?`<br><span class="hint">${esc(v.label)}</span>`:""}</span><span>${v.pack>1?v.pack+" pr. scan":"1 pr. scan"} <button class="btn small danger" data-uncode="${esc(c)}">Fjern</button></span></div>`).join("")}</div>`:`<p class="hint">Ingen stregkoder endnu.</p>`}</div>`:""}
+    <div class="btnrow"><button class="btn primary" id="pSave">Gem</button><button class="btn" id="pCancel">Luk</button>${p?`<button class="btn danger" id="pDel">Slet vare</button>`:""}</div>
+    <div id="pConfirm" hidden class="confirm"><strong>Slet ${esc(p?.name||"")}?</strong><span>Varen, dens lager og stregkoder fjernes fra alle telefoner.</span><div class="btnrow"><button class="btn danger" id="pDelYes">Ja, slet</button><button class="btn" id="pDelNo">Behold</button></div></div>`, s => {
+      s.querySelector("#pCancel").onclick = close;
+      s.querySelector("#pSave").onclick = async () => {
+        if(!S.db) return noDb();
+        const name = s.querySelector("#pName").value.trim(); if(!name){ s.querySelector("#pName").focus(); return; }
+        const body = p ? plain(p) : { units: [], cart:false, created: Date.now() };
+        body.name = name; body.cat = s.querySelector("#pCat").value; body.target = Math.max(0, parseInt(s.querySelector("#pTarget").value)||0);
+        await saveProduct(pid || uid("p"), body); close(); toast("Gemt");
+      };
+      s.querySelectorAll("[data-uncode]").forEach(b => b.onclick = async () => { await S.db.doc("codes/"+b.dataset.uncode).delete(); b.closest("div").remove(); });
+      if(p){
+        s.querySelector("#pDel").onclick = () => { s.querySelector("#pConfirm").hidden = false; };
+        s.querySelector("#pDelNo").onclick = () => { s.querySelector("#pConfirm").hidden = true; };
+        s.querySelector("#pDelYes").onclick = async () => {
+          for(const [c] of codes) await S.db.doc("codes/"+c).delete();
+          await S.db.doc("products/"+pid).delete(); close(); toast("Slettet");
+        };
+      }
+  });
+}
+
+function openBoxSheet(id){
+  const b = id ? S.boxes[id] : null;
+  const nextN = Math.max(0, ...Object.values(S.boxes).map(x=>x.n||0)) + 1;
+  const inside = id ? productList().map(p=>({p, n:(p.units||[]).filter(u=>u.b===id).length})).filter(x=>x.n) : [];
+  const link = id ? appUrl() + "#" + id : "";
+  sheet(`<h3>${b?esc(b.name):"Ny kasse"}</h3>
+    <div class="field"><label for="bName">Navn</label><input id="bName" value="${esc(b?.name||"Kasse "+nextN)}" autocomplete="off"></div>
+    <div class="field"><label for="bWhere">Placering</label><input id="bWhere" value="${esc(b?.where||"")}" placeholder="Spisekammer, øverste hylde" autocomplete="off"></div>
+    ${id?`<div class="field"><span class="flabel">Link til NFC-sticker</span><div class="linkbox"><code id="bLink">${esc(link)}</code><button class="btn small" id="bCopy">Kopiér</button></div>
+      <p class="hint">Skriv linket på stickeren som URL med en NFC-app, fx NFC Tools. Hold iPhonen mod kassen og tryk på notifikationen, så åbner Basislager med kassen valgt.</p></div>
+    <div class="field"><span class="flabel">Indhold</span>${inside.length?`<div class="units">${inside.map(x=>`<div><span>${esc(x.p.name)}</span><span class="num">${x.n}</span></div>`).join("")}</div>`:`<p class="hint">Tom.</p>`}</div>`:""}
+    <div class="btnrow"><button class="btn primary" id="bSave">Gem</button>${id?`<button class="btn" id="bUse">${S.box===id?"Aktiv kasse":"Brug denne kasse"}</button>`:""}<button class="btn" id="bCancel">Luk</button>${id?`<button class="btn danger" id="bDel">Slet</button>`:""}</div>`, s => {
+      s.querySelector("#bCancel").onclick = close;
+      s.querySelector("#bSave").onclick = async () => {
+        if(!S.db) return noDb();
+        const name = s.querySelector("#bName").value.trim() || "Kasse "+nextN;
+        await S.db.doc("boxes/"+(id || "k"+nextN)).set({ name, where: s.querySelector("#bWhere").value.trim(), n: b?.n || nextN });
+        close(); toast("Gemt");
+      };
+      if(id){
+        s.querySelector("#bUse").onclick = () => { setBox(id); close(); };
+        s.querySelector("#bDel").onclick = async () => { await S.db.doc("boxes/"+id).delete(); if(S.box===id) setBox(""); close(); toast("Kassen er slettet. Varerne står nu uden kasse."); };
+        const cp = s.querySelector("#bCopy");
+        cp.onclick = async () => { try{ await navigator.clipboard.writeText(link); cp.textContent="Kopieret"; }catch{ const r=document.createRange(); r.selectNodeContents(s.querySelector("#bLink")); const sel=getSelection(); sel.removeAllRanges(); sel.addRange(r); cp.textContent="Markeret"; } };
+      }
+  });
+}
+
+function openExpSheet(){
+  const rows = expRows();
+  const parts = [["Udløbet", r=>daysLeft(r.u.e)<0],[`Inden for ${SOON_DAYS} dage`, r=>{const d=daysLeft(r.u.e);return d>=0&&d<=SOON_DAYS}],["Senere", r=>daysLeft(r.u.e)>SOON_DAYS]];
+  sheet(`<h3>Holdbarhed</h3><p class="lede">Ældste først. Tag ud trækker altid den med tidligst dato.</p>
+    ${rows.length ? parts.map(([t,f])=>{ const rs=rows.filter(f); if(!rs.length) return ""; return `<div class="field"><span class="flabel">${esc(t)} · ${rs.length}</span><div class="units">${rs.map(({p,u})=>`<div><span>${esc(p.name)}<br><span class="hint">${u.b?esc(boxName(u.b)):"Ingen kasse"}</span></span><span class="meta" style="text-align:right">${expLabel(u.e)}</span></div>`).join("")}</div></div>`; }).join("") : `<p class="hint">Ingen varer har en holdbarhedsdato endnu. Skriv datoen, når du lægger varer på lager.</p>`}
+    <div class="btnrow"><button class="btn" id="eClose">Luk</button></div>`, s => { s.querySelector("#eClose").onclick = close; });
+}
+
+function openSettings(){
+  const shareLink = appUrl() + "#setup=" + b64urlEncode(JSON.stringify({url:store.get("bl-sb-url"), key:store.get("bl-sb-key")}));
+  sheet(`<h3>Indstillinger</h3>
+    <div class="field"><span class="flabel">Logget ind som</span><p style="margin:0">${esc(store.get("bl-mail")||"")}</p></div>
+    <div class="field"><span class="flabel">Opsæt en anden telefon</span><div class="linkbox"><code id="sLink">${esc(shareLink)}</code><button class="btn small" id="sCopy">Kopiér</button></div>
+      <p class="hint">Åbn linket i Safari på den anden telefon. Så er projektet sat op, og man skal kun logge ind. Linket indeholder ikke adgangskoden.</p></div>
+    <div class="field"><label for="sKey">Claude API-nøgle (valgfri)</label><input id="sKey" type="password" autocomplete="off" placeholder="sk-ant-…" value="${esc(store.get("bl-ai-key")||"")}">
+      <p class="hint">Giver ekstra opskriftsforslag fra Claude ud over opskriftsbogen. Nøglen gemmes kun på denne telefon, og forbruget betales via jeres Anthropic-konto.</p></div>
+    <div class="btnrow"><button class="btn primary" id="sSave">Gem</button><button class="btn" id="sClose">Luk</button><button class="btn danger" id="sOut">Log ud</button></div>`, s => {
+      s.querySelector("#sClose").onclick = close;
+      s.querySelector("#sSave").onclick = () => { store.set("bl-ai-key", s.querySelector("#sKey").value.trim() || null); close(); toast("Gemt"); render(); };
+      s.querySelector("#sOut").onclick = async () => { await S.sb.auth.signOut(); location.reload(); };
+      const cp = s.querySelector("#sCopy");
+      cp.onclick = async () => { try{ await navigator.clipboard.writeText(shareLink); cp.textContent="Kopieret"; }catch{ const r=document.createRange(); r.selectNodeContents(s.querySelector("#sLink")); const sel=getSelection(); sel.removeAllRanges(); sel.addRange(r); cp.textContent="Markeret"; } };
+  });
+}
+$("#settingsBtn").onclick = openSettings;
+
+/* ================= recipes ================= */
+function findStock(keys){
+  const ks = keys.split("|");
+  const prods = productList().filter(p=>stock(p)>0);
+  for(const k of ks){ const p = prods.find(p=>p.name.toLowerCase().includes(k)); if(p) return p; }
+  return null;
+}
+function matchLibrary(){
+  const out = [];
+  LIB.forEach((r,idx) => {
+    const uses = [], buy = [];
+    r.i.forEach(([keys,label,amount,packs]) => {
+      const p = findStock(keys);
+      if(p) uses.push({id:p.id, amount, packs, label}); else buy.push({name:label, amount, cat:"Andet", pantry:true});
+    });
+    r.buy.forEach(([name,amount,cat]) => buy.push({name, amount, cat}));
+    if(buy.length > 3 || uses.length < 2) return;
+    // pantry items we did not find get their category from a matching product name pattern, else Andet
+    out.push({ title:r.t, intro:r.intro, minutes:r.min, serves:4, tags:r.tags, uses, buy, meat: r.meat ? {name:r.meat[0], amount:r.meat[1], cat:"Kød & fisk"} : null, steps:r.s, src:idx });
+  });
+  return out.sort((a,b) => (a.buy.length - b.buy.length) || (b.uses.length - a.uses.length));
+}
+function stockForPrompt(){ return productList().filter(p=>stock(p)>0).map(p=>({id:p.id, navn:p.name, kategori:p.cat, antal:stock(p)})); }
+function buildPrompt(){
+  const g = S.gen;
+  return `Du er en dygtig dansk hjemmekok. Foreslå 5 forskellige aftensretter, der primært laves af husstandens basislager herunder.
+
+REGLER
+- Hver ret må højst kræve 3 ekstra varer udover lageret (fx løg, citron, fløde, frisk krydderurt). Kød eller fisk tæller ikke med i de 3, men angives separat. En ret må gerne være uden kød.
+- Salt, peber og vand regnes som altid til stede.
+- Brug kun lagervarer, der faktisk står på listen, og henvis til dem med deres id.
+- "pakker" er hvor mange HELE pakninger/enheder af lagervaren retten bruger op (0 hvis der kun bruges en lille del af en åbnet pakke).
+- Retterne skal være til ${g.serves} personer.${g.style?`\n- Stil: ${g.style}.`:""}${g.wish?`\n- Ønske: ${g.wish}.`:""}
+- Skriv på dansk. Kort, appetitlig intro (1 sætning). 4-7 konkrete trin.
+- Kategori for ekstra varer og kød vælges blandt: ${CATS.join(", ")}.
+
+LAGER (JSON)
+${JSON.stringify(stockForPrompt())}
+
+Svar KUN med JSON i dette format:
+{"opskrifter":[{"titel":"","intro":"","minutter":30,"personer":${g.serves},"fra_lager":[{"id":"","mængde":"400 g","pakker":1}],"køb":[{"navn":"","mængde":"","kategori":""}],"kød":{"navn":"","mængde":"","kategori":"Kød & fisk"},"trin":[""]}]}
+Sæt "kød" til null, hvis retten er uden kød eller fisk.`;
+}
+function cleanRecipe(r){
+  if(!r || typeof r!=="object") return null;
+  const uses = (Array.isArray(r.fra_lager)?r.fra_lager:[]).filter(u=>u && S.products[u.id]).map(u=>({id:String(u.id), amount:String(u.mængde||""), packs:Math.max(0,Math.min(5,parseInt(u.pakker)||0))}));
+  const buy = (Array.isArray(r.køb)?r.køb:[]).slice(0,3).map(b=>({name:String(b.navn||"").trim(), amount:String(b.mængde||""), cat:catOf(b.kategori)})).filter(b=>b.name);
+  const meat = r.kød && r.kød.navn ? {name:String(r.kød.navn), amount:String(r.kød.mængde||""), cat:catOf(r.kød.kategori||"Kød & fisk")} : null;
+  const title = String(r.titel||"").trim(); if(!title || !uses.length) return null;
+  return { title, intro:String(r.intro||""), minutes:parseInt(r.minutter)||0, serves:parseInt(r.personer)||S.gen.serves, uses, buy, meat, steps:(Array.isArray(r.trin)?r.trin:[]).map(String).filter(Boolean).slice(0,10) };
+}
+async function generate(){
+  const g = S.gen, key = store.get("bl-ai-key");
+  if(!key){ openSettings(); return; }
+  if(!stockForPrompt().length){ g.error = "Læg nogle varer på lager først."; render(); return; }
+  g.busy = true; g.error = ""; g.ctl = new AbortController(); render();
+  try{
+    const r = await fetch("https://api.anthropic.com/v1/messages", { method:"POST", signal:g.ctl.signal,
+      headers:{ "x-api-key":key, "anthropic-version":"2023-06-01", "content-type":"application/json", "anthropic-dangerous-direct-browser-access":"true" },
+      body: JSON.stringify({ model:"claude-sonnet-5-5", max_tokens:6000, messages:[{role:"user", content:buildPrompt()}] }) });
+    if(r.status===401) throw {code:"key"};
+    if(r.status===429) throw {code:"rate"};
+    if(!r.ok) throw {code:"http"};
+    const j = await r.json();
+    const text = (j.content||[]).filter(c=>c.type==="text").map(c=>c.text).join("");
+    const json = JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}")+1));
+    const list = (json.opskrifter||[]).map(cleanRecipe).filter(Boolean);
+    if(!list.length) throw {code:"empty"};
+    const doc = { items:list, at:Date.now() };
+    S.suggest = doc; await S.db.doc("meta/suggestions").set(doc).catch(()=>{});
+  }catch(e){
+    const c = e && (e.code || e.name);
+    g.error = c==="AbortError" ? "" : c==="key" ? "API-nøglen blev afvist. Tjek den under Indstillinger." : c==="rate" ? "For mange forespørgsler lige nu. Prøv igen om lidt." : c==="empty" ? "Der kom ingen brugbare forslag. Prøv igen, evt. med et andet ønske." : "Forslagene kunne ikke hentes. Tjek forbindelsen og prøv igen.";
+  }finally{ g.busy = false; g.ctl = null; render(); }
+}
+function recipeById(key){
+  const [k, v] = [key.slice(0,1), key.slice(2)];
+  if(k==="l") return S.lib[+v] || null;
+  if(k==="s") return S.suggest?.items?.[+v] || null;
+  return S.recipes[v] || null;
+}
+function savedIdFor(r){ return Object.entries(S.recipes).find(([,x])=>x.title===r.title)?.[0] || ""; }
+function openRecipe(key){
+  const r = recipeById(key); if(!r) return;
+  const sid = savedIdFor(r);
+  const usesOk = r.uses.filter(u=>S.products[u.id]);
+  const toBuy = [...r.buy, ...(r.meat?[{...r.meat, meat:true}]:[])];
+  sheet(`<span class="eyebrow">${r.minutes?r.minutes+" min · ":""}${r.serves} personer</span>
+    <h3 style="margin-top:-8px">${esc(r.title)}</h3>${r.intro?`<p class="lede">${esc(r.intro)}</p>`:""}
+    <div class="field"><span class="flabel">Fra basislager</span><div class="ingr">${usesOk.map(u=>{ const p=S.products[u.id]; const ok=stock(p)>=Math.max(1,u.packs); return `<div><span class="mark">${ok?"●":"○"}</span><span>${esc(p.name)}${ok?"":` <span class="hint">· ikke nok på lager</span>`}</span><span class="amt">${esc(u.amount)}</span></div>`; }).join("")}</div></div>
+    ${toBuy.length?`<div class="field"><span class="flabel">Skal købes</span><div class="ingr">${toBuy.map(b=>`<div><span class="mark ${b.meat?"meat":"buy"}">+</span><span>${esc(b.name)}</span><span class="amt">${esc(b.amount)}</span></div>`).join("")}</div>
+      <div class="btnrow"><button class="btn accent small" id="rBuy">Sæt ${toBuy.length} ting på indkøbslisten</button></div></div>`:""}
+    ${r.steps.length?`<div class="field"><span class="flabel">Sådan gør du</span><ol class="steps">${r.steps.map(s=>`<li><span>${esc(s)}</span></li>`).join("")}</ol></div>`:""}
+    <div class="btnrow"><button class="btn primary" id="rCook">Vi har lavet den</button><button class="btn" id="rSave">${sid?"Fjern fra gemte":"Gem opskrift"}</button><button class="btn" id="rClose">Luk</button></div>
+    <div class="confirm" id="rConfirm" hidden><strong>Træk fra lageret?</strong><span>${usesOk.filter(u=>u.packs>0).length?usesOk.filter(u=>u.packs>0).map(u=>`${u.packs} × ${esc(S.products[u.id].name)}`).join(", ")+" tages ud og kommer på indkøbslisten.":"Retten bruger ingen hele pakker, så lageret er uændret."}</span>
+      <div class="btnrow"><button class="btn accent" id="rCookYes">Ja, træk fra</button><button class="btn" id="rCookNo">Annullér</button></div></div>`, s => {
+      s.querySelector("#rClose").onclick = close;
+      const rb = s.querySelector("#rBuy");
+      if(rb) rb.onclick = async () => {
+        const existing = Object.values(S.extras).map(x=>x.name.toLowerCase());
+        let n = 0;
+        for(const b of toBuy){ if(existing.includes(b.name.toLowerCase())) continue; await S.db.collection("extras").doc(uid("x")).set({name:b.name, amount:b.amount, cat:b.meat?"Kød & fisk":b.cat, cart:false, from:r.title, at:Date.now()}); n++; }
+        rb.disabled = true; rb.textContent = n ? "Sat på indkøbslisten" : "Står allerede på listen";
+      };
+      s.querySelector("#rSave").onclick = async () => {
+        if(sid){ await S.db.doc("recipes/"+sid).delete(); toast("Fjernet fra gemte"); }
+        else { await S.db.doc("recipes/"+uid("r")).set({...JSON.parse(JSON.stringify(r)), saved:Date.now()}); toast("Opskriften er gemt"); }
+        close();
+      };
+      s.querySelector("#rCook").onclick = () => { s.querySelector("#rConfirm").hidden = false; s.querySelector("#rConfirm").scrollIntoView({behavior:"smooth",block:"nearest"}); };
+      s.querySelector("#rCookNo").onclick = () => { s.querySelector("#rConfirm").hidden = true; };
+      s.querySelector("#rCookYes").onclick = async () => {
+        close(); busy("Opdaterer lager");
+        let taken = 0;
+        try{ for(const u of usesOk){ for(let i=0;i<u.packs;i++){ const x = await takeUnit(u.id,true); if(x.ok) taken++; } } }catch{}
+        busy(false); toast(taken ? `${taken} enheder trukket fra lageret. Velbekomme.` : "Velbekomme.");
+      };
+  });
+}
+
+/* ================= toast & busy ================= */
+let tTimer;
+function toast(msg, canUndo){
+  clearTimeout(tTimer);
+  let t = $(".toast"); if(!t){ t = document.createElement("div"); t.className="toast"; t.setAttribute("role","status"); document.body.appendChild(t); }
+  t.innerHTML = `<span>${esc(msg)}</span>${canUndo?`<button id="undoBtn">Fortryd</button>`:""}`;
+  if(canUndo) t.querySelector("#undoBtn").onclick = () => { t.remove(); undo().catch(()=>{}); };
+  tTimer = setTimeout(()=>{ t.remove(); if(canUndo) S.undo=null; }, canUndo ? 7000 : 3400);
+}
+function busy(msg){
+  let b = $(".busy"); if(!msg){ b && b.remove(); return; }
+  if(!b){ b = document.createElement("div"); b.className="busy"; document.body.appendChild(b); }
+  b.innerHTML = `<div><span class="dots"><i></i><i></i><i></i></span>${esc(msg)}</div>`;
+}
+
+/* ================= mode, box, tabs, hash ================= */
+function setMode(m){
+  S.mode = m; store.set("bl-mode", m);
+  document.querySelectorAll(".modepill button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.mode===m));
+  $("#scanBtn").classList.toggle("take", m==="take");
+  $("#scanBtn").setAttribute("aria-label", m==="fill" ? "Scan og læg på lager" : "Scan og tag ud");
+  $("#modeToggle").textContent = (m==="fill" ? "Fyld op" : "Tag ud") + " ⇄";
+  $("#modeToggle").classList.toggle("take", m==="take");
+}
+
+function setBox(id){
+  S.box = id; store.set("bl-box", id || null);
+  $("#boxchip").hidden = !id;
+  if(id) $("#boxchipName").textContent = boxName(id) || "Kasse";
+}
+$("#boxclear").onclick = () => setBox("");
+function readHash(){
+  const h = decodeURIComponent(location.hash.slice(1));
+  if(/^k\d+$/.test(h)){ setBox(h); S.pendingHash = h; }
+  try{ if(h && !h.startsWith("setup=")) history.replaceState(null,"",location.pathname); }catch{}
+}
+window.addEventListener("hashchange", () => { readHash(); if(S.ready && S.pendingHash) boxArrived(); });
+function boxArrived(){
+  const id = S.pendingHash; S.pendingHash = null;
+  if(S.boxes[id]){ setBox(id); toast(`${S.boxes[id].name} er valgt. Scan for at lægge på lager eller tage ud.`); }
+}
+document.querySelectorAll(".navbtn").forEach(t => t.onclick = () => { S.tab = t.dataset.tab; store.set("bl-tab", S.tab); render(); window.scrollTo(0,0); });
+
+/* ================= render ================= */
+function render(){
+  if($("#app").hidden) return;
+  document.querySelectorAll(".navbtn").forEach(t=>t.setAttribute("aria-selected", t.dataset.tab===S.tab));
+  const prods = productList();
+  const buyP = prods.filter(p=>missing(p)>0);
+  const extras = Object.entries(S.extras).map(([id,x])=>({id,...x}));
+  const nb = $("#buyBadge"); const nBuy = buyP.length + extras.filter(x=>!x.cart).length; nb.hidden = !nBuy; nb.textContent = nBuy;
+  if(S.box) $("#boxchipName").textContent = boxName(S.box) || "Kasse";
+  $("#titleblock").hidden = S.tab==="lager";
+  $("#viewTitle").textContent = TITLES[S.tab][0];
+  $("#viewSub").textContent = TITLES[S.tab][1];
+  let head = "";
+  if(S.failed) head = `<div class="notice"><strong>Ingen forbindelse.</strong> Data kunne ikke hentes. Tjek internetforbindelsen og træk siden ned for at genindlæse.</div>`;
+  else if(!S.ready) head = `<div class="notice"><span class="dots"><i></i><i></i><i></i></span>&nbsp; Henter lager</div>`;
+  const body = S.tab==="lager" ? viewStock(prods) : S.tab==="indkob" ? viewBuy(buyP, extras) : S.tab==="opskrifter" ? viewRecipes() : viewBoxes(prods);
+  $("#view").innerHTML = head + body;
+  bindView();
+}
+
+function viewStock(prods){
+  if(S.ready && !prods.length) return `<div class="empty"><h3>Spisekammeret venter</h3>
+    <ol><li>Vælg <strong>Fyld op</strong> og tryk på scan-knappen.</li><li>Hold stregkoden foran kameraet. Varen slås op, og du giver den et generelt navn og et måltal.</li><li>Når I tager noget, vælg <strong>Tag ud</strong> og scan. Varen kommer på indkøbslisten.</li></ol>
+    <div class="btnrow"><button class="btn" id="addManual">Opret vare uden stregkode</button></div></div>`;
+  const q = S.query.trim().toLowerCase();
+  const list = q ? prods.filter(p=>p.name.toLowerCase().includes(q)) : prods;
+  const need = prods.filter(p=>missing(p)>0).length;
+  const soon = expRows().filter(r=>daysLeft(r.u.e)<=SOON_DAYS);
+  const units = prods.reduce((s,p)=>s+stock(p),0);
+  const full = prods.filter(p=>!missing(p)).length;
+  const summary = need || soon.length ? [need?`${need} ${need===1?"vare mangler":"varer mangler"}`:"", soon.length?`${soon.length} udløber snart`:""].filter(Boolean).join(" og ")+"." : "Basislageret er fyldt op.";
+  return `<div class="hero">${PLANT}
+      <span class="eyebrow">${esc(new Date().toLocaleDateString("da-DK",{weekday:"long",day:"numeric",month:"long"}))}</span>
+      <h2>${greeting()}</h2><p>${esc(summary)}</p>
+      <div class="btnrow"><button class="btn primary small" id="heroFill">Scan ind</button><button class="btn small" id="heroTake">Scan ud</button></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="ic">${IC.box}</span><span class="k">På lager</span><span class="v">${units}</span><span class="s">${full} af ${prods.length} fyldt op</span></div>
+      <button class="stat" id="goBuy"><span class="ic">${IC.bag}</span><span class="k">Mangler</span><span class="v">${need}</span><span class="s">på indkøbslisten</span></button>
+      <button class="stat" id="goExp"><span class="ic">${IC.clock}</span><span class="k">Udløber</span><span class="v">${soon.length}</span><span class="s">inden ${SOON_DAYS} dage</span></button>
+    </div>
+    <div class="searchbox">${IC.search}<input class="search" id="search" type="search" placeholder="Søg i lageret" value="${esc(S.query)}" autocomplete="off"></div>
+    <div class="toolbar"><p><span class="num">${prods.length}</span> basisvarer</p><button class="btn small" id="addManual">+ Vare uden stregkode</button></div>
+    ${byCat(list).map(([c,ps])=>`<section class="card"><div class="ghead"><h2>${esc(c)}</h2><span class="num">${ps.length}</span></div><div class="rows">${ps.map(p=>{
+      const n = stock(p), t = p.target||0, cls = n===0&&t>0 ? "out" : n<t ? "low" : "";
+      const pct = t ? Math.min(100, Math.round(n/t*100)) : (n?100:0);
+      const ex = nextExp(p);
+      return `<div class="row"><button class="main" data-prod="${p.id}"><span class="name">${esc(p.name)}</span><span class="bar ${cls}"><i style="width:${pct}%"></i></span>${ex?`<span class="meta">${expLabel(ex)}</span>`:""}</button>
+        <div class="qty"><button class="step" data-take="${p.id}" aria-label="Tag én ${esc(p.name)} ud">−</button><span class="count ${cls}">${n}<small> / ${t}</small></span><button class="step" data-add="${p.id}" aria-label="Læg én ${esc(p.name)} på lager">+</button></div></div>`;
+    }).join("")}</div></section>`).join("")}
+    ${q && !list.length ? `<p class="hint">Ingen varer matcher "${esc(S.query)}".</p>`:""}`;
+}
+
+function viewBuy(buyP, extras){
+  const items = [
+    ...buyP.map(p=>({kind:"p", id:p.id, name:p.name, cat:p.cat, cart:!!p.cart, right:`${missing(p)} stk`, meta:`${stock(p)} af ${p.target} hjemme`})),
+    ...extras.map(x=>({kind:"x", id:x.id, name:x.name, cat:x.cat, cart:!!x.cart, right:x.amount||"", meta:x.from?`Til ${x.from}`:"Ekstra vare", extra:true}))
+  ];
+  if(S.ready && !items.length) return `<div class="empty"><h3>Intet at købe</h3><p>Basislageret er fyldt op. Når I scanner noget ud, kommer det på listen her, sorteret efter kategori.</p><div class="btnrow"><button class="btn" id="addExtra">+ Tilføj ekstra vare</button></div></div>`;
+  const done = extras.filter(x=>x.cart).length;
+  return `<div class="toolbar"><p><span class="num">${items.length}</span> varer</p><div class="btnrow"><button class="btn small" id="addExtra">+ Ekstra</button><button class="btn small" id="copyList">Kopiér</button></div></div>
+    ${byCat(items).map(([c,is])=>`<section class="card"><div class="ghead"><h2>${esc(c)}</h2><span class="num">${is.length}</span></div><div class="rows">${is.map(i=>`
+      <div class="row ${i.cart?"done":""}"><button class="check" role="checkbox" aria-checked="${i.cart}" data-cart="${i.kind}:${i.id}" aria-label="I kurven">${i.cart?"✓":""}</button>
+      <div class="main"><span class="name">${esc(i.name)}${i.extra?`<span class="tag">Ekstra</span>`:""}</span><span class="meta">${esc(i.meta)}</span></div><span class="need">${esc(i.right)}</span></div>`).join("")}</div></section>`).join("")}
+    <div class="btnrow" style="margin-top:22px">${done?`<button class="btn small" id="clearExtras">Fjern ${done} afkrydsede ekstra</button>`:""}</div>
+    <p class="hint" style="margin-top:12px">Basisvarer forsvinder af sig selv, når I scanner dem ind derhjemme. Ekstra varer fjernes med knappen ovenfor.</p>
+    <textarea id="copyArea" hidden readonly style="width:100%;height:160px;margin-top:12px;border-radius:6px;border:1px solid var(--line);background:var(--surface);padding:10px"></textarea>`;
+}
+
+function recipeCard(r, key, saved){
+  const total = r.uses.length + r.buy.length + (r.meat?1:0);
+  return `<button class="rcard" data-recipe="${key}">
+    <div class="rtop"><h4>${esc(r.title)}</h4>${saved?`<span class="bookmark" aria-label="Gemt">★</span>`:""}</div>
+    ${r.intro?`<p class="rintro">${esc(r.intro)}</p>`:""}
+    <div class="rmeta">${r.minutes?`<span>${r.minutes} min</span>`:""}<span>${r.serves} pers.</span><span><b>${r.uses.length}</b> af ${total} fra lager</span></div>
+    ${(r.buy.length||r.meat)?`<div class="rbuy">${r.buy.map(b=>`<span class="pill">${esc(b.name)}</span>`).join("")}${r.meat?`<span class="pill meat">${esc(r.meat.name)}</span>`:""}</div>`:""}
+  </button>`;
+}
+function viewRecipes(){
+  const g = S.gen;
+  const styles = ["Hverdag","Hurtig","Vegetar","Weekend","Med kød"];
+  S.lib = matchLibrary();
+  const lib = S.lib.map((r,i)=>[r,i]).filter(([r])=>!S.libStyle || r.tags.includes(S.libStyle));
+  const saved = Object.entries(S.recipes).sort((a,b)=>(b[1].saved||0)-(a[1].saved||0));
+  const sug = S.suggest?.items || [];
+  const hasKey = !!store.get("bl-ai-key");
+  return `<div class="studio">${PLANT}
+      <span class="eyebrow" style="color:var(--on-hero);opacity:.7">Opskriftsbog</span>
+      <h3>Hvad kan vi lave i aften?</h3>
+      <p>Retter fra opskriftsbogen, som kan laves af det, der står på lager. Højst 3 ting skal købes, plus kød eller fisk.</p>
+      <div class="chips">${styles.map(s=>`<button class="chip" data-libstyle="${s}" aria-pressed="${S.libStyle===s}">${s}</button>`).join("")}</div>
+    </div>
+    <section><div class="ghead"><h2>Kan laves nu</h2><span class="num">${lib.length}</span></div>
+      ${lib.length?`<div class="rcards" style="margin-top:14px">${lib.map(([r,i])=>recipeCard(r,"l:"+i,!!savedIdFor(r))).join("")}</div>`
+        :`<p class="hint" style="margin-top:12px">${S.ready && !stockForPrompt().length ? "Lageret er tomt. Scan varer ind, så dukker retterne op her." : "Ingen retter i opskriftsbogen passer til lageret lige nu"+(S.libStyle?" med det valgte filter":"")+"."}</p>`}</section>
+    <section><div class="ghead"><h2>Idéer fra Claude</h2><span class="num">${sug.length?new Date(S.suggest.at).toLocaleDateString("da-DK",{day:"numeric",month:"short"}):""}</span></div>
+      <div style="display:grid;gap:12px;margin-top:14px">
+      ${hasKey?`<div class="ctrl" style="display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:end">
+          <div class="mini"><span class="lbl">Personer</span><div class="stepper"><button class="step" id="gMinus" aria-label="Færre personer">−</button><span class="count" id="gServes">${g.serves}</span><button class="step" id="gPlus" aria-label="Flere personer">+</button></div></div>
+          <div class="field"><label for="gWish">Ønske</label><input id="gWish" placeholder="fx noget med kylling" value="${esc(g.wish)}" autocomplete="off"></div></div>
+        ${g.busy?`<div class="thinking"><span class="dots"><i></i><i></i><i></i></span><span>Sammensætter retter ud fra lageret</span><button class="btn small" id="gStop">Stop</button></div>`
+          :`<div class="btnrow"><button class="btn primary" id="gGo">${sug.length?"Nye idéer":"Foreslå retter"}</button></div>`}
+        ${g.error?`<p class="hint" style="color:var(--bad)">${esc(g.error)}</p>`:""}`
+      :`<p class="hint">Vil I have friske idéer ud over opskriftsbogen, kan I tilføje en Claude API-nøgle under Indstillinger.</p><div class="btnrow"><button class="btn small" id="gSetup">Tilføj API-nøgle</button></div>`}
+      ${sug.length?`<div class="rcards">${sug.map((r,i)=>recipeCard(r,"s:"+i,!!savedIdFor(r))).join("")}</div>`:""}
+      </div></section>
+    <section><div class="ghead"><h2>Gemte opskrifter</h2><span class="num">${saved.length}</span></div>
+      ${saved.length?`<div class="rcards" style="margin-top:14px">${saved.map(([id,r])=>recipeCard(r,"r:"+id,true)).join("")}</div>`:`<p class="hint" style="margin-top:12px">Gem de retter, I kan lide, så ligger de klar her.</p>`}</section>`;
+}
+
+function viewBoxes(prods){
+  const boxes = Object.entries(S.boxes).sort((a,b)=>(a[1].n||0)-(b[1].n||0));
+  const head = `<div class="toolbar"><p>Hold telefonen mod en kasses sticker for at vælge den.</p><button class="btn small primary" id="addBox">+ Ny kasse</button></div>`;
+  if(S.ready && !boxes.length) return head + `<div class="empty"><h3>Ingen kasser endnu</h3><p>Opret en kasse for hver opbevaringskasse. Hver kasse får sit eget link, som du skriver på en NFC-sticker.</p></div>`;
+  return head + `<section class="card"><div class="rows">${boxes.map(([id,b])=>{
+    const n = prods.reduce((s,p)=>s+(p.units||[]).filter(u=>u.b===id).length,0);
+    return `<div class="row"><button class="main" data-box="${id}"><span class="name">${esc(b.name)}${S.box===id?'<span class="tag">Aktiv</span>':""}</span><span class="meta">${esc(b.where||"Ingen placering")}</span></button><span class="count">${n}<small> stk</small></span></div>`; }).join("")}</div></section>`;
+}
+
+function openExtraSheet(){
+  sheet(`<h3>Ekstra vare</h3><p class="lede">Til ting, der ikke er en del af basislageret, fx frugt, kød eller mælk.</p>
+    <div class="field"><label for="xName">Vare</label><input id="xName" autocomplete="off" placeholder="Citroner"></div>
+    <div class="two"><div class="field"><label for="xAmt">Mængde</label><input id="xAmt" autocomplete="off" placeholder="2 stk"></div><div class="field"><label for="xCat">Kategori</label><select id="xCat">${catOptions("Frugt & grønt")}</select></div></div>
+    <div class="btnrow"><button class="btn primary" id="xSave">Tilføj</button><button class="btn" id="xCancel">Annullér</button></div>`, s => {
+      setTimeout(()=>s.querySelector("#xName").focus(),150);
+      s.querySelector("#xCancel").onclick = close;
+      s.querySelector("#xSave").onclick = async () => {
+        const name = s.querySelector("#xName").value.trim(); if(!name) return;
+        await S.db.collection("extras").doc(uid("x")).set({name, amount:s.querySelector("#xAmt").value.trim(), cat:s.querySelector("#xCat").value, cart:false, at:Date.now()});
+        close();
+      };
+  });
+}
+
+function bindView(){
+  const v = $("#view");
+  const on = (sel, fn) => { const el = v.querySelector(sel); if(el) el.onclick = fn; };
+  v.querySelectorAll("[data-prod]").forEach(b=>b.onclick=()=>openProductSheet(b.dataset.prod));
+  v.querySelectorAll("[data-take]").forEach(b=>b.onclick=()=>takeUnit(b.dataset.take).catch(()=>{}));
+  v.querySelectorAll("[data-add]").forEach(b=>b.onclick=()=>openFillSheet(b.dataset.add,1));
+  v.querySelectorAll("[data-box]").forEach(b=>b.onclick=()=>openBoxSheet(b.dataset.box));
+  v.querySelectorAll("[data-recipe]").forEach(b=>b.onclick=()=>openRecipe(b.dataset.recipe));
+  v.querySelectorAll("[data-libstyle]").forEach(b=>b.onclick=()=>{ S.libStyle = S.libStyle===b.dataset.libstyle ? "" : b.dataset.libstyle; render(); });
+  v.querySelectorAll("[data-cart]").forEach(b=>b.onclick=async()=>{
+    const [k,id] = b.dataset.cart.split(":");
+    try{
+      if(k==="p"){ const p=plain(S.products[id]); p.cart=!p.cart; await saveProduct(id,p); }
+      else { const x=plain(S.extras[id]); x.cart=!x.cart; await S.db.doc("extras/"+id).set(x); }
+    }catch{}
+  });
+  on("#addManual", ()=>openProductSheet(null));
+  on("#addBox", ()=>openBoxSheet(null));
+  on("#addExtra", openExtraSheet);
+  on("#goBuy", ()=>{ S.tab="indkob"; render(); window.scrollTo(0,0); });
+  on("#goExp", openExpSheet);
+  on("#heroFill", ()=>{ setMode("fill"); openScanner(); });
+  on("#heroTake", ()=>{ setMode("take"); openScanner(); });
+  on("#gMinus", ()=>{ S.gen.serves=Math.max(1,S.gen.serves-1); $("#gServes").textContent=S.gen.serves; });
+  on("#gPlus", ()=>{ S.gen.serves=Math.min(12,S.gen.serves+1); $("#gServes").textContent=S.gen.serves; });
+  on("#gGo", generate);
+  on("#gSetup", openSettings);
+  on("#gStop", ()=>S.gen.ctl?.abort());
+  on("#clearExtras", async ()=>{ for(const [id,x] of Object.entries(S.extras)) if(x.cart) await S.db.doc("extras/"+id).delete(); });
+  const w = v.querySelector("#gWish"); if(w) w.oninput = e => { S.gen.wish = e.target.value; };
+  const s = v.querySelector("#search"); if(s) s.oninput = e => { S.query = e.target.value; const pos=e.target.selectionStart; render(); const n=$("#search"); n.focus(); n.setSelectionRange(pos,pos); };
+  on("#copyList", async () => {
+    const items = [...productList().filter(p=>missing(p)>0&&!p.cart).map(p=>({name:p.name,cat:p.cat,amt:missing(p)+" stk"})), ...Object.values(S.extras).filter(x=>!x.cart).map(x=>({name:x.name,cat:x.cat,amt:x.amount}))];
+    const text = byCat(items).map(([c,is])=>c.toUpperCase()+"\n"+is.map(i=>`- ${i.name}${i.amt?" ("+i.amt+")":""}`).join("\n")).join("\n\n");
+    try{ await navigator.clipboard.writeText(text); toast("Indkøbslisten er kopieret"); }
+    catch{ const ta=$("#copyArea"); ta.hidden=false; ta.value=text; ta.select(); toast("Listen er markeret. Kopiér den manuelt."); }
+  });
+}
+
+/* ================= boot ================= */
+async function boot(){
+  $("#gate").hidden = true; $("#app").hidden = false;
+  $("#today").textContent = new Date().toLocaleDateString("da-DK",{weekday:"long",day:"numeric",month:"long"});
+  setMode(store.get("bl-mode")==="take" ? "take" : "fill");
+  S.tab = Object.keys(TITLES).includes(store.get("bl-tab")) ? store.get("bl-tab") : "lager";
+  const savedBox = store.get("bl-box"); if(savedBox) setBox(savedBox);
+  readHash();
+  render();
+  const { db, loadAll } = makeDb(S.sb);
+  S.db = db;
+  const coll = (name, key) => db.collection(name).onSnapshot(s => { const o={}; s.docs.forEach(d=>o[d.id]=d.data()); S[key]=o; refresh(); });
+  ["products","codes","boxes","extras","recipes"].forEach(n=>coll(n,n));
+  db.doc("meta/suggestions").onSnapshot(d => { if(d.exists) S.suggest = d.data(); refresh(); });
+  try{ await loadAll(); S.ready = true; S.failed = false; if(S.box && !S.boxes[S.box]) setBox(""); if(S.pendingHash) boxArrived(); }
+  catch(e){ S.failed = true; if(e && (e.code==="PGRST301" || /JWT|auth/i.test(e.message||""))) return gateLogin("Log ind igen."); if(e && e.code==="42P01") S.failed = true; }
+  refresh();
+}
+function refresh(){ const a=document.activeElement; if(a && a.closest && a.closest("#view") && a.matches("input")) return; render(); }
+
+start();
+})();
+</script>
+
+</body>
+</html>
