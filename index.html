@@ -277,6 +277,21 @@ nav.bar-nav{pointer-events:auto;max-width:592px;margin:0 auto}
 .bigqty{display:flex;align-items:center;justify-content:center;gap:22px;padding:6px 0}
 .bigqty .step{width:52px;height:52px;border-radius:18px;font-size:24px}
 .bigqty .n{font-size:44px;font-weight:500;min-width:70px;text-align:center;font-variant-numeric:tabular-nums}
+.review{display:grid;gap:10px}
+.ritem{background:var(--raised);border:1px solid var(--line);border-radius:18px;padding:12px 14px;display:grid;gap:10px}
+.ritem.new{border-color:var(--peach);background:linear-gradient(var(--raised),var(--raised)) padding-box}
+.ritem.bad{box-shadow:0 0 0 2px var(--bad)}
+.ritem .rh{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ritem .rh strong{font-weight:500;font-size:16px;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.ritem .rh small{display:block;color:var(--muted);font-size:12px;font-weight:400}
+.ritem .rx{border:0;background:transparent;color:var(--faint);font-size:20px;line-height:1;padding:4px 6px}
+.ritem .rr{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center}
+.ritem .qmini{display:flex;align-items:center;gap:8px}
+.ritem .qmini .step{width:34px;height:34px}
+.ritem .qmini b{min-width:24px;text-align:center;font-weight:500;font-size:17px}
+.ritem select,.ritem input{width:100%;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:9px 11px;min-height:42px;font-size:15px}
+.ritem .g3{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.newtag{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);background:var(--brass-soft);border-radius:999px;padding:2px 8px;margin-left:6px;vertical-align:2px}
 .btn.wide{width:100%;justify-content:center;padding:15px 20px;font-size:16px}
 .choice button[data-m="take"][aria-pressed="true"]{background:var(--brass);color:#fff}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -332,6 +347,15 @@ ol.steps li::before{content:counter(s);width:28px;height:28px;border-radius:10px
 .scanner .top,.scanner .bottom{position:relative;z-index:2;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
 .scanner .top{padding-top:calc(14px + env(safe-area-inset-top,0px));display:flex;justify-content:space-between;align-items:center;gap:10px;background:linear-gradient(rgba(11,15,12,.7),transparent);padding-bottom:30px}
 .scanner .bottom{padding-bottom:calc(22px + env(safe-area-inset-bottom,0px));display:grid;gap:14px;justify-items:center;background:linear-gradient(transparent,rgba(11,15,12,.85));padding-top:40px}
+.scanner .srow{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.scanner .sbtn.done{background:#BCCDA9;color:#16201A;border-color:#BCCDA9;font-weight:600;padding:11px 22px;font-size:15px}
+.scanner .batchbar{width:100%;max-width:520px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px}
+.scanner .batchbar::-webkit-scrollbar{display:none}
+.scanner .bchip{flex:none;border-radius:999px;padding:6px 12px;font-size:13px;background:rgba(238,240,232,.16);border:1px solid rgba(238,240,232,.22);white-space:nowrap}
+.scanner .bchip b{font-weight:600;margin-left:4px}
+.scanner .bchip.new{border-color:#D4AB82;color:#F3DCC4}
+.scanner .typerow{display:flex;gap:8px;width:100%;max-width:360px}
+.scanner .typerow input{flex:1;min-width:0;border-radius:999px;border:1px solid rgba(238,240,232,.3);background:rgba(238,240,232,.12);color:#EEF0E8;padding:10px 14px;font-size:16px}
 .scanner .sbtn{border:1px solid rgba(238,240,232,.25);background:rgba(238,240,232,.12);color:#EEF0E8;border-radius:999px;padding:9px 16px;font-size:13px;font-weight:500;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 .scanner .smode{display:flex;background:rgba(238,240,232,.12);border:1px solid rgba(238,240,232,.2);border-radius:999px;padding:3px;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 .scanner .smode button{border:0;background:transparent;color:rgba(238,240,232,.75);border-radius:999px;padding:8px 16px;font-size:13px;font-weight:500}
@@ -390,9 +414,9 @@ button.tile{text-align:left;color:var(--ink);font:inherit}
 .rc .ic2.out{background:var(--brass-soft);color:var(--brass)}
 .rc .nm{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .rc .nm small{display:block;color:var(--muted);font-size:11.5px}
-.status{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:3px 9px;color:var(--muted);white-space:nowrap}
-.status.in{border-color:var(--mint);color:var(--accent-ink);background:var(--accent-soft)}
-.status.out{border-color:var(--peach);color:var(--brass);background:var(--brass-soft)}
+.st{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:3px 9px;color:var(--muted);white-space:nowrap}
+.st.in{border-color:var(--mint);color:var(--accent-ink);background:var(--accent-soft)}
+.st.out{border-color:var(--peach);color:var(--brass);background:var(--brass-soft)}
 .donutrow{display:grid;grid-template-columns:112px 1fr;gap:16px;align-items:center}
 .donutrow svg{width:112px;height:112px}
 .dl{display:grid;gap:8px;font-size:13px}
@@ -465,7 +489,9 @@ h1{font-family:var(--sans);font-weight:500;letter-spacing:-.015em}
   <div class="errbox" id="scanErr" hidden></div>
   <div class="bottom">
     <div class="status" id="scanStatus"><span class="hintline" id="scanHint">Hold stregkoden inden for rammen. Den scannes automatisk.</span></div>
-    <button class="sbtn" id="scanType">Skriv kode i stedet</button>
+    <div class="batchbar" id="batchBar" hidden></div>
+    <div class="typerow" id="typeRow" hidden><input id="typeCode" inputmode="numeric" autocomplete="off" placeholder="Tallene under stregkoden"><button class="sbtn" id="typeAdd">Tilføj</button></div>
+    <div class="srow"><button class="sbtn" id="scanType">Skriv kode</button><button class="sbtn" id="againBtn" hidden>+1 af samme</button><button class="sbtn done" id="batchDone" hidden>Færdig</button></div>
   </div>
 </div>
 
@@ -786,14 +812,14 @@ function noDb(){ toast("Ikke forbundet endnu."); throw new Error("no db"); }
 async function saveProduct(id, body){ if(!S.db) return noDb(); await S.db.doc("products/"+id).set(body); }
 const plain = o => { const {id, ...rest} = o; return JSON.parse(JSON.stringify(rest)); };
 
-async function addUnits(pid, n, exp, box){
+async function addUnits(pid, n, exp, box, quiet){
   const before = plain(S.products[pid]); const p = plain(S.products[pid]);
   p.units = p.units || [];
   for(let i=0;i<n;i++) p.units.push({e: exp||"", b: box||""});
   if(p.units.length >= (p.target||0)) p.cart = false;
   await saveProduct(pid, p);
   S.undo = {pid, before, log: logEvent(pid, p.name, n)};
-  toast(`${p.name} +${n} · ${p.units.length} af ${p.target||0} på lager`, true);
+  if(!quiet) toast(`${p.name} +${n} · ${p.units.length} af ${p.target||0} på lager`, true);
 }
 function pickUnit(units){
   let pool = S.box ? units.filter(u=>u.b===S.box) : [];
@@ -863,7 +889,7 @@ function beep(ok=true){
   }catch{}
 }
 function setScanMode(m){ setMode(m); const t=$("#scanTitle"); t.textContent = m==="take" ? "Scan ud" : "Scan ind"; t.classList.toggle("take", m==="take"); scanHint(); }
-function scanHint(){ $("#scanStatus").className="status"; $("#scanStatus").innerHTML = `<span class="hintline">${S.mode==="take" ? "Scan ud: hver vare trækkes fra, så snart den scannes. Scan løs." : "Scan ind: hold stregkoden inden for rammen. Den scannes automatisk."}</span>`; }
+function scanHint(){ $("#scanStatus").className="status"; $("#scanStatus").innerHTML = `<span class="hintline">${S.mode==="take" ? "Scan ud: hver vare trækkes fra, så snart den scannes. Scan løs." : "Scan ind: scan alle varerne én ad gangen. Tryk Færdig til sidst og udfyld det, der mangler."}</span>`; }
 function scanStatus(big, small){ const el=$("#scanStatus"); el.className="status show"; el.innerHTML = `<div><div class="big">${esc(big)}</div>${small?`<div style="font-size:13px;opacity:.75;margin-top:4px">${esc(small)}</div>`:""}</div>`; }
 
 async function openScanner(){
@@ -927,18 +953,120 @@ async function onDetected(raw){
       setTimeout(()=>{ SC.busy = false; }, 700);
       return;
     }
-    closeScanner(); openFillSheet(c.pid, c.pack||1, true);
-    return;
   }
+  if(S.mode === "fill"){ addToBatch(code); setTimeout(()=>{ SC.busy = false; }, 600); return; }
   // unknown code: look it up
   scanStatus("Ny vare", "Slår stregkoden op…");
   const info = await lookup(code);
   closeScanner(); openNewCodeSheet(code, info);
 }
-$("#scanIn").onclick = () => { setMode("fill"); SC.last=""; openScanner(); };
-$("#scanOut").onclick = () => { setMode("take"); SC.last=""; openScanner(); };
-$("#scanClose").onclick = closeScanner;
-$("#scanType").onclick = () => { closeScanner(); openTypeSheet(); };
+$("#scanIn").onclick = () => { setMode("fill"); SC.last=""; openScanner(); drawBatchBar(); };
+$("#scanOut").onclick = () => { setMode("take"); SC.last=""; openScanner(); drawBatchBar(); };
+$("#scanClose").onclick = () => { if(S.mode==="fill" && BATCH.size){ closeScanner(); openBatchReview(); } else closeScanner(); };
+$("#scanType").onclick = () => {
+  if(S.mode !== "fill"){ closeScanner(); openTypeSheet(); return; }
+  const r = $("#typeRow"); r.hidden = !r.hidden; if(!r.hidden) setTimeout(()=>$("#typeCode").focus(), 50);
+};
+$("#typeAdd").onclick = () => { const v = $("#typeCode").value.replace(/\s/g,""); if(!/^[0-9A-Za-z\-.]{3,40}$/.test(v)) return; $("#typeCode").value=""; $("#typeRow").hidden = true; beep(true); addToBatch(v); };
+$("#typeCode").onkeydown = e => { if(e.key==="Enter") $("#typeAdd").click(); };
+$("#againBtn").onclick = () => { if(SC.lastBatch){ beep(true); addToBatch(SC.lastBatch); } };
+$("#batchDone").onclick = () => { closeScanner(); openBatchReview(); };
+
+/* ================= scan-in session: scan everything first, fill in details at the end ================= */
+const BATCH = new Map();   // code -> { code, qty, pid, pack, info, looked, name, cat, target, link, year }
+function addToBatch(code){
+  const c = S.codes[code];
+  let e = BATCH.get(code);
+  if(!e){
+    e = { code, qty:0, pid: c && S.products[c.pid] ? c.pid : null, pack: (c && c.pack) || 1, info:null, looked:false, name:"", cat:"", target:2, link:"", year:"" };
+    BATCH.set(code, e);
+  }
+  e.qty += e.pid ? e.pack : 1;
+  SC.lastBatch = code;
+  if(!e.pid && !e.looked){ e.looked = true; lookup(code).then(i => { e.info = i; if(i){ e.name ||= i.name; e.cat ||= i.cat; } drawBatchBar(); }); }
+  const nm = e.pid ? S.products[e.pid].name : (e.info?.name || "Ny vare");
+  const total = [...BATCH.values()].reduce((s,x)=>s+x.qty,0);
+  scanStatus(`${nm} +${e.pid ? e.pack : 1}`, `${total} ${total===1?"vare":"varer"} scannet · tryk Færdig, når du er færdig`);
+  drawBatchBar();
+}
+function drawBatchBar(){
+  const bar = $("#batchBar"), list = [...BATCH.values()];
+  const on = S.mode==="fill" && list.length;
+  bar.hidden = !on; $("#batchDone").hidden = !on; $("#againBtn").hidden = !(S.mode==="fill" && SC.lastBatch && BATCH.has(SC.lastBatch));
+  const total = list.reduce((s,x)=>s+x.qty,0);
+  $("#batchDone").textContent = `Færdig (${total})`;
+  bar.innerHTML = list.slice().reverse().map(e => { const nm = e.pid ? S.products[e.pid].name : (e.info?.name || "Ny vare"); return `<span class="bchip ${e.pid?"":"new"}">${esc(nm)}<b>×${e.qty}</b></span>`; }).join("");
+}
+function openBatchReview(){
+  const prods = productList().sort((a,b)=>a.name.localeCompare(b.name,"da"));
+  const list = () => [...BATCH.values()];
+  sheet(`<h3>Gennemgå indkøb</h3><p class="lede" id="bvLede"></p>
+    <div class="field"><label for="bvBox">Kasse for alle</label><select id="bvBox">${boxOptions(S.box)}</select></div>
+    <div class="review" id="bvList"></div>
+    <div style="display:grid;gap:8px"><button class="btn primary wide" id="bvSave"></button>
+    <div class="btnrow" style="justify-content:space-between"><button class="btn" id="bvMore">Scan flere</button><button class="btn link" id="bvDrop">Kassér alle</button></div></div>
+    <div class="confirm" id="bvConfirm" hidden><strong>Kassér de scannede varer?</strong><span>Intet bliver lagt på lager.</span><div class="btnrow"><button class="btn danger" id="bvDropYes">Ja, kassér</button><button class="btn" id="bvDropNo">Behold</button></div></div>`, s => {
+    const L = s.querySelector("#bvList");
+    function draw(){
+      const items = list(); const total = items.reduce((t,x)=>t+x.qty,0); const nNew = items.filter(e=>!e.pid).length;
+      s.querySelector("#bvLede").textContent = `${total} ${total===1?"vare":"varer"} scannet${nNew?` · ${nNew} ${nNew===1?"ny vare skal":"nye varer skal"} have et navn`:""}. Årstal for holdbarhed er valgfrit.`;
+      s.querySelector("#bvSave").textContent = `Læg ${total} på lager`;
+      s.querySelector("#bvSave").disabled = !total;
+      L.innerHTML = items.map(e => {
+        const p = e.pid && S.products[e.pid];
+        const head = p ? `<strong>${esc(p.name)}<small>${stock(p)} af ${p.target||0} på lager nu</small></strong>`
+          : `<strong>${esc(e.info ? [e.info.brand, e.info.name].filter(Boolean).join(" ") : "Ukendt vare")}<span class="newtag">Ny</span><small>Stregkode ${esc(e.code)}</small></strong>`;
+        const qty = `<div class="qmini"><button class="step" data-q="-1" data-c="${esc(e.code)}" aria-label="Færre">−</button><b>${e.qty}</b><button class="step" data-q="1" data-c="${esc(e.code)}" aria-label="Flere">+</button></div>`;
+        const year = `<select data-y="${esc(e.code)}" aria-label="Holdbar til år">${yearOptions(e.year).replace('>Ingen<','>År (valgfri)<')}</select>`;
+        const newFields = p ? "" : `
+          <select data-link="${esc(e.code)}" aria-label="Basisvare"><option value="">Ny basisvare</option>${prods.map(x=>`<option value="${x.id}" ${e.link===x.id?"selected":""}>Samme som: ${esc(x.name)}</option>`).join("")}</select>
+          ${e.link ? "" : `<input data-n="${esc(e.code)}" placeholder="Generelt navn, fx Hakkede tomater" value="${esc(e.name)}" autocomplete="off">
+          <div class="g3"><select data-cat="${esc(e.code)}" aria-label="Kategori">${catOptions(e.cat && e.cat!=="Andet" ? e.cat : "Konserves")}</select>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)">Altid have <input data-t="${esc(e.code)}" type="number" min="0" inputmode="numeric" value="${e.target}" style="width:64px"></label></div>`}`;
+        return `<div class="ritem ${p?"":"new"}" data-item="${esc(e.code)}"><div class="rh">${head}<button class="rx" data-del="${esc(e.code)}" aria-label="Fjern">×</button></div>${newFields}<div class="rr">${qty}${year}</div></div>`;
+      }).join("") || `<p class="hint">Ingen varer tilbage.</p>`;
+      bind();
+    }
+    function bind(){
+      L.querySelectorAll("[data-q]").forEach(b => b.onclick = () => { const e = BATCH.get(b.dataset.c); e.qty = Math.max(1, e.qty + (+b.dataset.q)); draw(); });
+      L.querySelectorAll("[data-del]").forEach(b => b.onclick = () => { BATCH.delete(b.dataset.del); draw(); });
+      L.querySelectorAll("[data-y]").forEach(x => x.onchange = () => BATCH.get(x.dataset.y).year = x.value);
+      L.querySelectorAll("[data-link]").forEach(x => x.onchange = () => { BATCH.get(x.dataset.link).link = x.value; draw(); });
+      L.querySelectorAll("[data-n]").forEach(x => x.oninput = () => { BATCH.get(x.dataset.n).name = x.value; x.closest(".ritem").classList.remove("bad"); });
+      L.querySelectorAll("[data-cat]").forEach(x => x.onchange = () => BATCH.get(x.dataset.cat).cat = x.value);
+      L.querySelectorAll("[data-t]").forEach(x => x.oninput = () => BATCH.get(x.dataset.t).target = Math.max(0, parseInt(x.value)||0));
+    }
+    s.querySelector("#bvMore").onclick = () => { close(); setMode("fill"); SC.last=""; openScanner(); drawBatchBar(); };
+    s.querySelector("#bvDrop").onclick = () => { s.querySelector("#bvConfirm").hidden = false; };
+    s.querySelector("#bvDropNo").onclick = () => { s.querySelector("#bvConfirm").hidden = true; };
+    s.querySelector("#bvDropYes").onclick = () => { BATCH.clear(); SC.lastBatch = null; close(); toast("De scannede varer er kasseret"); };
+    s.querySelector("#bvSave").onclick = async () => {
+      if(!S.db) return noDb();
+      const missingName = list().find(e => !e.pid && !e.link && !e.name.trim());
+      if(missingName){ const el = L.querySelector(`[data-item="${CSS.escape(missingName.code)}"]`); el.classList.add("bad"); el.scrollIntoView({behavior:"smooth",block:"center"}); const inp = el.querySelector("[data-n]"); if(inp) setTimeout(()=>inp.focus(),300); toast("Giv de nye varer et navn først"); return; }
+      const box = s.querySelector("#bvBox").value;
+      const btn = s.querySelector("#bvSave"); btn.disabled = true; btn.textContent = "Gemmer…";
+      let n = 0;
+      try{
+        for(const e of list()){
+          let pid = e.pid;
+          if(!pid){
+            if(e.link) pid = e.link;
+            else {
+              pid = uid("p");
+              await S.db.doc("products/"+pid).set({ name:e.name.trim(), cat:e.cat && CATS.includes(e.cat) ? e.cat : "Konserves", target:e.target, units:[], cart:false, created:Date.now() });
+            }
+            await S.db.doc("codes/"+e.code).set({ pid, pack:1, label: e.info ? [e.info.brand, e.info.name].filter(Boolean).join(" ") : "" });
+          }
+          await addUnits(pid, e.qty, e.year, box, true); n += e.qty;
+          BATCH.delete(e.code);
+        }
+      }catch{ btn.disabled = false; draw(); return; }
+      S.undo = null; SC.lastBatch = null; close(); toast(`${n} ${n===1?"vare":"varer"} lagt på lager`);
+    };
+    draw();
+  });
+}
 
 $("#torchBtn").onclick = async () => { try{ SC.torch = !SC.torch; await SC.track.applyConstraints({advanced:[{torch:SC.torch}]}); }catch{} };
 
@@ -1370,8 +1498,7 @@ function viewStock(prods){
 
   const greet = `<div class="tile w2 greet">${ORBIT}
       <span class="dlabel">${esc(new Date().toLocaleDateString("da-DK",{weekday:"long",day:"numeric",month:"long"}))}</span>
-      <h2>${greeting()}</h2><p>${esc(summary)}</p>
-      <div class="btnrow"><button class="btn primary small" id="heroManual">Tilføj manuelt</button></div></div>`;
+      <h2>${greeting()}</h2><p>${esc(summary)}</p></div>`;
   if(S.ready && !prods.length) return `<div class="dash">${greet}
     <div class="tile w2"><span class="dlabel">Kom i gang</span>
       <ol style="margin:0;padding-left:20px;display:grid;gap:6px;color:var(--muted);font-size:14.5px"><li>Tryk <strong>Scan ind</strong> nederst og hold stregkoden foran kameraet.</li><li>Giv varen et generelt navn og sæt, hvor mange I altid skal have.</li><li>Når I bruger noget, så tryk <strong>Scan ud</strong>. Varen kommer på indkøbslisten.</li></ol></div></div>`;
@@ -1384,16 +1511,16 @@ function viewStock(prods){
     </div></div>
     <div class="tile"><span class="dlabel">Fyldt op</span><div class="ringwrap">${ringSVG(fillPct)}<div class="rv"><div><b>${fillPct}%</b><small>af basislager</small></div></div></div></div>
     <button class="tile" id="goExp"><span class="dlabel">Udløber <span class="more">Se alle ›</span></span><span class="big" style="color:${soon.length?"var(--brass)":"var(--ink)"}">${soon.length}</span><span class="delta">${soon.length?"i år eller tidligere":"Intet udløber i år"}</span>
-      <div class="recent">${soon.slice(0,2).map(r=>`<div class="rc" style="grid-template-columns:1fr auto"><span class="nm">${esc(r.p.name)}</span><span class="status out">${expYear(r.u.e)}</span></div>`).join("")}</div></button>
+      <div class="recent">${soon.slice(0,2).map(r=>`<div class="rc" style="grid-template-columns:1fr auto"><span class="nm">${esc(r.p.name)}</span><span class="st out">${expYear(r.u.e)}</span></div>`).join("")}</div></button>
     <div class="tile w2"><span class="dlabel">Aktivitet · 7 dage <span class="legend"><span><i style="background:var(--accent)"></i>Ind</span><span><i style="background:var(--brass)"></i>Ud</span></span></span>
       <div class="weekbars">${per.map(x=>`<div class="wb ${x.d===t0?"today":""}"><div class="tr"><div class="pill"><i style="height:${Math.round(x.in/peak*100)}%"></i></div><div class="pill out"><i style="height:${Math.round(x.out/peak*100)}%"></i></div></div><span>${wd[new Date(x.d).getDay()]}</span></div>`).join("")}</div></div>
     <div class="tile w2"><span class="dlabel">Kategorier <span class="more">fyldt op</span></span>
       <div class="catbars">${cats.map(x=>`<div class="cb"><span>${esc(x.c)}</span><b>${x.pct}%</b><div class="t"><i class="${x.pct<50?"low":""}" style="width:${x.pct}%"></i></div></div>`).join("")}</div></div>
     <div class="tile w2"><span class="dlabel">Seneste aktivitet</span>
-      ${log.length?`<div class="recent">${log.slice(-5).reverse().map(e=>`<div class="rc"><span class="ic2 ${e.d<0?"out":""}">${e.d<0?"−":"+"}</span><span class="nm">${esc(e.name)}<small>${timeAgo(e.t)}</small></span><span class="status ${e.d<0?"out":"in"}">${e.d<0?"Scannet ud":"+"+e.d+" ind"}</span></div>`).join("")}</div>`:`<p class="hint">Når I scanner, dukker det op her.</p>`}</div>
+      ${log.length?`<div class="recent">${log.slice(-5).reverse().map(e=>`<div class="rc"><span class="ic2 ${e.d<0?"out":""}">${e.d<0?"−":"+"}</span><span class="nm">${esc(e.name)}<small>${timeAgo(e.t)}</small></span><span class="st ${e.d<0?"out":"in"}">${e.d<0?"Scannet ud":"+"+e.d+" ind"}</span></div>`).join("")}</div>`:`<p class="hint">Når I scanner, dukker det op her.</p>`}</div>
     ${units?`<div class="tile w2"><span class="dlabel">Fordeling</span><div class="donutrow">${donutSVG(dparts)}<div class="dl">${dparts.map(p=>`<div><span><i style="background:${p.c}"></i>${esc(p.l)}</span><b>${Math.round(p.v/dtot*100)}%</b></div>`).join("")}</div></div></div>`:""}
   </div>
-  <div class="secthead"><h3>Alle varer · ${prods.length}</h3><button class="btn small" id="addManual">+ Tilføj manuelt</button></div>
+  <div class="secthead"><h3>Alle varer · ${prods.length}</h3></div>
   <div class="searchbox">${IC.search}<input class="search" id="search" type="search" placeholder="Søg i lageret" value="${esc(S.query)}" autocomplete="off"></div>
   ${byCat(list).map(([c,ps])=>`<section class="card"><div class="ghead"><h2>${esc(c)}</h2><span class="num">${ps.length}</span></div><div class="rows">${ps.map(p=>{
     const n = stock(p), t = p.target||0, cls = n===0&&t>0 ? "out" : n<t ? "low" : "";
