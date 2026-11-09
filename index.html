@@ -8,7 +8,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Basislager">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="theme-color" content="#ECE7DF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#EDF3EE" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#111813" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
@@ -19,22 +19,25 @@
 <style>
 /* Layout: one-column phone app. Lowercase wordmark bar → greeting hero card → icon stat tiles → soft rounded cards holding hairline lists; floating rounded tab bar with raised scan button.
    Light = "calm kit" (ivory, sage, sand, slate). Dark = "green glass" (deep forest, blurred leaves, pale sage + tan). */
+/* Layout: phone dashboard. Greeting card → KPI pair with sparklines → ring + expiry tiles → weekly activity bars → category fill bars → recent activity → full stock list; scan-in/scan-out buttons over a 4-tab bar.
+   Light = pale mint dashboard (white cards, sage + mint + pistachio + teal, peach for "out"). Dark = deep forest glass. */
 :root{
-  --bg:#ECE7DF; --bg2:#E3DDD2;
-  --card:rgba(250,247,242,.78); --card-solid:#F8F5F0; --raised:#FDFBF8; --sunk:#E4DED4;
-  --line:rgba(70,66,52,.12); --hair:rgba(70,66,52,.09);
-  --ink:#1F2723; --muted:#6C756E; --faint:#9BA39C;
-  --accent:#5E7A64; --accent-2:#7F9A84; --accent-soft:#DDE5D9; --on-accent:#F7F5F0;
-  --brass:#B98C66; --brass-soft:#F1E3D4;
-  --slate:#3D4A5C; --slate-soft:#DCE1E6; --mist:#8D9DA2;
-  --bad:#A4553A; --bad-soft:#F3DDD3;
-  --leaf1:#7E9A7F; --leaf2:#A9BBA0; --leaf3:#C9A887; --leafA:.42;
-  --hero1:#2F3D35; --hero2:#46594C; --on-hero:#F1EEE6;
-  --nav:rgba(250,247,242,.94); --t-sage:#DCE6D9; --t-tan:#F0E3D3; --t-slate:#DDE3E8;
-  --shadow:0 1px 0 rgba(255,255,255,.75) inset,0 2px 6px rgba(60,52,38,.05),0 14px 34px -14px rgba(60,52,38,.26);
-  --shadow-lg:0 1px 0 rgba(255,255,255,.8) inset,0 24px 50px -18px rgba(50,44,32,.35);
+  --bg:#EDF3EE; --bg2:#E2ECE5;
+  --card:rgba(255,255,255,.86); --card-solid:#FAFCFA; --raised:#FFFFFF; --sunk:#E7EFE9;
+  --line:rgba(40,80,60,.09); --hair:rgba(40,80,60,.075);
+  --ink:#1D3227; --muted:#6A8174; --faint:#9DB1A4;
+  --accent:#5C9877; --accent-2:#8FC7A5; --accent-soft:#DCEFE3; --on-accent:#FFFFFF; --accent-ink:#4A8466;
+  --brass:#DE9C74; --brass-soft:#FBE7D9;
+  --slate:#5FA7A0; --slate-soft:#DDF1EE; --mist:#9FB7AC;
+  --bad:#C9694E; --bad-soft:#F8DFD6;
+  --mint:#A9DDBC; --pista:#CFE8A8; --teal:#9AD3CB; --peach:#F4C6A5; --track:#E4EEE7;
+  --leaf1:#BFE4CB; --leaf2:#D9EFC4; --leaf3:#BDE5DE; --leafA:.65;
+  --hero1:#D7EEDF; --hero2:#F6FBF7; --on-hero:#1D3227;
+  --nav:rgba(255,255,255,.94); --t-sage:#E1F2E7; --t-tan:#FBEADF; --t-slate:#DFF2EF;
+  --shadow:0 1px 0 rgba(255,255,255,.9) inset,0 2px 6px rgba(40,80,60,.04),0 14px 30px -16px rgba(40,80,60,.22);
+  --shadow-lg:0 1px 0 rgba(255,255,255,.9) inset,0 22px 44px -20px rgba(40,80,60,.30);
   --blur:16px;
-  --display:"Cormorant Garamond","Cormorant",Garamond,Georgia,serif;
+  --display:"Jost","Avenir Next",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
   --sans:"Jost","Avenir Next",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
   --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
 }
@@ -43,7 +46,7 @@
   --card:rgba(214,230,208,.065); --card-solid:#1C261F; --raised:rgba(214,230,208,.10); --sunk:rgba(214,230,208,.07);
   --line:rgba(214,230,208,.12); --hair:rgba(214,230,208,.08);
   --ink:#EAEFE6; --muted:#A3B0A5; --faint:#6F7C72;
-  --accent:#BCCDA9; --accent-2:#94AE90; --accent-soft:rgba(188,205,169,.16); --on-accent:#16201A;
+  --accent-ink:#BCCDA9; --mint:#5E8F70; --pista:#7E9A5B; --teal:#4F8B85; --peach:#B8805E; --track:rgba(214,230,208,.08); --accent:#BCCDA9; --accent-2:#94AE90; --accent-soft:rgba(188,205,169,.16); --on-accent:#16201A;
   --brass:#D4AB82; --brass-soft:rgba(212,171,130,.16);
   --slate:#9FB0C4; --slate-soft:rgba(159,176,196,.14); --mist:#7F9196;
   --bad:#E79A7E; --bad-soft:rgba(231,154,126,.15);
@@ -58,7 +61,7 @@
   --card:rgba(214,230,208,.065); --card-solid:#1C261F; --raised:rgba(214,230,208,.10); --sunk:rgba(214,230,208,.07);
   --line:rgba(214,230,208,.12); --hair:rgba(214,230,208,.08);
   --ink:#EAEFE6; --muted:#A3B0A5; --faint:#6F7C72;
-  --accent:#BCCDA9; --accent-2:#94AE90; --accent-soft:rgba(188,205,169,.16); --on-accent:#16201A;
+  --accent-ink:#BCCDA9; --mint:#5E8F70; --pista:#7E9A5B; --teal:#4F8B85; --peach:#B8805E; --track:rgba(214,230,208,.08); --accent:#BCCDA9; --accent-2:#94AE90; --accent-soft:rgba(188,205,169,.16); --on-accent:#16201A;
   --brass:#D4AB82; --brass-soft:rgba(212,171,130,.16);
   --slate:#9FB0C4; --slate-soft:rgba(159,176,196,.14); --mist:#7F9196;
   --bad:#E79A7E; --bad-soft:rgba(231,154,126,.15);
@@ -345,6 +348,71 @@ ol.steps li::before{content:counter(s);width:28px;height:28px;border-radius:10px
 .scanner .bottom > *{align-self:end}
 
 .field label.btn{font-size:13.5px;letter-spacing:normal;text-transform:none;color:var(--ink);cursor:pointer}
+
+/* ---------- dashboard ---------- */
+.dash{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dash > .w2{grid-column:span 2}
+.tile{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:22px;padding:16px;display:grid;gap:10px;align-content:start;min-width:0;-webkit-backdrop-filter:blur(var(--blur));backdrop-filter:blur(var(--blur))}
+button.tile{text-align:left;color:var(--ink);font:inherit}
+.dlabel{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink);font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.dlabel .more{letter-spacing:.02em;text-transform:none;font-weight:500;color:var(--muted);font-size:12px}
+.big{font-size:34px;font-weight:500;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+.delta{font-size:12px;color:var(--muted)} .delta b{color:var(--accent-ink);font-weight:600} .delta b.neg{color:var(--brass)}
+.kpis{display:grid;grid-template-columns:1fr 1px 1fr;gap:14px}
+.kpis .sep{background:var(--line)}
+.kpis > div:not(.sep){display:grid;gap:8px;min-width:0}
+.spark{width:100%;height:46px;display:block;overflow:visible}
+.ringwrap{display:grid;place-items:center;position:relative}
+.ringwrap svg{width:118px;height:118px}
+.ringwrap .rv{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.ringwrap .rv b{font-size:28px;font-weight:500;letter-spacing:-.02em;line-height:1}
+.ringwrap .rv small{display:block;font-size:11px;color:var(--muted);margin-top:3px}
+.weekbars{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;align-items:end;height:128px}
+.wb{display:grid;justify-items:center;gap:6px;height:100%;grid-template-rows:1fr auto}
+.wb .tr{display:flex;gap:3px;align-items:end;height:100%}
+.wb .pill{width:11px;border-radius:999px;background:var(--track);position:relative;height:100%;overflow:hidden}
+.wb .pill i{position:absolute;left:0;right:0;bottom:0;border-radius:999px;background:linear-gradient(180deg,var(--accent-2),var(--accent))}
+.wb .pill.out i{background:linear-gradient(180deg,var(--peach),var(--brass))}
+.wb span{font-size:10.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.wb.today span{color:var(--accent-ink);font-weight:600}
+.legend{display:flex;gap:12px;font-size:12px;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:500}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:0}
+.catbars{display:grid;gap:12px}
+.cb{display:grid;grid-template-columns:1fr auto;gap:6px 10px;font-size:13.5px;align-items:center}
+.cb .t{grid-column:span 2;height:6px;border-radius:999px;background:var(--track);overflow:hidden}
+.cb .t i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent-2),var(--accent))}
+.cb .t i.low{background:linear-gradient(90deg,var(--peach),var(--brass))}
+.cb b{font-weight:500;font-variant-numeric:tabular-nums;color:var(--muted);font-size:12.5px}
+.recent{display:grid}
+.rc{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--hair);font-size:14px}
+.rc:first-child{border-top:0}
+.rc .ic2{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-ink);font-size:14px;font-weight:600}
+.rc .ic2.out{background:var(--brass-soft);color:var(--brass)}
+.rc .nm{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rc .nm small{display:block;color:var(--muted);font-size:11.5px}
+.status{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:3px 9px;color:var(--muted);white-space:nowrap}
+.status.in{border-color:var(--mint);color:var(--accent-ink);background:var(--accent-soft)}
+.status.out{border-color:var(--peach);color:var(--brass);background:var(--brass-soft)}
+.donutrow{display:grid;grid-template-columns:112px 1fr;gap:16px;align-items:center}
+.donutrow svg{width:112px;height:112px}
+.dl{display:grid;gap:8px;font-size:13px}
+.dl div{display:flex;justify-content:space-between;gap:8px}
+.dl i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px}
+.dl b{font-weight:500;color:var(--muted);font-variant-numeric:tabular-nums}
+.greet{position:relative;overflow:hidden;background:linear-gradient(140deg,var(--hero1),var(--hero2));min-height:150px}
+.greet h2{margin:0;font-size:26px;font-weight:500;letter-spacing:-.01em;line-height:1.1;max-width:13ch}
+.greet p{margin:0;color:var(--muted);font-size:14px;max-width:19ch}
+.greet svg.orbit{position:absolute;right:-28px;top:-6px;width:160px;height:160px;pointer-events:none;opacity:.9}
+.greet > *:not(svg){position:relative}
+.secthead{display:flex;justify-content:space-between;align-items:baseline;margin-top:6px}
+.secthead h3{margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink);font-weight:600}
+h1{font-family:var(--sans);font-weight:500;letter-spacing:-.015em}
+.hero .btn.primary,.studio .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.studio .chip[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.studio .chip{background:var(--raised);border-color:var(--line);color:var(--muted)}
+.studio h3,.empty h3,.sheet h3,.rcard h4{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
+.sheet h3{font-size:28px}
+.rcard h4{font-size:21px}
 
 </style>
 </head>
@@ -724,7 +792,7 @@ async function addUnits(pid, n, exp, box){
   for(let i=0;i<n;i++) p.units.push({e: exp||"", b: box||""});
   if(p.units.length >= (p.target||0)) p.cart = false;
   await saveProduct(pid, p);
-  S.undo = {pid, before};
+  S.undo = {pid, before, log: logEvent(pid, p.name, n)};
   toast(`${p.name} +${n} · ${p.units.length} af ${p.target||0} på lager`, true);
 }
 function pickUnit(units){
@@ -740,14 +808,24 @@ async function takeUnit(pid, quiet){
   const pick = pickUnit(units);
   units.splice(units.indexOf(pick),1); p.units = units;
   await saveProduct(pid, p);
-  S.undo = {pid, before};
+  S.undo = {pid, before, log: logEvent(pid, p.name, -1)};
   const where = [pick.b ? boxName(pick.b) : "", pick.e ? "holdbar til "+expYear(pick.e) : ""].filter(Boolean).join(", ");
   const need = Math.max(0,(p.target||0)-units.length);
   const msg = `${p.name} −1${where?" ("+where+")":""} · ${units.length} tilbage${need?" · på indkøbslisten":""}`;
   if(!quiet) toast(msg, true);
   return {ok:true, msg, name:p.name, left:units.length, need, where};
 }
-async function undo(){ if(!S.undo) return; const {pid,before} = S.undo; S.undo = null; await saveProduct(pid, before); toast("Fortrudt"); }
+async function undo(){ if(!S.undo) return; const {pid,before,log} = S.undo; S.undo = null; await saveProduct(pid, before); if(log) S.db.doc("log/"+log).delete().catch(()=>{}); toast("Fortrudt"); }
+/* activity log: one small row per change, kept for 35 days; powers the dashboard charts */
+function logEvent(pid, name, d){
+  if(!S.db) return null;
+  const id = uid("l"); S.db.doc("log/"+id).set({ t:Date.now(), pid, name, d }).catch(()=>{});
+  return id;
+}
+function pruneLog(){
+  const cut = Date.now() - 35*86400000;
+  Object.entries(S.log||{}).forEach(([id,l]) => { if(l.t < cut) S.db.doc("log/"+id).delete().catch(()=>{}); });
+}
 
 /* ================= product lookup (Open Food Facts) ================= */
 const OFF_CATS = [[/canned|conserves/,"Konserves"],[/pasta|rice|grains|noodle|cereal-grains|legumes|seeds/,"Pasta, ris & gryn"],[/flour|baking|sugar|yeast/,"Bagning"],[/breakfast|muesli|granola|oat/,"Morgenmad"],[/spice|herb|salt|oil|vinegar|condiment/,"Krydderier & olie"],[/sauce|dressing|ketchup|mayonnaise|mustard|pesto/,"Saucer & dressing"],[/snack|sweet|chocolate|candies|biscuit|chips/,"Snacks & søde sager"],[/beverage|drink|coffee|tea|juice|water/,"Drikkevarer"],[/frozen/,"Frost"],[/dairies|cheese|milk|yogurt|egg/,"Mejeri & æg"],[/meat|fish|poultry/,"Kød & fisk"],[/fruit|vegetable/,"Frugt & grønt"],[/bread/,"Brød"]];
@@ -1232,37 +1310,99 @@ function render(){
   bindView();
 }
 
+/* ---- chart helpers (inline SVG, colors from theme tokens) ---- */
+const DAY = 86400000;
+const dayStart = t => { const d = new Date(t); d.setHours(0,0,0,0); return d.getTime(); };
+function logList(){ return Object.values(S.log||{}).sort((a,b)=>a.t-b.t); }
+function sparkSVG(vals, color){
+  const w=140, h=46, max=Math.max(1,...vals), min=Math.min(0,...vals), n=vals.length;
+  const x=i=> n<2 ? w : i*(w/(n-1)), y=v=> h-4-((v-min)/((max-min)||1))*(h-10);
+  const pts = vals.map((v,i)=>`${x(i).toFixed(1)},${y(v).toFixed(1)}`);
+  const line = "M"+pts.join(" L"), area = line+` L${w},${h} L0,${h} Z`, gid = "g"+Math.random().toString(36).slice(2,7);
+  const lx = x(n-1), ly = y(vals[n-1]||0);
+  return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${color}" stop-opacity=".35"/><stop offset="1" stop-color="${color}" stop-opacity="0"/></linearGradient></defs>
+    <path d="${area}" fill="url(#${gid})"/><path d="${line}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+    <circle cx="${lx}" cy="${ly}" r="3.2" fill="${color}" stroke="var(--raised)" stroke-width="1.5"/></svg>`;
+}
+function ringSVG(pct){
+  const r=50, c=2*Math.PI*r, f=Math.max(0,Math.min(1,pct/100));
+  return `<svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="${r}" fill="none" stroke="var(--track)" stroke-width="10"/>
+    <circle cx="60" cy="60" r="${r}" fill="none" stroke="url(#rg)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${(c*f).toFixed(1)} ${c.toFixed(1)}" transform="rotate(-90 60 60)"/>
+    <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--accent-2)"/><stop offset="1" stop-color="var(--accent)"/></linearGradient></defs></svg>`;
+}
+function donutSVG(parts){
+  const r=42, c=2*Math.PI*r, tot=parts.reduce((s,p)=>s+p.v,0)||1; let off=0;
+  return `<svg viewBox="0 0 112 112"><circle cx="56" cy="56" r="${r}" fill="none" stroke="var(--track)" stroke-width="16"/>`+
+    parts.map(p=>{ const len=c*p.v/tot; const seg=`<circle cx="56" cy="56" r="${r}" fill="none" stroke="${p.c}" stroke-width="16" stroke-dasharray="${Math.max(0,len-2).toFixed(1)} ${c.toFixed(1)}" stroke-dashoffset="${(-off).toFixed(1)}" transform="rotate(-90 56 56)"/>`; off+=len; return seg; }).join("")+`</svg>`;
+}
+const ORBIT = `<svg class="orbit" viewBox="0 0 170 170" fill="none" aria-hidden="true">
+  <circle cx="98" cy="72" r="58" stroke="var(--accent-2)" stroke-opacity=".55"/><ellipse cx="98" cy="72" rx="78" ry="30" transform="rotate(-18 98 72)" stroke="var(--accent)" stroke-opacity=".35"/>
+  <circle cx="98" cy="72" r="34" fill="url(#og)"/><circle cx="40" cy="96" r="5" fill="var(--accent)"/><circle cx="160" cy="48" r="4" fill="var(--teal)"/><circle cx="120" cy="128" r="3" fill="var(--pista)"/>
+  <path d="M60 150c18-26 40-38 70-42M78 160c14-20 32-30 56-33" stroke="var(--accent)" stroke-opacity=".35"/>
+  <defs><radialGradient id="og" cx=".35" cy=".3"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="var(--mint)"/></radialGradient></defs></svg>`;
+function timeAgo(t){ const m=Math.round((Date.now()-t)/60000); if(m<1) return "lige nu"; if(m<60) return m+" min siden"; const h=Math.round(m/60); if(h<24) return h+" t siden"; const d=Math.round(h/24); return d===1?"i går":d+" dage siden"; }
+
 function viewStock(prods){
-  if(S.ready && !prods.length) return `<div class="empty"><h3>Spisekammeret venter</h3>
-    <ol><li>Vælg <strong>Fyld op</strong> og tryk på scan-knappen.</li><li>Hold stregkoden foran kameraet. Varen slås op, og du giver den et generelt navn og et måltal.</li><li>Når I tager noget, vælg <strong>Tag ud</strong> og scan. Varen kommer på indkøbslisten.</li></ol>
-    <div class="btnrow"><button class="btn" id="addManual">Tilføj manuelt</button></div></div>`;
-  const q = S.query.trim().toLowerCase();
-  const list = q ? prods.filter(p=>p.name.toLowerCase().includes(q)) : prods;
+  const units = prods.reduce((s,p)=>s+stock(p),0);
   const need = prods.filter(p=>missing(p)>0).length;
   const soon = expRows().filter(r=>["gone","soon"].includes(expState(r.u.e)));
-  const units = prods.reduce((s,p)=>s+stock(p),0);
-  const full = prods.filter(p=>!missing(p)).length;
-  const summary = need || soon.length ? [need?`${need} ${need===1?"vare mangler":"varer mangler"}`:"", soon.length?`${soon.length} udløber snart`:""].filter(Boolean).join(" og ")+"." : "Basislageret er fyldt op.";
-  return `<div class="hero">${PLANT}
-      <span class="eyebrow">${esc(new Date().toLocaleDateString("da-DK",{weekday:"long",day:"numeric",month:"long"}))}</span>
+  const tgt = prods.reduce((s,p)=>s+(p.target||0),0);
+  const fillPct = tgt ? Math.round(prods.reduce((s,p)=>s+Math.min(stock(p),p.target||0),0)/tgt*100) : 0;
+  const log = logList(), now = Date.now(), t0 = dayStart(now);
+  // last 7 days in/out
+  const days = Array.from({length:7},(_,i)=>t0-(6-i)*DAY);
+  const per = days.map(d=>{ const l=log.filter(e=>e.t>=d && e.t<d+DAY); return { d, in:l.filter(e=>e.d>0).reduce((s,e)=>s+e.d,0), out:l.filter(e=>e.d<0).reduce((s,e)=>s-e.d,0) }; });
+  const wkIn = per.reduce((s,x)=>s+x.in,0), wkOut = per.reduce((s,x)=>s+x.out,0);
+  const peak = Math.max(1,...per.map(x=>Math.max(x.in,x.out)));
+  // stock level over 14 days, walked back from today using the log
+  const lvl = []; let cur = units;
+  for(let i=0;i<14;i++){ const d=t0-i*DAY; lvl.unshift(cur); cur -= log.filter(e=>e.t>=d && e.t<d+DAY).reduce((s,e)=>s+e.d,0); }
+  const outs = Array.from({length:14},(_,i)=>{ const d=t0-(13-i)*DAY; return log.filter(e=>e.t>=d&&e.t<d+DAY&&e.d<0).reduce((s,e)=>s-e.d,0); });
+  // categories
+  const cats = byCat(prods).map(([c,ps])=>{ const t=ps.reduce((s,p)=>s+(p.target||0),0), h=ps.reduce((s,p)=>s+Math.min(stock(p),p.target||0),0), n=ps.reduce((s,p)=>s+stock(p),0); return {c, pct: t?Math.round(h/t*100):100, n}; });
+  const pal = ["var(--accent)","var(--teal)","var(--pista)","var(--peach)"];
+  const top = [...cats].sort((a,b)=>b.n-a.n); const dparts = top.slice(0,3).map((x,i)=>({l:x.c,v:x.n,c:pal[i]})); const rest = top.slice(3).reduce((s,x)=>s+x.n,0); if(rest) dparts.push({l:"Øvrige",v:rest,c:pal[3]});
+  const dtot = dparts.reduce((s,p)=>s+p.v,0)||1;
+  const summary = !prods.length ? "Lageret er tomt. Scan jeres første varer ind." : need || soon.length ? [need?`${need} ${need===1?"vare mangler":"varer mangler"}`:"", soon.length?`${soon.length} udløber i år`:""].filter(Boolean).join(" · ") : "Basislageret er fyldt op.";
+  const wd = ["Søn","Man","Tir","Ons","Tor","Fre","Lør"];
+  const q = S.query.trim().toLowerCase();
+  const list = q ? prods.filter(p=>p.name.toLowerCase().includes(q)) : prods;
+
+  const greet = `<div class="tile w2 greet">${ORBIT}
+      <span class="dlabel">${esc(new Date().toLocaleDateString("da-DK",{weekday:"long",day:"numeric",month:"long"}))}</span>
       <h2>${greeting()}</h2><p>${esc(summary)}</p>
-      <div class="btnrow"><button class="btn primary small" id="heroManual">Tilføj manuelt</button></div>
-    </div>
-    <div class="stats">
-      <div class="stat"><span class="ic">${IC.box}</span><span class="k">På lager</span><span class="v">${units}</span><span class="s">${full} af ${prods.length} fyldt op</span></div>
-      <button class="stat" id="goBuy"><span class="ic">${IC.bag}</span><span class="k">Mangler</span><span class="v">${need}</span><span class="s">på indkøbslisten</span></button>
-      <button class="stat" id="goExp"><span class="ic">${IC.clock}</span><span class="k">Udløber</span><span class="v">${soon.length}</span><span class="s">i år eller før</span></button>
-    </div>
-    <div class="searchbox">${IC.search}<input class="search" id="search" type="search" placeholder="Søg i lageret" value="${esc(S.query)}" autocomplete="off"></div>
-    <div class="toolbar"><p><span class="num">${prods.length}</span> basisvarer</p><button class="btn small" id="addManual">+ Tilføj manuelt</button></div>
-    ${byCat(list).map(([c,ps])=>`<section class="card"><div class="ghead"><h2>${esc(c)}</h2><span class="num">${ps.length}</span></div><div class="rows">${ps.map(p=>{
-      const n = stock(p), t = p.target||0, cls = n===0&&t>0 ? "out" : n<t ? "low" : "";
-      const pct = t ? Math.min(100, Math.round(n/t*100)) : (n?100:0);
-      const ex = nextExp(p);
-      return `<div class="row"><button class="main" data-prod="${p.id}"><span class="name">${esc(p.name)}</span><span class="bar ${cls}"><i style="width:${pct}%"></i></span>${ex?`<span class="meta">${expLabel(ex)}</span>`:""}</button>
-        <div class="qty"><button class="step" data-take="${p.id}" aria-label="Tag én ${esc(p.name)} ud">−</button><span class="count ${cls}">${n}<small> / ${t}</small></span><button class="step" data-add="${p.id}" aria-label="Læg én ${esc(p.name)} på lager">+</button></div></div>`;
-    }).join("")}</div></section>`).join("")}
-    ${q && !list.length ? `<p class="hint">Ingen varer matcher "${esc(S.query)}".</p>`:""}`;
+      <div class="btnrow"><button class="btn primary small" id="heroManual">Tilføj manuelt</button></div></div>`;
+  if(S.ready && !prods.length) return `<div class="dash">${greet}
+    <div class="tile w2"><span class="dlabel">Kom i gang</span>
+      <ol style="margin:0;padding-left:20px;display:grid;gap:6px;color:var(--muted);font-size:14.5px"><li>Tryk <strong>Scan ind</strong> nederst og hold stregkoden foran kameraet.</li><li>Giv varen et generelt navn og sæt, hvor mange I altid skal have.</li><li>Når I bruger noget, så tryk <strong>Scan ud</strong>. Varen kommer på indkøbslisten.</li></ol></div></div>`;
+
+  return `<div class="dash">${greet}
+    <div class="tile w2"><div class="kpis">
+      <div><span class="dlabel">På lager</span><span class="big">${units}</span><span class="delta"><b>▲ ${wkIn}</b> ind denne uge</span>${sparkSVG(lvl,"var(--accent)")}</div>
+      <div class="sep"></div>
+      <button class="tile" id="goBuy" style="all:unset;display:grid;gap:8px;cursor:pointer;min-width:0"><span class="dlabel">Mangler</span><span class="big">${need}</span><span class="delta"><b class="neg">▼ ${wkOut}</b> ud denne uge</span>${sparkSVG(outs,"var(--brass)")}</button>
+    </div></div>
+    <div class="tile"><span class="dlabel">Fyldt op</span><div class="ringwrap">${ringSVG(fillPct)}<div class="rv"><div><b>${fillPct}%</b><small>af basislager</small></div></div></div></div>
+    <button class="tile" id="goExp"><span class="dlabel">Udløber <span class="more">Se alle ›</span></span><span class="big" style="color:${soon.length?"var(--brass)":"var(--ink)"}">${soon.length}</span><span class="delta">${soon.length?"i år eller tidligere":"Intet udløber i år"}</span>
+      <div class="recent">${soon.slice(0,2).map(r=>`<div class="rc" style="grid-template-columns:1fr auto"><span class="nm">${esc(r.p.name)}</span><span class="status out">${expYear(r.u.e)}</span></div>`).join("")}</div></button>
+    <div class="tile w2"><span class="dlabel">Aktivitet · 7 dage <span class="legend"><span><i style="background:var(--accent)"></i>Ind</span><span><i style="background:var(--brass)"></i>Ud</span></span></span>
+      <div class="weekbars">${per.map(x=>`<div class="wb ${x.d===t0?"today":""}"><div class="tr"><div class="pill"><i style="height:${Math.round(x.in/peak*100)}%"></i></div><div class="pill out"><i style="height:${Math.round(x.out/peak*100)}%"></i></div></div><span>${wd[new Date(x.d).getDay()]}</span></div>`).join("")}</div></div>
+    <div class="tile w2"><span class="dlabel">Kategorier <span class="more">fyldt op</span></span>
+      <div class="catbars">${cats.map(x=>`<div class="cb"><span>${esc(x.c)}</span><b>${x.pct}%</b><div class="t"><i class="${x.pct<50?"low":""}" style="width:${x.pct}%"></i></div></div>`).join("")}</div></div>
+    <div class="tile w2"><span class="dlabel">Seneste aktivitet</span>
+      ${log.length?`<div class="recent">${log.slice(-5).reverse().map(e=>`<div class="rc"><span class="ic2 ${e.d<0?"out":""}">${e.d<0?"−":"+"}</span><span class="nm">${esc(e.name)}<small>${timeAgo(e.t)}</small></span><span class="status ${e.d<0?"out":"in"}">${e.d<0?"Scannet ud":"+"+e.d+" ind"}</span></div>`).join("")}</div>`:`<p class="hint">Når I scanner, dukker det op her.</p>`}</div>
+    ${units?`<div class="tile w2"><span class="dlabel">Fordeling</span><div class="donutrow">${donutSVG(dparts)}<div class="dl">${dparts.map(p=>`<div><span><i style="background:${p.c}"></i>${esc(p.l)}</span><b>${Math.round(p.v/dtot*100)}%</b></div>`).join("")}</div></div></div>`:""}
+  </div>
+  <div class="secthead"><h3>Alle varer · ${prods.length}</h3><button class="btn small" id="addManual">+ Tilføj manuelt</button></div>
+  <div class="searchbox">${IC.search}<input class="search" id="search" type="search" placeholder="Søg i lageret" value="${esc(S.query)}" autocomplete="off"></div>
+  ${byCat(list).map(([c,ps])=>`<section class="card"><div class="ghead"><h2>${esc(c)}</h2><span class="num">${ps.length}</span></div><div class="rows">${ps.map(p=>{
+    const n = stock(p), t = p.target||0, cls = n===0&&t>0 ? "out" : n<t ? "low" : "";
+    const pct = t ? Math.min(100, Math.round(n/t*100)) : (n?100:0);
+    const ex = nextExp(p);
+    return `<div class="row"><button class="main" data-prod="${p.id}"><span class="name">${esc(p.name)}</span><span class="bar ${cls}"><i style="width:${pct}%"></i></span>${ex?`<span class="meta">${expLabel(ex)}</span>`:""}</button>
+      <div class="qty"><button class="step" data-take="${p.id}" aria-label="Tag én ${esc(p.name)} ud">−</button><span class="count ${cls}">${n}<small> / ${t}</small></span><button class="step" data-add="${p.id}" aria-label="Læg én ${esc(p.name)} på lager">+</button></div></div>`;
+  }).join("")}</div></section>`).join("")}
+  ${q && !list.length ? `<p class="hint">Ingen varer matcher "${esc(S.query)}".</p>`:""}`;
 }
 
 function viewBuy(buyP, extras){
@@ -1473,9 +1613,9 @@ async function boot(){
   const { db, loadAll } = makeDb(S.sb);
   S.db = db;
   const coll = (name, key) => db.collection(name).onSnapshot(s => { const o={}; s.docs.forEach(d=>o[d.id]=d.data()); S[key]=o; refresh(); });
-  ["products","codes","boxes","extras","recipes"].forEach(n=>coll(n,n));
+  ["products","codes","boxes","extras","recipes","log"].forEach(n=>coll(n,n));
   db.doc("meta/suggestions").onSnapshot(d => { if(d.exists) S.suggest = d.data(); refresh(); });
-  try{ await loadAll(); S.ready = true; S.failed = false; if(S.box && !S.boxes[S.box]) setBox(""); if(S.pendingHash) boxArrived(); }
+  try{ await loadAll(); S.ready = true; S.failed = false; if(S.box && !S.boxes[S.box]) setBox(""); if(S.pendingHash) boxArrived(); pruneLog(); }
   catch(e){ S.failed = true; if(e && (e.code==="PGRST301" || /JWT|auth/i.test(e.message||""))) return gateLogin("Log ind igen."); if(e && e.code==="42P01") S.failed = true; }
   refresh();
 }
