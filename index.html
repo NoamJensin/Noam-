@@ -978,7 +978,7 @@ function addToBatch(code){
   const c = S.codes[code];
   let e = BATCH.get(code);
   if(!e){
-    e = { code, qty:0, pid: c && S.products[c.pid] ? c.pid : null, pack: (c && c.pack) || 1, info:null, looked:false, name:"", cat:"", target:2, link:"", year:"" };
+    e = { code, qty:0, pid: c && S.products[c.pid] ? c.pid : null, pack: (c && c.pack) || 1, info:null, looked:false, name:"", cat:"", target:2, link:"", year:"", box: S.box || "" };
     BATCH.set(code, e);
   }
   e.qty += e.pid ? e.pack : 1;
@@ -1001,7 +1001,7 @@ function openBatchReview(){
   const prods = productList().sort((a,b)=>a.name.localeCompare(b.name,"da"));
   const list = () => [...BATCH.values()];
   sheet(`<h3>Gennemgå indkøb</h3><p class="lede" id="bvLede"></p>
-    <div class="field"><label for="bvBox">Kasse for alle</label><select id="bvBox">${boxOptions(S.box)}</select></div>
+    ${Object.keys(S.boxes).length ? `<div class="field"><label for="bvBox">Sæt placering for alle</label><select id="bvBox"><option value="__keep">Vælg pr. vare nedenfor</option>${boxOptions("")}</select></div>` : ""}
     <div class="review" id="bvList"></div>
     <div style="display:grid;gap:8px"><button class="btn primary wide" id="bvSave"></button>
     <div class="btnrow" style="justify-content:space-between"><button class="btn" id="bvMore">Scan flere</button><button class="btn link" id="bvDrop">Kassér alle</button></div></div>
@@ -1023,7 +1023,8 @@ function openBatchReview(){
           ${e.link ? "" : `<input data-n="${esc(e.code)}" placeholder="Generelt navn, fx Hakkede tomater" value="${esc(e.name)}" autocomplete="off">
           <div class="g3"><select data-cat="${esc(e.code)}" aria-label="Kategori">${catOptions(e.cat && e.cat!=="Andet" ? e.cat : "Konserves")}</select>
           <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)">Altid have <input data-t="${esc(e.code)}" type="number" min="0" inputmode="numeric" value="${e.target}" style="width:64px"></label></div>`}`;
-        return `<div class="ritem ${p?"":"new"}" data-item="${esc(e.code)}"><div class="rh">${head}<button class="rx" data-del="${esc(e.code)}" aria-label="Fjern">×</button></div>${newFields}<div class="rr">${qty}${year}</div></div>`;
+        const place = Object.keys(S.boxes).length ? `<select data-b="${esc(e.code)}" aria-label="Placering">${boxOptions(e.box).replace('>Ingen kasse<','>Ingen placering<')}</select>` : "";
+        return `<div class="ritem ${p?"":"new"}" data-item="${esc(e.code)}"><div class="rh">${head}<button class="rx" data-del="${esc(e.code)}" aria-label="Fjern">×</button></div>${newFields}<div class="rr">${qty}${year}</div>${place}</div>`;
       }).join("") || `<p class="hint">Ingen varer tilbage.</p>`;
       bind();
     }
@@ -1031,11 +1032,14 @@ function openBatchReview(){
       L.querySelectorAll("[data-q]").forEach(b => b.onclick = () => { const e = BATCH.get(b.dataset.c); e.qty = Math.max(1, e.qty + (+b.dataset.q)); draw(); });
       L.querySelectorAll("[data-del]").forEach(b => b.onclick = () => { BATCH.delete(b.dataset.del); draw(); });
       L.querySelectorAll("[data-y]").forEach(x => x.onchange = () => BATCH.get(x.dataset.y).year = x.value);
+      L.querySelectorAll("[data-b]").forEach(x => x.onchange = () => { BATCH.get(x.dataset.b).box = x.value; const all = s.querySelector("#bvBox"); if(all) all.value = "__keep"; });
       L.querySelectorAll("[data-link]").forEach(x => x.onchange = () => { BATCH.get(x.dataset.link).link = x.value; draw(); });
       L.querySelectorAll("[data-n]").forEach(x => x.oninput = () => { BATCH.get(x.dataset.n).name = x.value; x.closest(".ritem").classList.remove("bad"); });
       L.querySelectorAll("[data-cat]").forEach(x => x.onchange = () => BATCH.get(x.dataset.cat).cat = x.value);
       L.querySelectorAll("[data-t]").forEach(x => x.oninput = () => BATCH.get(x.dataset.t).target = Math.max(0, parseInt(x.value)||0));
     }
+    const allBox = s.querySelector("#bvBox");
+    if(allBox) allBox.onchange = () => { if(allBox.value === "__keep") return; list().forEach(e => e.box = allBox.value); draw(); };
     s.querySelector("#bvMore").onclick = () => { close(); setMode("fill"); SC.last=""; openScanner(); drawBatchBar(); };
     s.querySelector("#bvDrop").onclick = () => { s.querySelector("#bvConfirm").hidden = false; };
     s.querySelector("#bvDropNo").onclick = () => { s.querySelector("#bvConfirm").hidden = true; };
@@ -1044,7 +1048,6 @@ function openBatchReview(){
       if(!S.db) return noDb();
       const missingName = list().find(e => !e.pid && !e.link && !e.name.trim());
       if(missingName){ const el = L.querySelector(`[data-item="${CSS.escape(missingName.code)}"]`); el.classList.add("bad"); el.scrollIntoView({behavior:"smooth",block:"center"}); const inp = el.querySelector("[data-n]"); if(inp) setTimeout(()=>inp.focus(),300); toast("Giv de nye varer et navn først"); return; }
-      const box = s.querySelector("#bvBox").value;
       const btn = s.querySelector("#bvSave"); btn.disabled = true; btn.textContent = "Gemmer…";
       let n = 0;
       try{
@@ -1058,7 +1061,7 @@ function openBatchReview(){
             }
             await S.db.doc("codes/"+e.code).set({ pid, pack:1, label: e.info ? [e.info.brand, e.info.name].filter(Boolean).join(" ") : "" });
           }
-          await addUnits(pid, e.qty, e.year, box, true); n += e.qty;
+          await addUnits(pid, e.qty, e.year, e.box || "", true); n += e.qty;
           BATCH.delete(e.code);
         }
       }catch{ btn.disabled = false; draw(); return; }
@@ -1182,6 +1185,7 @@ function openProductSheet(pid){
       <div class="field"><label for="pTarget">Skal altid have</label><input id="pTarget" type="number" min="0" inputmode="numeric" value="${p?.target??2}"></div>
     </div>
     ${p?`<div class="field"><span class="flabel">Enheder på lager</span>${units.length?`<div class="units">${units.map(u=>`<div><span>${u.b?esc(boxName(u.b))||"Slettet kasse":"Ingen kasse"}</span><span class="meta">${u.e?expLabel(u.e):"Ingen dato"}</span></div>`).join("")}</div>`:`<p class="hint">Ingen på lager.</p>`}</div>
+    ${units.length && Object.keys(S.boxes).length ? `<div class="field"><label for="pMove">Flyt alle ${units.length} til</label><select id="pMove"><option value="__keep">Vælg placering</option>${boxOptions("").replace('>Ingen kasse<','>Ingen placering<')}</select></div>` : ""}
     <div class="field"><span class="flabel">Stregkoder</span>${codes.length?`<div class="units">${codes.map(([c,v])=>`<div><span><span class="code">${esc(c)}</span>${v.label?`<br><span class="hint">${esc(v.label)}</span>`:""}</span><span>${v.pack>1?v.pack+" pr. scan":"1 pr. scan"} <button class="btn small danger" data-uncode="${esc(c)}">Fjern</button></span></div>`).join("")}</div>`:`<p class="hint">Ingen stregkoder endnu.</p>`}</div>`:""}
     <div class="btnrow"><button class="btn primary" id="pSave">Gem</button><button class="btn" id="pCancel">Luk</button>${p?`<button class="btn danger" id="pDel">Slet vare</button>`:""}</div>
     <div id="pConfirm" hidden class="confirm"><strong>Slet ${esc(p?.name||"")}?</strong><span>Varen, dens lager og stregkoder fjernes fra alle telefoner.</span><div class="btnrow"><button class="btn danger" id="pDelYes">Ja, slet</button><button class="btn" id="pDelNo">Behold</button></div></div>`, s => {
@@ -1193,6 +1197,8 @@ function openProductSheet(pid){
         body.name = name; body.cat = s.querySelector("#pCat").value; body.target = Math.max(0, parseInt(s.querySelector("#pTarget").value)||0);
         await saveProduct(pid || uid("p"), body); close(); toast("Gemt");
       };
+      const mv = s.querySelector("#pMove");
+      if(mv) mv.onchange = async () => { if(mv.value==="__keep") return; const body = plain(S.products[pid]); body.units = (body.units||[]).map(u=>({...u, b: mv.value})); await saveProduct(pid, body); close(); toast(`${body.name} er flyttet til ${mv.value ? boxName(mv.value) : "ingen placering"}`); };
       s.querySelectorAll("[data-uncode]").forEach(b => b.onclick = async () => { await S.db.doc("codes/"+b.dataset.uncode).delete(); b.closest("div").remove(); });
       if(p){
         s.querySelector("#pDel").onclick = () => { s.querySelector("#pConfirm").hidden = false; };
