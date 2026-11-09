@@ -105,7 +105,7 @@ header .wrap{padding-block:14px 4px;display:grid;gap:18px}
 h1{font-family:var(--display);font-weight:500;font-size:44px;line-height:1;letter-spacing:-.005em;margin:0;text-wrap:balance}
 .sub-h{color:var(--muted);font-size:15px;margin:0;max-width:42ch}
 
-main{padding-block:18px calc(130px + env(safe-area-inset-bottom,0px));display:grid;gap:18px;align-content:start}
+main{padding-block:18px calc(200px + env(safe-area-inset-bottom,0px));display:grid;gap:18px;align-content:start}
 .notice{border-radius:18px;padding:14px 16px;font-size:14px;color:var(--muted)}
 .notice strong{color:var(--ink)}
 
@@ -230,7 +230,7 @@ section.card{border-radius:24px;padding:16px 16px 6px}
 .modepill button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);box-shadow:0 6px 14px -6px rgba(0,0,0,.35)}
 .modepill button[data-mode="take"][aria-pressed="true"]{background:var(--brass);color:#fff}
 nav.bar-nav{pointer-events:auto;max-width:592px;margin:0 auto}
-.bar-nav .navin{display:grid;grid-template-columns:1fr 1fr 84px 1fr 1fr;align-items:end;border-radius:26px;padding:6px;background:var(--nav)}
+.bar-nav .navin{display:grid;grid-template-columns:repeat(4,1fr);align-items:end;border-radius:26px;padding:6px;background:var(--nav)}
 .navbtn{border:0;background:transparent;padding:8px 0 7px;display:grid;justify-items:center;gap:3px;font-size:11px;font-weight:500;letter-spacing:.02em;color:var(--faint);position:relative;border-radius:18px}
 .navbtn svg{width:22px;height:22px}
 .navbtn[aria-selected="true"]{color:var(--accent);background:var(--accent-soft)}
@@ -239,6 +239,14 @@ nav.bar-nav{pointer-events:auto;max-width:592px;margin:0 auto}
 .fab{width:64px;height:64px;margin-top:-30px;border-radius:22px;border:0;background:linear-gradient(150deg,var(--accent-2),var(--accent));color:var(--on-accent);display:grid;place-items:center;box-shadow:0 0 0 5px var(--bg),0 16px 30px -10px rgba(0,0,0,.45);transition:background .2s}
 .fab.take{background:linear-gradient(150deg,#D7B08A,var(--brass));color:#fff}
 .fab svg{width:28px;height:28px}
+.scanrow{pointer-events:auto;max-width:592px;margin:0 auto 8px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.scanbig{border:0;border-radius:22px;padding:16px 12px;font-size:17px;font-weight:500;letter-spacing:.01em;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 14px 28px -12px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.25)}
+.scanbig svg{width:24px;height:24px}
+.scanbig.in{background:linear-gradient(150deg,var(--accent-2),var(--accent));color:var(--on-accent)}
+.scanbig.out{background:linear-gradient(150deg,#D7B08A,var(--brass));color:#fff}
+.scanbig:active{transform:scale(.98)}
+.scanner .stitle{border-radius:999px;padding:9px 18px;font-size:14px;font-weight:600;background:#BCCDA9;color:#16201A}
+.scanner .stitle.take{background:#D4AB82;color:#2A2016}
 .typelink{border:0;background:var(--accent-soft);color:var(--accent);font-size:11px;font-weight:500;border-radius:999px;padding:4px 10px;margin:6px 0 3px;letter-spacing:.02em;white-space:nowrap}
 .typelink.take{background:var(--brass-soft);color:var(--brass)}
 
@@ -294,7 +302,7 @@ ol.steps li::before{content:counter(s);width:28px;height:28px;border-radius:10px
 .confirm{border:1px solid var(--line);border-radius:18px;padding:14px;display:grid;gap:10px;font-size:14px;background:var(--raised)}
 
 /* toast = notification card */
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(118px + env(safe-area-inset-bottom,0px));z-index:30;background:var(--card-solid);color:var(--ink);border:1px solid var(--line);border-radius:20px;padding:10px 10px 10px 12px;display:flex;gap:12px;align-items:center;width:min(560px,calc(100% - 32px));box-shadow:var(--shadow-lg);font-size:14px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(186px + env(safe-area-inset-bottom,0px));z-index:30;background:var(--card-solid);color:var(--ink);border:1px solid var(--line);border-radius:20px;padding:10px 10px 10px 12px;display:flex;gap:12px;align-items:center;width:min(560px,calc(100% - 32px));box-shadow:var(--shadow-lg);font-size:14px}
 .toast::before{content:"✓";flex:none;width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-size:14px}
 .toast span{flex:1}
 .toast button{border:0;background:var(--accent-soft);color:var(--accent);font-weight:600;border-radius:999px;padding:7px 12px}
@@ -361,14 +369,14 @@ ol.steps li::before{content:counter(s);width:28px;height:28px;border-radius:10px
 <main class="wrap" id="view"></main>
 
 <div class="dock">
+  <div class="scanrow">
+    <button class="scanbig in" id="scanIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 7.5V5.5a2 2 0 0 1 2-2h2M17 3.5h2a2 2 0 0 1 2 2v2M21 16.5v2a2 2 0 0 1-2 2h-2M7 20.5H5a2 2 0 0 1-2-2v-2"/><path d="M7.5 8v8M10.5 8v8M13.5 8v8M16.5 8v8"/></svg><span>Scan ind</span></button>
+    <button class="scanbig out" id="scanOut"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 7.5V5.5a2 2 0 0 1 2-2h2M17 3.5h2a2 2 0 0 1 2 2v2M21 16.5v2a2 2 0 0 1-2 2h-2M7 20.5H5a2 2 0 0 1-2-2v-2"/><path d="M7.5 8v8M10.5 8v8M13.5 8v8M16.5 8v8"/></svg><span>Scan ud</span></button>
+  </div>
   <nav class="bar-nav">
     <div class="navin" role="tablist">
       <button class="navbtn" role="tab" data-tab="lager" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="6" rx="1"/><rect x="3.5" y="14" width="17" height="6" rx="1"/><path d="M10 7h4M10 17h4"/></svg>Lager</button>
       <button class="navbtn" role="tab" data-tab="indkob" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 11.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>Indkøb<span class="dot" id="buyBadge" hidden></span></button>
-      <div class="fabwrap">
-        <button class="fab" id="scanBtn" aria-label="Scan stregkode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 7.5V5.5a2 2 0 0 1 2-2h2M17 3.5h2a2 2 0 0 1 2 2v2M21 16.5v2a2 2 0 0 1-2 2h-2M7 20.5H5a2 2 0 0 1-2-2v-2"/><path d="M7.5 8v8M10.5 8v8M13.5 8v8M16.5 8v8"/></svg></button>
-        <button class="typelink" id="modeToggle" aria-label="Skift mellem Fyld op og Tag ud">Fyld op ⇄</button>
-      </div>
       <button class="navbtn" role="tab" data-tab="opskrifter" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13h16a8 8 0 0 1-16 0z"/><path d="M9 9c0-1.5 1-2 1-3.5M13 9c0-1.5 1-2 1-3.5"/></svg>Opskrifter</button>
       <button class="navbtn" role="tab" data-tab="kasser" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5 12 4l8.5 4.5v7L12 20l-8.5-4.5z"/><path d="M3.5 8.5 12 13l8.5-4.5M12 13v7"/></svg>Kasser</button>
     </div>
@@ -383,10 +391,7 @@ ol.steps li::before{content:counter(s);width:28px;height:28px;border-radius:10px
   <div class="frame" id="frame"></div>
   <div class="top">
     <button class="sbtn" id="scanClose">Luk</button>
-    <div class="smode" role="group" aria-label="Scan-tilstand">
-      <button data-mode="fill" aria-pressed="true">Fyld op</button>
-      <button data-mode="take" aria-pressed="false">Tag ud</button>
-    </div>
+    <span class="stitle" id="scanTitle">Scan ind</span>
     <button class="sbtn" id="torchBtn" hidden>Lys</button>
   </div>
   <div class="errbox" id="scanErr" hidden></div>
@@ -532,6 +537,11 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt
 const uid = p => p + Math.random().toString(36).slice(2,9) + Date.now().toString(36).slice(-3);
 const today = () => { const d=new Date(); d.setHours(0,0,0,0); return d; };
 const daysLeft = iso => Math.round((new Date(iso+"T00:00:00") - today())/86400000);
+/* expiry is stored as a year ("2027"); older entries may hold a full date — only the year is used */
+const expYear = e => parseInt(String(e||"").slice(0,4)) || 0;
+const THIS_YEAR = new Date().getFullYear();
+const expState = e => { const y = expYear(e); return !y ? "" : y < THIS_YEAR ? "gone" : y === THIS_YEAR ? "soon" : "later"; };
+const yearOptions = sel => `<option value="">Ingen</option>` + Array.from({length:9},(_,i)=>THIS_YEAR+i).map(y=>`<option ${String(y)===String(sel)?"selected":""}>${y}</option>`).join("");
 const fmtDate = iso => new Date(iso+"T00:00:00").toLocaleDateString("da-DK",{day:"numeric",month:"short",year: new Date(iso).getFullYear()!==new Date().getFullYear() ? "numeric" : undefined});
 const store = { get(k){ try{return localStorage.getItem(k)}catch{return null} }, set(k,v){ try{ v==null ? localStorage.removeItem(k) : localStorage.setItem(k,v)}catch{} } };
 const catOf = c => CATS.includes(c) ? c : "Andet";
@@ -689,12 +699,12 @@ const missing = p => Math.max(0, (p.target||0) - stock(p));
 const boxName = id => S.boxes[id] ? S.boxes[id].name : "";
 const sortedUnits = units => [...units].sort((a,b) => (a.e||"9999") < (b.e||"9999") ? -1 : (a.e||"9999") > (b.e||"9999") ? 1 : 0);
 const nextExp = p => { const u = sortedUnits(p.units||[]).find(u=>u.e); return u ? u.e : ""; };
-function expLabel(iso){
-  if(!iso) return "";
-  const d = daysLeft(iso);
-  if(d < 0) return `<span class="gone">Udløbet ${fmtDate(iso)}</span>`;
-  if(d <= SOON_DAYS) return `<span class="soon">Udløber ${d===0?"i dag":d===1?"i morgen":"om "+d+" dage"}</span>`;
-  return `Holdbar til ${fmtDate(iso)}`;
+function expLabel(e){
+  const y = expYear(e); if(!y) return "";
+  const st = expState(e);
+  if(st==="gone") return `<span class="gone">Udløbet (${y})</span>`;
+  if(st==="soon") return `<span class="soon">Udløber i år</span>`;
+  return `Holdbar til ${y}`;
 }
 function byCat(list, key="cat", nameKey="name"){
   const g = {}; list.forEach(p => { (g[catOf(p[key])] ||= []).push(p); });
@@ -731,7 +741,7 @@ async function takeUnit(pid, quiet){
   units.splice(units.indexOf(pick),1); p.units = units;
   await saveProduct(pid, p);
   S.undo = {pid, before};
-  const where = [pick.b ? boxName(pick.b) : "", pick.e ? "holdbar til "+fmtDate(pick.e) : ""].filter(Boolean).join(", ");
+  const where = [pick.b ? boxName(pick.b) : "", pick.e ? "holdbar til "+expYear(pick.e) : ""].filter(Boolean).join(", ");
   const need = Math.max(0,(p.target||0)-units.length);
   const msg = `${p.name} −1${where?" ("+where+")":""} · ${units.length} tilbage${need?" · på indkøbslisten":""}`;
   if(!quiet) toast(msg, true);
@@ -774,8 +784,8 @@ function beep(ok=true){
     o.connect(g).connect(a.destination); o.start(); o.stop(a.currentTime+0.15);
   }catch{}
 }
-function setScanMode(m){ setMode(m); document.querySelectorAll(".smode button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.mode===m)); scanHint(); }
-function scanHint(){ $("#scanStatus").className="status"; $("#scanStatus").innerHTML = `<span class="hintline">${S.mode==="take" ? "Tag ud: hver vare trækkes fra, så snart den scannes. Scan løs." : "Fyld op: hold stregkoden inden for rammen. Den scannes automatisk."}</span>`; }
+function setScanMode(m){ setMode(m); const t=$("#scanTitle"); t.textContent = m==="take" ? "Scan ud" : "Scan ind"; t.classList.toggle("take", m==="take"); scanHint(); }
+function scanHint(){ $("#scanStatus").className="status"; $("#scanStatus").innerHTML = `<span class="hintline">${S.mode==="take" ? "Scan ud: hver vare trækkes fra, så snart den scannes. Scan løs." : "Scan ind: hold stregkoden inden for rammen. Den scannes automatisk."}</span>`; }
 function scanStatus(big, small){ const el=$("#scanStatus"); el.className="status show"; el.innerHTML = `<div><div class="big">${esc(big)}</div>${small?`<div style="font-size:13px;opacity:.75;margin-top:4px">${esc(small)}</div>`:""}</div>`; }
 
 async function openScanner(){
@@ -847,12 +857,13 @@ async function onDetected(raw){
   const info = await lookup(code);
   closeScanner(); openNewCodeSheet(code, info);
 }
-$("#scanBtn").onclick = openScanner;
+$("#scanIn").onclick = () => { setMode("fill"); SC.last=""; openScanner(); };
+$("#scanOut").onclick = () => { setMode("take"); SC.last=""; openScanner(); };
 $("#scanClose").onclick = closeScanner;
 $("#scanType").onclick = () => { closeScanner(); openTypeSheet(); };
-document.querySelectorAll(".smode button").forEach(b => b.onclick = () => { setScanMode(b.dataset.mode); SC.last=""; });
+
 $("#torchBtn").onclick = async () => { try{ SC.torch = !SC.torch; await SC.track.applyConstraints({advanced:[{torch:SC.torch}]}); }catch{} };
-$("#modeToggle").onclick = () => setMode(S.mode==="fill" ? "take" : "fill");
+
 
 async function handleCode(raw, preInfo){
   const code = String(raw).replace(/\s/g,"");
@@ -938,10 +949,10 @@ function openFillSheet(pid, n, fromScanner){
   sheet(`<h3>${esc(p.name)}</h3><p class="lede">${stock(p)} af ${p.target||0} på lager nu</p>
     <div class="field"><span class="flabel">Antal</span><div class="bigstep"><button class="step" id="fMinus" aria-label="Færre">−</button><span class="count" id="fQty">${qty}</span><button class="step" id="fPlus" aria-label="Flere">+</button></div></div>
     <div class="two">
-      <div class="field"><label for="fExp">Holdbar til</label><input id="fExp" type="date"></div>
+      <div class="field"><label for="fExp">Holdbar til (år)</label><select id="fExp">${yearOptions("")}</select></div>
       <div class="field"><label for="fBox">Kasse</label><select id="fBox">${boxOptions(S.box)}</select></div>
     </div>
-    <p class="hint">Holdbarhed er valgfri. Har varerne forskellige datoer, så læg dem på lager i to omgange.</p>
+    <p class="hint">Holdbarhed er valgfri. Har varerne forskellige årstal, så læg dem på lager i to omgange.</p>
     <div class="btnrow"><button class="btn accent" id="fNext">Læg på lager · scan næste</button><button class="btn" id="fGo">Læg på lager</button><button class="btn link" id="fCancel">Annullér</button></div>`, s => {
       const q = s.querySelector("#fQty");
       s.querySelector("#fMinus").onclick = () => { qty = Math.max(1, qty-1); q.textContent = qty; };
@@ -1018,9 +1029,9 @@ function openBoxSheet(id){
 
 function openExpSheet(){
   const rows = expRows();
-  const parts = [["Udløbet", r=>daysLeft(r.u.e)<0],[`Inden for ${SOON_DAYS} dage`, r=>{const d=daysLeft(r.u.e);return d>=0&&d<=SOON_DAYS}],["Senere", r=>daysLeft(r.u.e)>SOON_DAYS]];
-  sheet(`<h3>Holdbarhed</h3><p class="lede">Ældste først. Tag ud trækker altid den med tidligst dato.</p>
-    ${rows.length ? parts.map(([t,f])=>{ const rs=rows.filter(f); if(!rs.length) return ""; return `<div class="field"><span class="flabel">${esc(t)} · ${rs.length}</span><div class="units">${rs.map(({p,u})=>`<div><span>${esc(p.name)}<br><span class="hint">${u.b?esc(boxName(u.b)):"Ingen kasse"}</span></span><span class="meta" style="text-align:right">${expLabel(u.e)}</span></div>`).join("")}</div></div>`; }).join("") : `<p class="hint">Ingen varer har en holdbarhedsdato endnu. Skriv datoen, når du lægger varer på lager.</p>`}
+  const parts = [["Udløbet", r=>expState(r.u.e)==="gone"],[`Udløber i år (${THIS_YEAR})`, r=>expState(r.u.e)==="soon"],["Senere", r=>expState(r.u.e)==="later"]];
+  sheet(`<h3>Holdbarhed</h3><p class="lede">Ældste først. Scan ud trækker altid den med tidligst årstal.</p>
+    ${rows.length ? parts.map(([t,f])=>{ const rs=rows.filter(f); if(!rs.length) return ""; return `<div class="field"><span class="flabel">${esc(t)} · ${rs.length}</span><div class="units">${rs.map(({p,u})=>`<div><span>${esc(p.name)}<br><span class="hint">${u.b?esc(boxName(u.b)):"Ingen kasse"}</span></span><span class="meta" style="text-align:right">${expLabel(u.e)}</span></div>`).join("")}</div></div>`; }).join("") : `<p class="hint">Ingen varer har en holdbarhed endnu. Vælg årstallet, når du lægger varer på lager.</p>`}
     <div class="btnrow"><button class="btn" id="eClose">Luk</button></div>`, s => { s.querySelector("#eClose").onclick = close; });
 }
 
@@ -1181,10 +1192,6 @@ function busy(msg){
 function setMode(m){
   S.mode = m; store.set("bl-mode", m);
   document.querySelectorAll(".modepill button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.mode===m));
-  $("#scanBtn").classList.toggle("take", m==="take");
-  $("#scanBtn").setAttribute("aria-label", m==="fill" ? "Scan og læg på lager" : "Scan og tag ud");
-  $("#modeToggle").textContent = (m==="fill" ? "Fyld op" : "Tag ud") + " ⇄";
-  $("#modeToggle").classList.toggle("take", m==="take");
 }
 
 function setBox(id){
@@ -1232,19 +1239,19 @@ function viewStock(prods){
   const q = S.query.trim().toLowerCase();
   const list = q ? prods.filter(p=>p.name.toLowerCase().includes(q)) : prods;
   const need = prods.filter(p=>missing(p)>0).length;
-  const soon = expRows().filter(r=>daysLeft(r.u.e)<=SOON_DAYS);
+  const soon = expRows().filter(r=>["gone","soon"].includes(expState(r.u.e)));
   const units = prods.reduce((s,p)=>s+stock(p),0);
   const full = prods.filter(p=>!missing(p)).length;
   const summary = need || soon.length ? [need?`${need} ${need===1?"vare mangler":"varer mangler"}`:"", soon.length?`${soon.length} udløber snart`:""].filter(Boolean).join(" og ")+"." : "Basislageret er fyldt op.";
   return `<div class="hero">${PLANT}
       <span class="eyebrow">${esc(new Date().toLocaleDateString("da-DK",{weekday:"long",day:"numeric",month:"long"}))}</span>
       <h2>${greeting()}</h2><p>${esc(summary)}</p>
-      <div class="btnrow"><button class="btn primary small" id="heroFill">Scan ind</button><button class="btn small" id="heroTake">Scan ud</button><button class="btn small" id="heroManual">Manuelt</button></div>
+      <div class="btnrow"><button class="btn primary small" id="heroManual">Tilføj manuelt</button></div>
     </div>
     <div class="stats">
       <div class="stat"><span class="ic">${IC.box}</span><span class="k">På lager</span><span class="v">${units}</span><span class="s">${full} af ${prods.length} fyldt op</span></div>
       <button class="stat" id="goBuy"><span class="ic">${IC.bag}</span><span class="k">Mangler</span><span class="v">${need}</span><span class="s">på indkøbslisten</span></button>
-      <button class="stat" id="goExp"><span class="ic">${IC.clock}</span><span class="k">Udløber</span><span class="v">${soon.length}</span><span class="s">inden ${SOON_DAYS} dage</span></button>
+      <button class="stat" id="goExp"><span class="ic">${IC.clock}</span><span class="k">Udløber</span><span class="v">${soon.length}</span><span class="s">i år eller før</span></button>
     </div>
     <div class="searchbox">${IC.search}<input class="search" id="search" type="search" placeholder="Søg i lageret" value="${esc(S.query)}" autocomplete="off"></div>
     <div class="toolbar"><p><span class="num">${prods.length}</span> basisvarer</p><button class="btn small" id="addManual">+ Tilføj manuelt</button></div>
@@ -1355,7 +1362,7 @@ function openManualSheet(){
       if(M.qty > Math.max(1,max)) M.qty = Math.max(1,max);
       body.innerHTML = pick + (ready ? `
         <div class="field"><span class="flabel">Antal</span><div class="bigqty"><button class="step" id="mMinus" aria-label="Færre">−</button><span class="n" id="mQty">${M.qty}</span><button class="step" id="mPlus" aria-label="Flere">+</button></div></div>
-        ${M.mode==="fill" ? `<div class="two"><div class="field"><label for="mExp">Holdbar til (valgfri)</label><input id="mExp" type="date" value="${esc(M.exp)}"></div><div class="field"><label for="mBox">Kasse</label><select id="mBox">${boxOptions(S.box)}</select></div></div>` : ""}
+        ${M.mode==="fill" ? `<div class="two"><div class="field"><label for="mExp">Holdbar til (år)</label><select id="mExp">${yearOptions(M.exp)}</select></div><div class="field"><label for="mBox">Kasse</label><select id="mBox">${boxOptions(S.box)}</select></div></div>` : ""}
         ${M.mode==="take" && p && !stock(p) ? `<p class="hint">Varen står ikke på lager.</p>` : ""}
         <div style="display:grid;gap:8px"><button class="btn primary wide" id="mGo" ${M.mode==="take" && p && !stock(p) ? "disabled":""}>${M.mode==="fill" ? `Læg ${M.qty} på lager` : `Tag ${M.qty} ud`}</button>
         <button class="btn wide" id="mMore">Gem og tilføj næste</button></div>` : "");
@@ -1370,7 +1377,7 @@ function openManualSheet(){
       const ch = body.querySelector("#mChange"); if(ch) ch.onclick = () => { M.pid = null; M.isNew = false; draw(); };
       const c = body.querySelector("#mCat"); if(c) c.onchange = e => M.cat = e.target.value;
       const t = body.querySelector("#mTarget"); if(t) t.oninput = e => M.target = Math.max(0, parseInt(e.target.value)||0);
-      const ex = body.querySelector("#mExp"); if(ex) ex.oninput = e => M.exp = e.target.value;
+      const ex = body.querySelector("#mExp"); if(ex) ex.onchange = e => M.exp = e.target.value;
       const label = () => { const g = body.querySelector("#mGo"); if(g) g.textContent = M.mode==="fill" ? `Læg ${M.qty} på lager` : `Tag ${M.qty} ud`; body.querySelector("#mQty").textContent = M.qty; };
       const mi = body.querySelector("#mMinus"); if(mi) mi.onclick = () => { M.qty = Math.max(1, M.qty-1); label(); };
       const pl = body.querySelector("#mPlus"); if(pl) pl.onclick = () => { const p = M.pid && S.products[M.pid]; const max = M.mode==="take" && p ? Math.max(1,stock(p)) : 99; M.qty = Math.min(max, M.qty+1); label(); };
