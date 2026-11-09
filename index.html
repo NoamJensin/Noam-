@@ -254,6 +254,20 @@ nav.bar-nav{pointer-events:auto;max-width:592px;margin:0 auto}
 .field label,.flabel{font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;color:var(--muted)}
 .field input,.field select{width:100%;border:1px solid var(--line);background:var(--raised);border-radius:16px;padding:12px 14px;min-height:50px;box-shadow:inset 0 1px 2px rgba(0,0,0,.04)}
 .field input:focus,.field select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.picklist{display:grid;background:var(--raised);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.picklist button{border:0;border-top:1px solid var(--hair);background:transparent;text-align:left;padding:13px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:15px;color:var(--ink)}
+.picklist button:first-child{border-top:0}
+.picklist button:active{background:var(--sunk)}
+.picklist .pm{font-size:12.5px;color:var(--muted);white-space:nowrap}
+.picklist .new{color:var(--accent);font-weight:500}
+.picked{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--accent-soft);border-radius:18px;padding:14px 16px}
+.picked strong{font-weight:500;font-size:17px}
+.picked .pm{font-size:13px;color:var(--muted)}
+.bigqty{display:flex;align-items:center;justify-content:center;gap:22px;padding:6px 0}
+.bigqty .step{width:52px;height:52px;border-radius:18px;font-size:24px}
+.bigqty .n{font-size:44px;font-weight:500;min-width:70px;text-align:center;font-variant-numeric:tabular-nums}
+.btn.wide{width:100%;justify-content:center;padding:15px 20px;font-size:16px}
+.choice button[data-m="take"][aria-pressed="true"]{background:var(--brass);color:#fff}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .bigstep{display:flex;align-items:center;gap:12px}
 .bigstep .count{font-size:26px;min-width:56px}
@@ -337,6 +351,7 @@ ol.steps li::before{content:counter(s);width:28px;height:28px;border-radius:10px
   <div class="wrap">
     <div class="hrow"><span class="wordmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V11"/><path d="M12 11C12 6 8.5 3.5 5 3.5c0 4 2.5 7.5 7 7.5z"/><path d="M12 14c0-4 3-6.5 7-6.5 0 3.5-2.5 6.5-7 6.5z"/></svg>basislager</span>
       <div class="hright"><div class="boxchip" id="boxchip" hidden><span id="boxchipName"></span><button id="boxclear" aria-label="Fjern aktiv kasse">×</button></div>
+      <button class="iconbtn" id="manualBtn" aria-label="Tilføj vare manuelt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
       <button class="iconbtn" id="settingsBtn" aria-label="Indstillinger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button></div>
     </div>
     <div class="titleblock" id="titleblock"><span class="eyebrow" id="today"></span><h1 id="viewTitle">Lager</h1><p class="sub-h" id="viewSub"></p></div>
@@ -1213,7 +1228,7 @@ function render(){
 function viewStock(prods){
   if(S.ready && !prods.length) return `<div class="empty"><h3>Spisekammeret venter</h3>
     <ol><li>Vælg <strong>Fyld op</strong> og tryk på scan-knappen.</li><li>Hold stregkoden foran kameraet. Varen slås op, og du giver den et generelt navn og et måltal.</li><li>Når I tager noget, vælg <strong>Tag ud</strong> og scan. Varen kommer på indkøbslisten.</li></ol>
-    <div class="btnrow"><button class="btn" id="addManual">Opret vare uden stregkode</button></div></div>`;
+    <div class="btnrow"><button class="btn" id="addManual">Tilføj manuelt</button></div></div>`;
   const q = S.query.trim().toLowerCase();
   const list = q ? prods.filter(p=>p.name.toLowerCase().includes(q)) : prods;
   const need = prods.filter(p=>missing(p)>0).length;
@@ -1224,7 +1239,7 @@ function viewStock(prods){
   return `<div class="hero">${PLANT}
       <span class="eyebrow">${esc(new Date().toLocaleDateString("da-DK",{weekday:"long",day:"numeric",month:"long"}))}</span>
       <h2>${greeting()}</h2><p>${esc(summary)}</p>
-      <div class="btnrow"><button class="btn primary small" id="heroFill">Scan ind</button><button class="btn small" id="heroTake">Scan ud</button></div>
+      <div class="btnrow"><button class="btn primary small" id="heroFill">Scan ind</button><button class="btn small" id="heroTake">Scan ud</button><button class="btn small" id="heroManual">Manuelt</button></div>
     </div>
     <div class="stats">
       <div class="stat"><span class="ic">${IC.box}</span><span class="k">På lager</span><span class="v">${units}</span><span class="s">${full} af ${prods.length} fyldt op</span></div>
@@ -1232,7 +1247,7 @@ function viewStock(prods){
       <button class="stat" id="goExp"><span class="ic">${IC.clock}</span><span class="k">Udløber</span><span class="v">${soon.length}</span><span class="s">inden ${SOON_DAYS} dage</span></button>
     </div>
     <div class="searchbox">${IC.search}<input class="search" id="search" type="search" placeholder="Søg i lageret" value="${esc(S.query)}" autocomplete="off"></div>
-    <div class="toolbar"><p><span class="num">${prods.length}</span> basisvarer</p><button class="btn small" id="addManual">+ Vare uden stregkode</button></div>
+    <div class="toolbar"><p><span class="num">${prods.length}</span> basisvarer</p><button class="btn small" id="addManual">+ Tilføj manuelt</button></div>
     ${byCat(list).map(([c,ps])=>`<section class="card"><div class="ghead"><h2>${esc(c)}</h2><span class="num">${ps.length}</span></div><div class="rows">${ps.map(p=>{
       const n = stock(p), t = p.target||0, cls = n===0&&t>0 ? "out" : n<t ? "low" : "";
       const pct = t ? Math.min(100, Math.round(n/t*100)) : (n?100:0);
@@ -1309,6 +1324,81 @@ function viewBoxes(prods){
     return `<div class="row"><button class="main" data-box="${id}"><span class="name">${esc(b.name)}${S.box===id?'<span class="tag">Aktiv</span>':""}</span><span class="meta">${esc(b.where||"Ingen placering")}</span></button><span class="count">${n}<small> stk</small></span></div>`; }).join("")}</div></section>`;
 }
 
+/* ================= manual entry: one simple screen ================= */
+function openManualSheet(){
+  const M = { mode: S.mode, q:"", pid:null, isNew:false, qty:1, cat:"Konserves", target:2, exp:"" };
+  const prods = () => productList().sort((a,b)=>a.name.localeCompare(b.name,"da"));
+  sheet(`<h3>Tilføj manuelt</h3>
+    <div class="choice" role="group" aria-label="Hvad vil du gøre"><button data-m="fill">Læg på lager</button><button data-m="take">Tag ud</button></div>
+    <div id="mBody" style="display:grid;gap:16px"></div>`, s => {
+    const body = s.querySelector("#mBody");
+    const setMode = m => { M.mode = m; s.querySelectorAll("[data-m]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.m===m)); draw(); };
+    s.querySelectorAll("[data-m]").forEach(b => b.onclick = () => setMode(b.dataset.m));
+    function draw(keepFocus){
+      const p = M.pid ? S.products[M.pid] : null;
+      let pick;
+      if(p) pick = `<div class="picked"><div><strong>${esc(p.name)}</strong><div class="pm">${stock(p)} af ${p.target||0} på lager</div></div><button class="btn small" id="mChange">Skift</button></div>`;
+      else if(M.isNew) pick = `<div class="picked"><div><strong>${esc(M.q)}</strong><div class="pm">Ny basisvare</div></div><button class="btn small" id="mChange">Skift</button></div>
+        <div class="two"><div class="field"><label for="mCat">Kategori</label><select id="mCat">${catOptions(M.cat)}</select></div>
+        <div class="field"><label for="mTarget">Skal altid have</label><input id="mTarget" type="number" min="0" inputmode="numeric" value="${M.target}"></div></div>`;
+      else {
+        const q = M.q.trim().toLowerCase();
+        const list = prods().filter(x => !q || x.name.toLowerCase().includes(q)).slice(0, q ? 8 : 6);
+        const exact = prods().some(x => x.name.toLowerCase() === q);
+        pick = `<div class="field"><label for="mQ">Vare</label><input id="mQ" type="search" autocomplete="off" placeholder="Søg eller skriv en ny vare" value="${esc(M.q)}"></div>
+          ${(list.length || (q && !exact)) ? `<div class="picklist">${list.map(x=>`<button data-pid="${x.id}"><span>${esc(x.name)}</span><span class="pm">${stock(x)} / ${x.target||0}</span></button>`).join("")}
+          ${q && !exact && M.mode==="fill" ? `<button id="mNew"><span class="new">+ Opret "${esc(M.q.trim())}"</span><span class="pm">ny vare</span></button>`:""}</div>`
+          : `<p class="hint">${M.mode==="take" ? "Der er ingen varer på lager endnu." : "Skriv navnet på varen, fx Hakkede tomater."}</p>`}`;
+      }
+      const ready = !!(p || M.isNew);
+      const max = M.mode==="take" && p ? stock(p) : 99;
+      if(M.qty > Math.max(1,max)) M.qty = Math.max(1,max);
+      body.innerHTML = pick + (ready ? `
+        <div class="field"><span class="flabel">Antal</span><div class="bigqty"><button class="step" id="mMinus" aria-label="Færre">−</button><span class="n" id="mQty">${M.qty}</span><button class="step" id="mPlus" aria-label="Flere">+</button></div></div>
+        ${M.mode==="fill" ? `<div class="two"><div class="field"><label for="mExp">Holdbar til (valgfri)</label><input id="mExp" type="date" value="${esc(M.exp)}"></div><div class="field"><label for="mBox">Kasse</label><select id="mBox">${boxOptions(S.box)}</select></div></div>` : ""}
+        ${M.mode==="take" && p && !stock(p) ? `<p class="hint">Varen står ikke på lager.</p>` : ""}
+        <div style="display:grid;gap:8px"><button class="btn primary wide" id="mGo" ${M.mode==="take" && p && !stock(p) ? "disabled":""}>${M.mode==="fill" ? `Læg ${M.qty} på lager` : `Tag ${M.qty} ud`}</button>
+        <button class="btn wide" id="mMore">Gem og tilføj næste</button></div>` : "");
+      bind(keepFocus);
+    }
+    function bind(keepFocus){
+      const q = body.querySelector("#mQ");
+      if(q){ q.oninput = e => { M.q = e.target.value; const pos = e.target.selectionStart; draw(); const n = body.querySelector("#mQ"); n.focus(); n.setSelectionRange(pos,pos); };
+             if(keepFocus!==false) setTimeout(()=>{ try{ q.focus(); }catch{} }, 120); }
+      body.querySelectorAll("[data-pid]").forEach(b => b.onclick = () => { M.pid = b.dataset.pid; M.isNew = false; M.qty = 1; draw(false); });
+      const nw = body.querySelector("#mNew"); if(nw) nw.onclick = () => { M.isNew = true; M.pid = null; M.q = M.q.trim(); draw(false); };
+      const ch = body.querySelector("#mChange"); if(ch) ch.onclick = () => { M.pid = null; M.isNew = false; draw(); };
+      const c = body.querySelector("#mCat"); if(c) c.onchange = e => M.cat = e.target.value;
+      const t = body.querySelector("#mTarget"); if(t) t.oninput = e => M.target = Math.max(0, parseInt(e.target.value)||0);
+      const ex = body.querySelector("#mExp"); if(ex) ex.oninput = e => M.exp = e.target.value;
+      const label = () => { const g = body.querySelector("#mGo"); if(g) g.textContent = M.mode==="fill" ? `Læg ${M.qty} på lager` : `Tag ${M.qty} ud`; body.querySelector("#mQty").textContent = M.qty; };
+      const mi = body.querySelector("#mMinus"); if(mi) mi.onclick = () => { M.qty = Math.max(1, M.qty-1); label(); };
+      const pl = body.querySelector("#mPlus"); if(pl) pl.onclick = () => { const p = M.pid && S.products[M.pid]; const max = M.mode==="take" && p ? Math.max(1,stock(p)) : 99; M.qty = Math.min(max, M.qty+1); label(); };
+      const go = body.querySelector("#mGo"); if(go) go.onclick = () => save(false);
+      const more = body.querySelector("#mMore"); if(more) more.onclick = () => save(true);
+    }
+    async function save(again){
+      if(!S.db) return noDb();
+      const bx = body.querySelector("#mBox"); const box = bx ? bx.value : "";
+      try{
+        let pid = M.pid;
+        if(M.isNew){
+          pid = uid("p");
+          await S.db.doc("products/"+pid).set({ name:M.q, cat:M.cat, target:M.target, units:[], cart:false, created:Date.now() });
+          S.products[pid] = { name:M.q, cat:M.cat, target:M.target, units:[], cart:false };
+        }
+        if(M.mode==="fill") await addUnits(pid, M.qty, M.exp, box);
+        else { let n=0; for(let i=0;i<M.qty;i++){ const r = await takeUnit(pid, true); if(r.ok) n++; } const p = S.products[pid];
+               toast(`${p.name} −${n} · ${stock(p)} tilbage${missing(p)?" · på indkøbslisten":""}`); }
+      }catch{ return; }
+      if(again){ Object.assign(M, { q:"", pid:null, isNew:false, qty:1, exp:"" }); draw(); }
+      else close();
+    }
+    setMode(M.mode);
+  });
+}
+$("#manualBtn").onclick = () => openManualSheet();
+
 function openExtraSheet(){
   sheet(`<h3>Ekstra vare</h3><p class="lede">Til ting, der ikke er en del af basislageret, fx frugt, kød eller mælk.</p>
     <div class="field"><label for="xName">Vare</label><input id="xName" autocomplete="off" placeholder="Citroner"></div>
@@ -1340,7 +1430,8 @@ function bindView(){
       else { const x=plain(S.extras[id]); x.cart=!x.cart; await S.db.doc("extras/"+id).set(x); }
     }catch{}
   });
-  on("#addManual", ()=>openProductSheet(null));
+  on("#addManual", ()=>openManualSheet());
+  on("#heroManual", ()=>openManualSheet());
   on("#addBox", ()=>openBoxSheet(null));
   on("#addExtra", openExtraSheet);
   on("#goBuy", ()=>{ S.tab="indkob"; render(); window.scrollTo(0,0); });
